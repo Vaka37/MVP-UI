@@ -9,6 +9,7 @@ protocol UserProfileProtocol: AnyObject {
     func changeName()
 }
 
+/// Презентер для экрана с профилем
 final class UserProfilePresenter {
     weak var userCoordinator: UserProfileCoordinator?
 
@@ -19,6 +20,7 @@ final class UserProfilePresenter {
     }
 }
 
+//MARK: - extension + UserProfileProtocol
 extension UserProfilePresenter: UserProfileProtocol {
     func presentViewController() {
         userCoordinator?.pushDetailViewController()

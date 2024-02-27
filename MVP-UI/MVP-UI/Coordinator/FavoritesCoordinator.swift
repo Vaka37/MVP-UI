@@ -4,6 +4,7 @@
 import Foundation
 import UIKit
 
+/// Координатор для экрана с фаворитами
 final class FavoritesCoordinator: BaseCoordinator {
     var rootViewController: UINavigationController
     var onFinishFlow: ((_: String) -> Void)?

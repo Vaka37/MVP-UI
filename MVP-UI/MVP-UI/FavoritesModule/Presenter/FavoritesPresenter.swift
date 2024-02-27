@@ -8,6 +8,7 @@ protocol FavoritesProtocol: AnyObject {
     func pushDetailFavoritesViewController()
 }
 
+/// Презентер для экрана с фаворитами
 final class FavoritesPresenter {
     weak var favoritesCoordinator: FavoritesCoordinator?
     private weak var view: UIViewController?
@@ -17,6 +18,7 @@ final class FavoritesPresenter {
     }
 }
 
+//MARK: - extension + FavoritesProtocol
 extension FavoritesPresenter: FavoritesProtocol {
     func pushDetailFavoritesViewController() {
         debugPrint("pushDetailFavoritesViewController")

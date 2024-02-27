@@ -7,7 +7,7 @@ import UIKit
 /// Контейнер для проставления зависимостей и сборки модуля
 class AppBulder {
     func makeRecipesViewController() -> RecipesViewController {
-        /// Создаем экземпляр класс с рецептами вью
+        /// Создаем экземпляр класa с рецептами вью
         let recepisViewController = RecipesViewController()
         /// создаем экземпляр класса с презентером
         let recepisPresenter = RecipesPresenter(view: recepisViewController)

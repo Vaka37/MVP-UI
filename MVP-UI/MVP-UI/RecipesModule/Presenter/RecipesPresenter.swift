@@ -8,6 +8,7 @@ protocol RecipesProtocol: AnyObject {
     func tappedOnCell()
 }
 
+/// Презентер для рецептов
 final class RecipesPresenter {
     // MARK: - Private Properties
 
@@ -19,6 +20,7 @@ final class RecipesPresenter {
     }
 }
 
+//MARK: - extension + RecipesProtocol
 extension RecipesPresenter: RecipesProtocol {
     func tappedOnCell() {
         recipesCoordinator?.pushDetailViewController()

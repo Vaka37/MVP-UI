@@ -64,15 +64,19 @@
 			children = (
 				D571D46E2B8D3CEF000757E9 /* BaseCoordinator.swift */,
 				D571D4702B8D3E3C000757E9 /* AppCoordinator.swift */,
+				D571D4782B8D4BF6000757E9 /* RecipesCoordinator.swift */,
+				D571D47C2B8D545F000757E9 /* FavoritesCoordinator.swift */,
+				D571D4802B8D5989000757E9 /* UserProfileCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		D571F5342B8D08DB00BAE03F /* TabBar */ = {
+		D571D4822B8DC59A000757E9 /* AppBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				D571D4722B8D48B9000757E9 /* AppBuilder.swift */,
 			);
-			path = TabBar;
+			path = AppBuilder;
 			sourceTree = "<group>";
 		};
 		D571F5352B8D08E800BAE03F /* AutorizationModule */ = {
@@ -126,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				D571D47A2B8D53F2000757E9 /* FavoritesPresenter.swift */,
-				D571D47C2B8D545F000757E9 /* FavoritesCoordinator.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -150,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				D571D47E2B8D576C000757E9 /* UserProfilePresenter.swift */,
-				D571D4802B8D5989000757E9 /* UserProfileCoordinator.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -173,7 +175,6 @@
 		D571F5402B8D0DB400BAE03F /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				D571D4782B8D4BF6000757E9 /* RecipesCoordinator.swift */,
 				D571D4762B8D4A4A000757E9 /* RecipesPresenter.swift */,
 			);
 			path = Presenter;
@@ -204,6 +205,7 @@
 		D571F5442B8D0DF800BAE03F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D5EFBD5D2B8CA6AA005F6F9B /* AutorizationViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -229,27 +231,25 @@
 			children = (
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
+				D571D4822B8DC59A000757E9 /* AppBuilder */,
 				D571F5372B8D095500BAE03F /* FavoritesModule */,
 				D571F5382B8D097000BAE03F /* ProfileModule */,
 				D571F5362B8D092F00BAE03F /* RecipesModule */,
 				D571F5352B8D08E800BAE03F /* AutorizationModule */,
 				D571D46D2B8D3C64000757E9 /* Coordinator */,
-				D5EFBD732B8CD7E4005F6F9B /* ViewController */,
+				D5EFBD732B8CD7E4005F6F9B /* TabBarViewController */,
 				D5EFBD622B8CA6B0005F6F9B /* Assets.xcassets */,
 				D5EFBD672B8CA6B0005F6F9B /* Info.plist */,
 			);
 			path = "MVP-UI";
 			sourceTree = "<group>";
 		};
-		D5EFBD732B8CD7E4005F6F9B /* ViewController */ = {
+		D5EFBD732B8CD7E4005F6F9B /* TabBarViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D5EFBD5D2B8CA6AA005F6F9B /* AutorizationViewController.swift */,
 				D5EFBD712B8CD621005F6F9B /* TabBarController.swift */,
-				D571F5342B8D08DB00BAE03F /* TabBar */,
-				D571D4722B8D48B9000757E9 /* AppBuilder.swift */,
 			);
-			path = ViewController;
+			path = TabBarViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -4,6 +4,7 @@
 import Foundation
 import UIKit
 
+/// Координатор для  профиля
 final class UserProfileCoordinator: BaseCoordinator {
     var rootViewController: UINavigationController
     var onFinishFlow: ((_: String) -> Void)?

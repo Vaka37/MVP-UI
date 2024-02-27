@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Экран с инфформацие о пользователе
+/// Экран с информацией о пользователе
 final class UserProfileViewController: UIViewController {
     weak var userProfilePresenter: UserProfilePresenter?
 }
