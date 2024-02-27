@@ -20,7 +20,8 @@ final class RecipesPresenter {
     }
 }
 
-//MARK: - extension + RecipesProtocol
+// MARK: - extension + RecipesProtocol
+
 extension RecipesPresenter: RecipesProtocol {
     func tappedOnCell() {
         recipesCoordinator?.pushDetailViewController()

@@ -6,10 +6,11 @@ import UIKit
 /// Таб бар контроллер
 final class TabBarController: UITabBarController {
     // MARK: - Constants
-    
+
     private enum Constants {
         static let tabBarTintColor = UIColor(named: "selectedIconTabBar")
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white

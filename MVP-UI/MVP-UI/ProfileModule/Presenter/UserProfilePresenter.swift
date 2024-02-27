@@ -20,7 +20,8 @@ final class UserProfilePresenter {
     }
 }
 
-//MARK: - extension + UserProfileProtocol
+// MARK: - extension + UserProfileProtocol
+
 extension UserProfilePresenter: UserProfileProtocol {
     func presentViewController() {
         userCoordinator?.pushDetailViewController()

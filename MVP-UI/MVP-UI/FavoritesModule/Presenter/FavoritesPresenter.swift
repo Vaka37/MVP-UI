@@ -18,7 +18,8 @@ final class FavoritesPresenter {
     }
 }
 
-//MARK: - extension + FavoritesProtocol
+// MARK: - extension + FavoritesProtocol
+
 extension FavoritesPresenter: FavoritesProtocol {
     func pushDetailFavoritesViewController() {
         debugPrint("pushDetailFavoritesViewController")
