@@ -9,7 +9,7 @@ final class ApplicationCoordinator: BaseCoordinator {
     private var tabBarViewController: TabBarController?
     private var appBuilder = AppBulder()
     override func start() {
-        tabBarMain()
+        toAutorization()
     }
 
     private func tabBarMain() {

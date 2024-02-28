@@ -61,7 +61,7 @@ final class AutorizationViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    weak var autorizationPresenter: AutorizationPresenter?
+    var autorizationPresenter: AutorizationPresenter?
 
     // MARK: - Private Properties
 
