@@ -32,14 +32,14 @@ class AppBulder {
     }
 
     func makeUserProfileViewController() -> UserProfileViewController {
-        let userProfileViewController = UserProfileViewController()
-        let userProfilePresenter = UserProfilePresenter(view: userProfileViewController)
-        userProfileViewController.userProfilePresenter = userProfilePresenter
-        userProfileViewController.tabBarItem = UITabBarItem(
+        let view = UserProfileViewController()
+        let presenter = UserProfilePresenter(view: view)
+        view.presenter = presenter
+        view.tabBarItem = UITabBarItem(
             title: "Profile",
             image: UIImage.smile,
             selectedImage: UIImage.smileFill
         )
-        return userProfileViewController
+        return view
     }
 }
