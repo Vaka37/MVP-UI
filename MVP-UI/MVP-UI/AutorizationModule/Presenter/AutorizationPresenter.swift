@@ -14,11 +14,11 @@ protocol AutorizationProtocol: AnyObject {
 /// Протокол авторизации вью
 protocol AutorizationViewControllerProtocol: AnyObject {
     /// Меняем цвет тайтлу  при проверки валидности логина
-    func setTitleColorLogin(color: UIColor, isValidateLogin: Bool)
+    func setTitleColorLogin(color: String, isValidateLogin: Bool)
     /// Меняем цвет тайтлу  при проверки валидности пароля
-    func setTitleColorPassword(color: UIColor, isValidatePassword: Bool)
+    func setTitleColorPassword(color: String, isValidatePassword: Bool)
     /// Проверка юзера на валидность
-    func chekValidateUser(imageButton: UIImage?, titleButton: String?)
+    func chekValidateUser(imageButton: String?, titleButton: String?)
     /// Показать сплеш
     func showSpashScreenOn()
     /// Скрыть сплеш
@@ -42,18 +42,18 @@ extension AutorizationPresenter: AutorizationProtocol {
         guard let password = password else { return }
         if password.count < 6 {
             view?.showSpashScreenOn()
-            view?.setTitleColorPassword(color: .red, isValidatePassword: false)
+            view?.setTitleColorPassword(color: "splashColor", isValidatePassword: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.view?.showSpashScreenOff()
             }
             return
         } else {
             view?.setTitleColorPassword(
-                color: UIColor(named: "сolorIconTabBar") ?? .black,
+                color: "splashColor",
                 isValidatePassword: true
             )
         }
-        view?.chekValidateUser(imageButton: UIImage(named: "loader"), titleButton: nil)
+        view?.chekValidateUser(imageButton: "loader", titleButton: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.view?.chekValidateUser(imageButton: nil, titleButton: "Login")
             self.view?.showSpashScreenOff()
@@ -63,9 +63,9 @@ extension AutorizationPresenter: AutorizationProtocol {
     func chekUser(login: String?) {
         guard let login = login else { return }
         if !login.hasSuffix("@"), !login.isEmpty {
-            view?.setTitleColorLogin(color: .red, isValidateLogin: false)
+            view?.setTitleColorLogin(color: "splashColor", isValidateLogin: false)
         } else {
-            view?.setTitleColorLogin(color: UIColor(named: "сolorIconTabBar") ?? .black, isValidateLogin: true)
+            view?.setTitleColorLogin(color: "splashColor", isValidateLogin: true)
         }
     }
 }

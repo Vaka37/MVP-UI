@@ -304,21 +304,21 @@ extension AutorizationViewController: AutorizationViewControllerProtocol {
         }
     }
 
-    func chekValidateUser(imageButton: UIImage?, titleButton: String?) {
+    func chekValidateUser(imageButton: String?, titleButton: String?) {
         chekButton.setTitle(titleButton, for: .normal)
-        chekButton.setImage(imageButton, for: .normal)
+        chekButton.setImage(UIImage(named: imageButton ?? ""), for: .normal)
         chekButton.imageView?.rotate()
     }
 
-    func setTitleColorPassword(color: UIColor, isValidatePassword: Bool) {
-        passwordLabel.textColor = color
-        passwordTextField.layer.borderColor = color.withAlphaComponent(0.14).cgColor
+    func setTitleColorPassword(color: String, isValidatePassword: Bool) {
+        passwordLabel.textColor = UIColor(named: color)
+        passwordTextField.layer.borderColor = UIColor(named: color)?.withAlphaComponent(0.14).cgColor
         errorPasswordLabel.isHidden = isValidatePassword
     }
 
-    func setTitleColorLogin(color: UIColor, isValidateLogin: Bool) {
-        loginTitleLabel.textColor = color
-        loginTextField.layer.borderColor = color.withAlphaComponent(0.14).cgColor
+    func setTitleColorLogin(color: String, isValidateLogin: Bool) {
+        loginTitleLabel.textColor = UIColor(named: color)
+        loginTextField.layer.borderColor = UIColor(named: color)?.withAlphaComponent(0.14).cgColor
         errorLoginLabel.isHidden = isValidateLogin
     }
 }
