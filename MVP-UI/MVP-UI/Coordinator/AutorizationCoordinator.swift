@@ -9,6 +9,7 @@
 //
 import UIKit
 
+/// Координатор авторизации
 final class AutorizationCoordinator: BaseCoordinator {
     var rootViewController: UINavigationController?
     var onFihishFlow: (() -> ())?

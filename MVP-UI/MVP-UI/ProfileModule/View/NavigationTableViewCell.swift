@@ -3,8 +3,8 @@
 
 import UIKit
 
-///  Ячеки бонус, полиси, выход 
-class NavigationTableViewCell: UITableViewCell {
+///  Ячеки бонус, полиси, выход
+final class NavigationTableViewCell: UITableViewCell {
     // MARK: - Constants
 
     enum Constants {
@@ -59,6 +59,7 @@ class NavigationTableViewCell: UITableViewCell {
     func configure(with info: ProfileNavigationCellSource) {
         iconCellImageView.image = UIImage(named: info.shortcutCell)
         nameTextLabel.text = info.nameCell
+        selectionStyle = .none
     }
 
     // MARK: - Private Methods

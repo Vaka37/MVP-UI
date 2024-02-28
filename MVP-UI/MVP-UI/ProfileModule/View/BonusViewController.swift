@@ -4,7 +4,7 @@
 import UIKit
 
 /// Экран бонусов
-class BonusViewController: UIViewController {
+final class BonusViewController: UIViewController {
     // MARK: - Constants
 
     enum Constants {
@@ -14,8 +14,8 @@ class BonusViewController: UIViewController {
         static var titleBonusPayment = "100"
     }
 
-    // MARK: - Public Properties
-    
+    // MARK: - Visual Components
+
     private let bonusLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Constants.fontVerdana, size: 20)
@@ -47,6 +47,7 @@ class BonusViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -59,9 +60,8 @@ class BonusViewController: UIViewController {
         super.viewWillLayoutSubviews()
         setupConstraints()
     }
-    
-    // MARK: - Private Methods
 
+    // MARK: - Private Methods
 
     private func addSubview() {
         view.backgroundColor = .white

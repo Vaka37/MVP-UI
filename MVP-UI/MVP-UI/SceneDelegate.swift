@@ -4,8 +4,8 @@
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    private var applicationCoordinator: ApplicationCoordinator?
     var window: UIWindow?
+    private var applicationCoordinator: ApplicationCoordinator?
 
     func scene(
         _ scene: UIScene,
@@ -13,10 +13,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        configureSceneDeklegate(windowScene: windowScene)
+        configureSceneDelegate(windowScene: windowScene)
     }
 
-    private func configureSceneDeklegate(windowScene: UIWindowScene) {
+    private func configureSceneDelegate(windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
         if let window {
             window.makeKeyAndVisible()

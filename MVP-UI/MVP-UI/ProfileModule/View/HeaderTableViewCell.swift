@@ -4,7 +4,7 @@
 import UIKit
 
 ///  Ячейка шапки
-class HeaderTableViewCell: UITableViewCell {
+final class HeaderTableViewCell: UITableViewCell {
     // MARK: - Constants
 
     enum Constants {
@@ -40,7 +40,7 @@ class HeaderTableViewCell: UITableViewCell {
 
     // MARK: - Public Properties
 
-    var editingButtonHandler: (() -> ())?
+    var editingButtonHandler: VoidHandler?
 
     static let identifier = NSStringFromClass(HeaderTableViewCell.self)
 
@@ -64,6 +64,7 @@ class HeaderTableViewCell: UITableViewCell {
     func configure(with info: ProfileHeaderCellSource) {
         avatarProfileImageView.image = UIImage(named: info.avatarImageName)
         userNameLabel.text = info.userName
+        selectionStyle = .none
     }
 
     // MARK: - Private Methods

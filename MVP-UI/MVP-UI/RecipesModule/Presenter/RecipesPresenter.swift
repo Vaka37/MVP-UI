@@ -4,7 +4,9 @@
 import Foundation
 import UIKit
 
+/// Протокол для рецент
 protocol RecipesProtocol: AnyObject {
+    /// Метод для тапа по ячейки
     func tappedOnCell()
 }
 
@@ -13,10 +15,11 @@ final class RecipesPresenter {
     // MARK: - Private Properties
 
     private weak var view: UIViewController?
-    weak var recipesCoordinator: RecipesCoordinator?
+    private weak var recipesCoordinator: RecipesCoordinator?
 
-    init(view: UIViewController) {
+    init(view: UIViewController, coordinator: RecipesCoordinator) {
         self.view = view
+        recipesCoordinator = coordinator
     }
 }
 

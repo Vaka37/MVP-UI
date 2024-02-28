@@ -5,7 +5,7 @@ import Foundation
 
 /// Перечисления с вариантами ячеек
 enum ProfileItem {
-    /// Шапка
+    /// Заголовок
     case header(ProfileHeaderCellSource)
     /// Ячейки
     case navigation([ProfileNavigationCellSource])

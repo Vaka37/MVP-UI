@@ -5,28 +5,32 @@ import UIKit
 
 /// Протокол презентера
 protocol UserProfilePresenterInputProtocol: AnyObject {
+    /// Метод для тапа по ячейке
     func tapSelectItem(index: Int)
-
-    func requestData()
+    /// Запрос пользователя
+    func requestUser()
+    /// Метод дляя обновления информации о пользователе
     func updateUserName(withName name: String)
-    func setAlert()
+    ///  Метод для экшена по кнопке
+    func actionAlert()
 }
 
 /// Презентер экрана профиля
 final class UserProfilePresenter {
-    weak var userCoordinator: UserProfileCoordinator?
-    weak var view: UserProfileViewInputProtocol?
-    var user: ProfileHeaderCellSource?
+    private weak var userCoordinator: UserProfileCoordinator?
+    private weak var view: UserProfileViewInputProtocol?
+    private var user: ProfileHeaderCellSource?
 
-    init(view: UserProfileViewInputProtocol?) {
+    init(view: UserProfileViewInputProtocol?, userCoordinator: UserProfileCoordinator) {
         self.view = view
+        self.userCoordinator = userCoordinator
     }
 }
 
 // MARK: - extension + UserProfileProtocol
 
 extension UserProfilePresenter: UserProfilePresenterInputProtocol {
-    func setAlert() {
+    func actionAlert() {
         view?.showAlertChangeName()
     }
 
@@ -36,12 +40,11 @@ extension UserProfilePresenter: UserProfilePresenterInputProtocol {
     }
 
     func tapSelectItem(index: Int) {
-        print(index)
         guard index == 0 else { return }
         view?.showBonusView()
     }
 
-    func requestData() {
+    func requestUser() {
         let dataHeader = ProfileHeaderCellSource.getProfileHeader()
         let dataNavigation = ProfileNavigationCellSource.getProfileNavigation()
         let rowsType: [ProfileItem] = [

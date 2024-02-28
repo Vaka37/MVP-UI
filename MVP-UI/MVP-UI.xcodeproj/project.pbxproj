@@ -25,8 +25,9 @@
 		D571D4812B8D5989000757E9 /* UserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4802B8D5989000757E9 /* UserProfileCoordinator.swift */; };
 		D571D4932B8E035D000757E9 /* AutorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4922B8E035D000757E9 /* AutorizationPresenter.swift */; };
 		D571D4952B8E05D2000757E9 /* AutorizationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4942B8E05D2000757E9 /* AutorizationCoordinator.swift */; };
-		D571D4982B8F1B28000757E9 /* UiView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4972B8F1B28000757E9 /* UiView + extension.swift */; };
-		D571D49A2B8F1B68000757E9 /* UiViewController + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4992B8F1B68000757E9 /* UiViewController + extension.swift */; };
+		D571D4982B8F1B28000757E9 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4972B8F1B28000757E9 /* UIView+Extension.swift */; };
+		D571D49A2B8F1B68000757E9 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4992B8F1B68000757E9 /* UIViewController+Extension.swift */; };
+		D5783B212B8FAD5400C81FAF /* TypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5783B202B8FAD5400C81FAF /* TypeAlias.swift */; };
 		D5EFBD5A2B8CA6AA005F6F9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */; };
 		D5EFBD5C2B8CA6AA005F6F9B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */; };
 		D5EFBD5E2B8CA6AA005F6F9B /* AutorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD5D2B8CA6AA005F6F9B /* AutorizationViewController.swift */; };
@@ -55,8 +56,9 @@
 		D571D4802B8D5989000757E9 /* UserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCoordinator.swift; sourceTree = "<group>"; };
 		D571D4922B8E035D000757E9 /* AutorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorizationPresenter.swift; sourceTree = "<group>"; };
 		D571D4942B8E05D2000757E9 /* AutorizationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorizationCoordinator.swift; sourceTree = "<group>"; };
-		D571D4972B8F1B28000757E9 /* UiView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiView + extension.swift"; sourceTree = "<group>"; };
-		D571D4992B8F1B68000757E9 /* UiViewController + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiViewController + extension.swift"; sourceTree = "<group>"; };
+		D571D4972B8F1B28000757E9 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		D571D4992B8F1B68000757E9 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		D5783B202B8FAD5400C81FAF /* TypeAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAlias.swift; sourceTree = "<group>"; };
 		D5EFBD562B8CA6AA005F6F9B /* MVP-UI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVP-UI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,9 @@
 		D571D4962B8F1ADC000757E9 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				D571D4972B8F1B28000757E9 /* UIView+Extension.swift */,
+				D571D4992B8F1B68000757E9 /* UIViewController+Extension.swift */,
+				D5783B202B8FAD5400C81FAF /* TypeAlias.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -224,8 +229,6 @@
 		D571F5422B8D0DCB00BAE03F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D571D4972B8F1B28000757E9 /* UiView + extension.swift */,
-				D571D4992B8F1B68000757E9 /* UiViewController + extension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,11 +419,12 @@
 				D5EFBD5A2B8CA6AA005F6F9B /* AppDelegate.swift in Sources */,
 				D571D4752B8D49BA000757E9 /* RecipesViewController.swift in Sources */,
 				93F8D8D92B8E73AB00751ABD /* ProfileItem.swift in Sources */,
-				D571D4982B8F1B28000757E9 /* UiView + extension.swift in Sources */,
+				D571D4982B8F1B28000757E9 /* UIView+Extension.swift in Sources */,
 				D571D47D2B8D545F000757E9 /* FavoritesCoordinator.swift in Sources */,
+				D5783B212B8FAD5400C81FAF /* TypeAlias.swift in Sources */,
 				93658E362B8E452E006BAF05 /* HeaderTableViewCell.swift in Sources */,
 				D5EFBD772B8CD9E4005F6F9B /* FavoritesViewController.swift in Sources */,
-				D571D49A2B8F1B68000757E9 /* UiViewController + extension.swift in Sources */,
+				D571D49A2B8F1B68000757E9 /* UIViewController+Extension.swift in Sources */,
 				D571D4812B8D5989000757E9 /* UserProfileCoordinator.swift in Sources */,
 				93658E342B8E0842006BAF05 /* ProfileHeaderCellSource.swift in Sources */,
 				93F8D8D32B8E55DF00751ABD /* NavigationTableViewCell.swift in Sources */,

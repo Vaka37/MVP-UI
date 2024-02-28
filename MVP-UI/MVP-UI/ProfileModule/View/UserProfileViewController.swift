@@ -5,9 +5,13 @@ import UIKit
 
 /// Протокол презентера экрана профиля
 protocol UserProfileViewInputProtocol: AnyObject {
+    /// Метод для вызова алерта
     func showAlertChangeName()
+    /// Метод для обновления таблицы
     func updateTable(profileTable: [ProfileItem])
+    /// Метод для установки имени юзера
     func setTitleNameUser(name: String)
+    ///  Метод для показа бонус-контролерра
     func showBonusView()
 }
 
@@ -16,9 +20,17 @@ final class UserProfileViewController: UIViewController {
     // MARK: - Constants
 
     enum Constants {
-        static var titleNotices = "Profile"
-        static var nameRegisterCell = "Cell"
+        static let titleNotices = "Profile"
+        static let nameRegisterCell = "Cell"
+        static let alertTitle = "Change your name and surname"
+        static let cancelAlertButton = "Cancel"
+        static let placeholderAlert = "Name Surname"
+        static let doneButton = "Ok"
     }
+
+    // MARK: - Visual Components
+
+    private let tableView = UITableView(frame: .zero, style: .plain)
 
     // MARK: - Public Properties
 
@@ -26,20 +38,17 @@ final class UserProfileViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private let tableView = UITableView(frame: .zero, style: .plain)
     private var rowsType: [ProfileItem]?
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         addSubview()
-        setupTableView()
-        setupNavigation()
-        setupTableView()
-
-        presenter?.requestData()
+        makeTableView()
+        makeNavigation()
+        makeTableView()
+        presenter?.requestUser()
     }
 
     override func viewWillLayoutSubviews() {
@@ -53,17 +62,18 @@ final class UserProfileViewController: UIViewController {
         view.addSubview(tableView)
     }
 
-    private func setupNavigation() {
+    private func makeNavigation() {
         navigationItem.title = Constants.titleNotices
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
-    private func setupTableView() {
+    private func makeTableView() {
         tableView.register(HeaderTableViewCell.self, forCellReuseIdentifier: HeaderTableViewCell.identifier)
         tableView.register(NavigationTableViewCell.self, forCellReuseIdentifier: NavigationTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
     }
 
@@ -72,10 +82,10 @@ final class UserProfileViewController: UIViewController {
     }
 
     private func setupTableViewConstraints() {
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -85).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }
 
@@ -109,7 +119,7 @@ extension UserProfileViewController: UITableViewDataSource {
             cell.configure(with: header)
 
             cell.editingButtonHandler = { [weak self] in
-                self?.presenter?.setAlert()
+                self?.presenter?.actionAlert()
             }
             return cell
 
@@ -151,6 +161,7 @@ extension UserProfileViewController: UITableViewDelegate {
 }
 
 // MARK: - Подписываюконтроллер на протокол
+
 extension UserProfileViewController: UserProfileViewInputProtocol {
     func showBonusView() {
         let bonusViewController = BonusViewController()
@@ -178,29 +189,25 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
                 data.userName = name
                 currentRowsType[headerIndex] = .header(data)
                 rowsType = currentRowsType
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                tableView.reloadData()
             }
         }
     }
 
     func showAlertChangeName() {
-        let alert = UIAlertController(title: "Change your name and surname", message: nil, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Ok", style: .default) { _ in
-            if let text = alert.textFields?[0].text {
+        let alert = UIAlertController(title: Constants.alertTitle, message: nil, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: Constants.doneButton, style: .default) { _ in
+            if let text = alert.textFields?.first?.text {
                 self.presenter?.updateUserName(withName: text)
             }
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        let cancelAction = UIAlertAction(title: Constants.cancelAlertButton, style: .default)
         alert.addTextField { textField in
-            textField.placeholder = "Name Surname"
+            textField.placeholder = Constants.placeholderAlert
         }
-
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
-
         present(alert, animated: true)
     }
 

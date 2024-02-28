@@ -1,10 +1,10 @@
-// UiViewController + extension.swift
+// UIViewController+Extension.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
 extension UIViewController {
-    /// расширение для скрытие клавиатурры по тапу
+    /// Расширение для скрытие клавиатуры по тапу
     func addTapGestureToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
         view.addGestureRecognizer(tapGesture)
