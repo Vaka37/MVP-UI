@@ -27,7 +27,6 @@ final class ApplicationCoordinator: BaseCoordinator {
 
         let userProfileModule = appBuilder.makeUserProfileViewController()
         let userProfileCoordinator = UserProfileCoordinator(rootController: userProfileModule)
-        userProfileModule.userProfilePresenter?.userCoordinator = userProfileCoordinator
         add(coordinator: userProfileCoordinator)
 
         tabBarViewController?.setViewControllers(

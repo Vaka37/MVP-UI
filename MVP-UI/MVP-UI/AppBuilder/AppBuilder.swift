@@ -7,11 +7,8 @@ import UIKit
 /// Контейнер для проставления зависимостей и сборки модуля
 class AppBulder {
     func makeRecipesViewController() -> RecipesViewController {
-        /// Создаем экземпляр класa с рецептами вью
         let recepisViewController = RecipesViewController()
-        /// создаем экземпляр класса с презентером
         let recepisPresenter = RecipesPresenter(view: recepisViewController)
-        /// указываем ссылки друг на друга( инъекция)
         recepisViewController.recipesPresenter = recepisPresenter
         recepisViewController.tabBarItem = UITabBarItem(
             title: "Recipes",
@@ -35,14 +32,14 @@ class AppBulder {
     }
 
     func makeUserProfileViewController() -> UserProfileViewController {
-        let userProfileViewController = UserProfileViewController()
-        let userProfilePresenter = UserProfilePresenter(view: userProfileViewController)
-        userProfileViewController.userProfilePresenter = userProfilePresenter
-        userProfileViewController.tabBarItem = UITabBarItem(
+        let view = UserProfileViewController()
+        let presenter = UserProfilePresenter(view: view)
+        view.presenter = presenter
+        view.tabBarItem = UITabBarItem(
             title: "Profile",
             image: UIImage.smile,
             selectedImage: UIImage.smileFill
         )
-        return userProfileViewController
+        return view
     }
 }
