@@ -48,6 +48,15 @@ final class BonusViewController: UIViewController {
         return label
     }()
 
+    private lazy var closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(.closeButton, for: .normal)
+        button.tintColor = .black
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
+        return button
+    }()
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -69,6 +78,7 @@ final class BonusViewController: UIViewController {
         view.addSubview(iconBonusImageView)
         view.addSubview(iconStarImageView)
         view.addSubview(bonusPaymentsLabel)
+        view.addSubview(closeButton)
     }
 
     private func setupConstraints() {
@@ -92,5 +102,14 @@ final class BonusViewController: UIViewController {
             .isActive = true
         bonusPaymentsLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         bonusPaymentsLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+
+        closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
+        closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 13).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 13).isActive = true
+    }
+
+    @objc private func closeViewController() {
+        dismiss(animated: true)
     }
 }
