@@ -9,7 +9,7 @@ struct ProfileNavigationCellSource {
     let shortcutCell: String
     /// Название ячейки
     let nameCell: String
-    
+
     // MARK: - Public Methods
 
     static func getProfileNavigation() -> [ProfileNavigationCellSource] {

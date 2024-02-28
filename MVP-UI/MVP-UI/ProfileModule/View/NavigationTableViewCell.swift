@@ -3,7 +3,7 @@
 
 import UIKit
 
-///  Ячеки бонус, полиси, выход 
+///  Ячеки бонус, полиси, выход
 class NavigationTableViewCell: UITableViewCell {
     // MARK: - Constants
 

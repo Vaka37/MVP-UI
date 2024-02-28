@@ -151,6 +151,7 @@ extension UserProfileViewController: UITableViewDelegate {
 }
 
 // MARK: - Подписываюконтроллер на протокол
+
 extension UserProfileViewController: UserProfileViewInputProtocol {
     func showBonusView() {
         let bonusViewController = BonusViewController()
