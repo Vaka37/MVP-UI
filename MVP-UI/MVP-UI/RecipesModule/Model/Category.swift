@@ -1,9 +1,5 @@
-//
-//  Category.swift
-//  MVP-UI
-//
-//  Created by Евгений Л on 29.02.2024.
-//
+// Category.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 

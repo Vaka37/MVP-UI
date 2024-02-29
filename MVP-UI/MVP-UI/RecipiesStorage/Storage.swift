@@ -1,15 +1,12 @@
-//
-//  Storage.swift
-//  MVP-UI
-//
-//  Created by Евгений Л on 29.02.2024.
-//
+// Storage.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
 /// Моковые данные
 final class Storage {
     // MARK: - Public Properties
+
     var fish: [Recipie] = [
         Recipie(
             avatarRecipie: "fish1",
