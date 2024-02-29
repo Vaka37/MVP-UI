@@ -38,7 +38,7 @@ final class UserProfileViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var rowsType: [ProfileItem]?
+    private var rowTypes: [ProfileItem]?
 
     // MARK: - Life Cycle
 
@@ -93,11 +93,11 @@ final class UserProfileViewController: UIViewController {
 
 extension UserProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        rowsType?.count ?? 0
+        rowTypes?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let rowsType = rowsType?[section]
+        let rowsType = rowTypes?[section]
         switch rowsType {
         case .header:
             return 1
@@ -109,7 +109,7 @@ extension UserProfileViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let rowsType = rowsType else { return UITableViewCell() }
+        guard let rowsType = rowTypes else { return UITableViewCell() }
         switch rowsType[indexPath.section] {
         case let .header(header):
             guard let cell = tableView.dequeueReusableCell(
@@ -138,7 +138,7 @@ extension UserProfileViewController: UITableViewDataSource {
 
 extension UserProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let cell = rowsType?[indexPath.section] else { return 0 }
+        guard let cell = rowTypes?[indexPath.section] else { return 0 }
         switch cell {
         case .header:
             return 250
@@ -148,7 +148,7 @@ extension UserProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = rowsType?[indexPath.section]
+        let item = rowTypes?[indexPath.section]
         switch item {
         case .header:
             break
@@ -176,7 +176,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
     }
 
     func setTitleNameUser(name: String) {
-        guard var currentRowsType = rowsType else { return }
+        guard var currentRowsType = rowTypes else { return }
 
         if let headerIndex = currentRowsType.firstIndex(where: { item in
             if case .header = item {
@@ -188,7 +188,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
             if case var .header(data) = currentRowsType[headerIndex] {
                 data.userName = name
                 currentRowsType[headerIndex] = .header(data)
-                rowsType = currentRowsType
+                rowTypes = currentRowsType
                 tableView.reloadData()
             }
         }
@@ -212,7 +212,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
     }
 
     func updateTable(profileTable: [ProfileItem]) {
-        rowsType = profileTable
+        rowTypes = profileTable
         tableView.reloadData()
     }
 }

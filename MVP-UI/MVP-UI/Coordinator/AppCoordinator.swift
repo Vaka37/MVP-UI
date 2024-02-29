@@ -49,10 +49,6 @@ final class ApplicationCoordinator: BaseCoordinator {
 
     private func toAutorization() {
         let autorizationCoordinator = AutorizationCoordinator()
-        autorizationCoordinator.onFihishFlow = { [weak self] in
-            self?.remove(coordinator: autorizationCoordinator)
-            self?.tabBarMain()
-        }
         add(coordinator: autorizationCoordinator)
         autorizationCoordinator.start()
     }

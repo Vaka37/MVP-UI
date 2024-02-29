@@ -5,27 +5,25 @@
 //  AutorizationCoordinator.swift
 //  MVP-UI
 //
-//  Created by Kalandarov Vakil on 27.02.2024.
 //
 import UIKit
 
 /// Координатор авторизации
 final class AutorizationCoordinator: BaseCoordinator {
     var rootViewController: UINavigationController?
-    var onFihishFlow: (() -> ())?
 
     override func start() {
         showAutorizationViewController()
     }
 
     func showAutorizationViewController() {
+        let autorizationCoordinator = AutorizationCoordinator()
         let authViewController = AutorizationViewController()
-        let authPresenter = AutorizationPresenter(view: authViewController)
-        authViewController.autorizationPresenter = authPresenter
-        authPresenter.autorizationCoordinator = self
+        let loginPresenter = AutorizationPresenter(view: authViewController, coordinator: autorizationCoordinator)
+        authViewController.autorizationPresenter = loginPresenter
 
-        let rootController = UINavigationController(rootViewController: authViewController)
-        setAsRoot​(​_​: rootController)
-        rootViewController = rootController
+        let rootViewController = UINavigationController(rootViewController: authViewController)
+        setAsRoot​(​_​: rootViewController)
+        self.rootViewController = rootViewController
     }
 }

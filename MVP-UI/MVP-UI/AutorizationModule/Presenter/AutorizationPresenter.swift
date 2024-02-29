@@ -28,9 +28,10 @@ protocol AutorizationViewControllerProtocol: AnyObject {
 /// Презентер для экрана с авторизацией
 final class AutorizationPresenter {
     private weak var view: AutorizationViewControllerProtocol?
-    weak var autorizationCoordinator: AutorizationCoordinator?
-    init(view: AutorizationViewControllerProtocol) {
+    private weak var autorizationCoordinator: AutorizationCoordinator?
+    init(view: AutorizationViewControllerProtocol, coordinator: AutorizationCoordinator) {
         self.view = view
+        autorizationCoordinator = coordinator
     }
 }
 
