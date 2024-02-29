@@ -5,19 +5,21 @@ import Foundation
 import UIKit
 
 /// Протокол для рецент
-protocol RecipesProtocol: AnyObject {
-    /// Метод для тапа по ячейки
-    func tappedOnCell()
+protocol RecipesPresenterInputProtocol: AnyObject {
+    /// Получение данных от категорий
+    func requestDataCategory()
+
+//    func tappedOnCell(type: CategoryType)
 }
 
 /// Презентер для рецептов
 final class RecipesPresenter {
     // MARK: - Private Properties
 
-    private weak var view: UIViewController?
     private weak var recipesCoordinator: RecipesCoordinator?
+    private weak var view: CategoryViewInputProtocol?
 
-    init(view: UIViewController, coordinator: RecipesCoordinator) {
+    init(view: CategoryViewInputProtocol, coordinator: RecipesCoordinator) {
         self.view = view
         recipesCoordinator = coordinator
     }
@@ -25,8 +27,14 @@ final class RecipesPresenter {
 
 // MARK: - extension + RecipesProtocol
 
-extension RecipesPresenter: RecipesProtocol {
-    func tappedOnCell() {
+extension RecipesPresenter: RecipesPresenterInputProtocol {
+    func requestDataCategory() {
+        let dataCategory = Storage()
+        let categories = dataCategory.category.map(\.categoryTitle)
+        view?.updateData(category: categories)
+    }
+
+    func tappedOnCell(type: CategoryType) {
         recipesCoordinator?.pushDetailViewController()
     }
 }
