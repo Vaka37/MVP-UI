@@ -5,7 +5,7 @@ import Foundation
 import UIKit
 
 protocol RecipesViewProtocol: AnyObject {
-    func getRecipes(recipes: [Recipie])
+    func getRecipes(recipes: Category)
 }
 
 protocol RecipeProtocol: AnyObject {
@@ -14,17 +14,16 @@ protocol RecipeProtocol: AnyObject {
 
 final class RecipePresenter {
     private weak var view: RecipesViewProtocol?
-    private weak var recipesCoordinator: RecipesCoordinator?
-    private var user: Recipie?
+    private var category: Category
 
-    init(view: RecipesViewProtocol) {
+    init(view: RecipesViewProtocol, category: Category) {
         self.view = view
+        self.category = category
     }
 }
 
 extension RecipePresenter: RecipeProtocol {
     func getUser() {
-        let storage = Storage()
-        view?.getRecipes(recipes: storage.fish)
+        view?.getRecipes(recipes: category)
     }
 }

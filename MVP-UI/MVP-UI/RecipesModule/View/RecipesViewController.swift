@@ -6,7 +6,7 @@ import UIKit
 /// Протокол презентера экрана категорий
 protocol CategoryViewInputProtocol: AnyObject {
     /// Метод для обновления таблицы
-    func updateData(category: [String])
+    func updateData(category: Storage)
 }
 
 /// Экран с рецептами
@@ -17,11 +17,10 @@ class RecipesViewController: UIViewController {
         static let titleRecipesItem = "Recipes"
     }
 
-    var presenter: RecipesPresenter?
-
     // MARK: - Public Properties
 
-    var storage = Storage()
+    var presenter: RecipesPresenter?
+    var storage: Storage?
 
     // MARK: - Private Properties
 
@@ -30,13 +29,16 @@ class RecipesViewController: UIViewController {
 
     // MARK: - Life Cycle
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.requestDataCategory()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubview()
         makeCollectionView()
         makeNavigationBar()
-
-        presenter?.requestDataCategory()
     }
 
     override func viewWillLayoutSubviews() {
@@ -75,7 +77,7 @@ class RecipesViewController: UIViewController {
 
 extension RecipesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        storage.category.count
+        storage?.category.count ?? 0
     }
 
     func collectionView(
@@ -86,16 +88,14 @@ extension RecipesViewController: UICollectionViewDataSource {
             withReuseIdentifier: RecipiesViewCell.identifier,
             for: indexPath
         ) as? RecipiesViewCell else { return UICollectionViewCell() }
-        cell.configure(model: storage.category[indexPath.item]) { categoryType in
-            self.presenter?.tappedOnCell(type: categoryType)
+        guard let storage = storage else { return cell }
+        cell.configure(model: storage.category[indexPath.item])
+        cell.categoryPushHandler = {
+            self.presenter?.tappedOnCell(type: storage.category[indexPath.item])
         }
         return cell
     }
 }
-
-// MARK: - Подписываюсь на Delegate для коллекции
-
-extension RecipesViewController: UICollectionViewDelegate {}
 
 // MARK: - Подписываюсь на Delegate Layout для коллекции
 
@@ -105,6 +105,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        guard let storage = storage else { return CGSize(width: 50, height: 50) }
         let size = storage.category[indexPath.item].sizeCell
         switch size {
         case .small:
@@ -140,64 +141,11 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     ) -> UIEdgeInsets {
         UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
-
-    private func getCategoryForIndexPath(_ indexPath: IndexPath) -> CategoryType {
-        switch indexPath.section {
-        case 0:
-            return .salad
-        case 1:
-            return .soup
-        case 2:
-            return .chicken
-        case 3:
-            return .meat
-        case 4:
-            return .fish
-        case 5:
-            return .sideDish
-        case 6:
-            return .drinks
-        case 7:
-            return .pancake
-        case 8:
-            return .desserts
-        default:
-            return .fish
-        }
-    }
-
-    private func sizeForCategory(_ category: CategoryType) -> CGSize {
-        switch category {
-        case .salad:
-            return CGSize(width: 175, height: 175)
-        case .soup:
-            return CGSize(width: 175, height: 175)
-        case .chicken:
-            return CGSize(width: 250, height: 250)
-        case .meat:
-            return CGSize(width: 110, height: 110)
-        case .fish:
-            return CGSize(width: 110, height: 110)
-        case .sideDish:
-            return CGSize(width: 110, height: 110)
-        case .drinks:
-            return CGSize(width: 250, height: 250)
-        case .pancake:
-            return CGSize(width: 175, height: 175)
-        case .desserts:
-            return CGSize(width: 175, height: 175)
-        }
-    }
 }
 
 extension RecipesViewController: CategoryViewInputProtocol {
-    func updateData(category: [String]) {
-//        self.category = category.map { Category(
-//            avatarImageName: "",
-//            categoryTitle: $0,
-//            categoryType: .fish,
-//            recepies: []
-//        ) }
-//        collectionView.reloadData()
+    func updateData(category: Storage) {
+        storage = category
+        collectionView.reloadData()
     }
 }

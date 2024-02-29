@@ -41,7 +41,7 @@ final class RecipesListViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    var recipes: [Recipie] = []
+    var recipes: Category?
 
     // MARK: - Private Methods
 
@@ -51,8 +51,6 @@ final class RecipesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let proto = RecipePresenter(view: self)
-        recipePresenter = proto
         recipePresenter?.getUser()
         configureUI()
     }
@@ -71,14 +69,18 @@ final class RecipesListViewController: UIViewController {
     }
 
     private func configureNavigation() {
-        let backButton = UIBarButtonItem(image: Constants.backBarButtonImage, style: .done, target: self, action: nil)
-        let titleNavigation = UIBarButtonItem(
-            title: Constants.titleNavigation,
-            style: .plain,
-            target: self,
-            action: nil
-        )
-        navigationController?.navigationItem.leftBarButtonItems = [backButton, titleNavigation]
+        navigationController?.navigationBar.tintColor = .black
+        let customButton = UIButton(type: .custom)
+        customButton.setImage(Constants.backBarButtonImage, for: .normal)
+        if let buttonTitle = recipes?.categoryTitle {
+            customButton.setTitle("  \(buttonTitle)", for: .normal)
+        }
+        customButton.addTarget(self, action: #selector(dissmiss), for: .touchUpInside)
+        customButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 28)
+        customButton.setTitleColor(.black, for: .normal)
+        let customBarButtonItem = UIBarButtonItem(customView: customButton)
+        navigationItem.leftBarButtonItem = customBarButtonItem
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func makeFilterButton(button: UIButton, title: String) {
@@ -107,6 +109,10 @@ final class RecipesListViewController: UIViewController {
         seder.setTitleColor(.white, for: .normal)
         seder.imageView?.transform = seder.imageView?.transform.rotated(by: .pi) ?? CGAffineTransform()
         seder.setTitleColor(.black, for: .normal)
+    }
+
+    @objc private func dissmiss() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -153,12 +159,8 @@ extension RecipesListViewController: UITableViewDelegate {}
 // MARK: - UITableViewDataSource
 
 extension RecipesListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        recipes.count
+        recipes?.recepies.count ?? 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -167,7 +169,8 @@ extension RecipesListViewController: UITableViewDataSource {
             for: indexPath
         ) as? RecipesCell
         else { return UITableViewCell() }
-        cell.configure(with: recipes[indexPath.row])
+        guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
+        cell.configure(with: recipe)
         return cell
     }
 
@@ -176,8 +179,10 @@ extension RecipesListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - RecipesViewProtocol
+
 extension RecipesListViewController: RecipesViewProtocol {
-    func getRecipes(recipes: [Recipie]) {
+    func getRecipes(recipes: Category) {
         self.recipes = recipes
         recipesTableView.reloadData()
     }

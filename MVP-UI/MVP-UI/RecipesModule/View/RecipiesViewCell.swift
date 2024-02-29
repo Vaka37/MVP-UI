@@ -19,7 +19,7 @@ class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Private Properties
 
     private var modelCategory: Category?
-    private var categoryPushHandler: ((_ categoryType: CategoryType) -> ())?
+    var categoryPushHandler: VoidHandler?
 
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
@@ -58,10 +58,11 @@ class RecipiesViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(model: Category, handler: ((_ categoryType: CategoryType) -> ())?) {
+    func configure(model: Category) {
         let image = UIImage(named: model.avatarImageName)
         categoryButton.setImage(image, for: .normal)
         nameCategoryLabel.text = model.categoryTitle
+        selectedBackgroundView = .none
     }
 
     // MARK: - Private Methods
@@ -98,6 +99,6 @@ class RecipiesViewCell: UICollectionViewCell {
     }
 
     @objc private func pushCategory() {
-        categoryPushHandler?(modelCategory?.categoryType ?? .fish)
+        categoryPushHandler?()
     }
 }

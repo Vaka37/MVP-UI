@@ -8,8 +8,8 @@ import UIKit
 protocol RecipesPresenterInputProtocol: AnyObject {
     /// Получение данных от категорий
     func requestDataCategory()
-
-//    func tappedOnCell(type: CategoryType)
+    /// Метод по тапу на ячейку
+    func tappedOnCell(type: Category)
 }
 
 /// Презентер для рецептов
@@ -29,12 +29,11 @@ final class RecipesPresenter {
 
 extension RecipesPresenter: RecipesPresenterInputProtocol {
     func requestDataCategory() {
-        let dataCategory = Storage()
-        let categories = dataCategory.category.map(\.categoryTitle)
-        view?.updateData(category: categories)
+        let storage = Storage()
+        view?.updateData(category: storage)
     }
 
-    func tappedOnCell(type: CategoryType) {
-        recipesCoordinator?.pushDetailViewController()
+    func tappedOnCell(type: Category) {
+        recipesCoordinator?.pushDetailViewController(category: type)
     }
 }
