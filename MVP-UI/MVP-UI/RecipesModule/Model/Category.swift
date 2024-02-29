@@ -1,18 +1,18 @@
-//
-//  Category.swift
-//  MVP-UI
-//
-//  Created by Евгений Л on 29.02.2024.
-//
+// Category.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
-/// Категории
+/// Составляющие категории
 struct Category {
     /// Аватар категории
     var avatarImageName: String
     /// Название категории
     var categoryTitle: String
+    /// сетка категорий
+    var categoryType: CategoryType
+    /// размер ячейки
+    var sizeCell: SizeCellCategory
     /// Рецепты
     var recepies: [Recipie]
 }

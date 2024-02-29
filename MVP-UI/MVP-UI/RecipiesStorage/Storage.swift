@@ -1,15 +1,12 @@
-//
-//  Storage.swift
-//  MVP-UI
-//
-//  Created by Евгений Л on 29.02.2024.
-//
+// Storage.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
 /// Моковые данные
 final class Storage {
     // MARK: - Public Properties
+
     var fish: [Recipie] = [
         Recipie(
             avatarRecipie: "fish1",
@@ -50,14 +47,38 @@ final class Storage {
     ]
 
     lazy var category: [Category] = [
-        .init(avatarImageName: "salad", categoryTitle: "Salad", recepies: []),
-        .init(avatarImageName: "soup", categoryTitle: "Soup", recepies: []),
-        .init(avatarImageName: "chicken", categoryTitle: "Chicken", recepies: []),
-        .init(avatarImageName: "meat", categoryTitle: "Meat", recepies: []),
-        .init(avatarImageName: "fish", categoryTitle: "Fish", recepies: fish),
-        .init(avatarImageName: "side dish", categoryTitle: "Side dish", recepies: []),
-        .init(avatarImageName: "drinks", categoryTitle: "Drinks", recepies: []),
-        .init(avatarImageName: "pancake", categoryTitle: "Pancake", recepies: []),
-        .init(avatarImageName: "desserts", categoryTitle: "Desserts", recepies: [])
+        .init(avatarImageName: "salad", categoryTitle: "Salad", categoryType: .salad, sizeCell: .medium, recepies: []),
+        .init(avatarImageName: "soup", categoryTitle: "Soup", categoryType: .soup, sizeCell: .medium, recepies: []),
+        .init(
+            avatarImageName: "chicken",
+            categoryTitle: "Chicken",
+            categoryType: .chicken,
+            sizeCell: .big,
+            recepies: []
+        ),
+        .init(avatarImageName: "meat", categoryTitle: "Meat", categoryType: .meat, sizeCell: .small, recepies: []),
+        .init(avatarImageName: "fish", categoryTitle: "Fish", categoryType: .fish, sizeCell: .small, recepies: fish),
+        .init(
+            avatarImageName: "side dish",
+            categoryTitle: "Side dish",
+            categoryType: .sideDish,
+            sizeCell: .small,
+            recepies: []
+        ),
+        .init(avatarImageName: "drinks", categoryTitle: "Drinks", categoryType: .drinks, sizeCell: .big, recepies: []),
+        .init(
+            avatarImageName: "pancakes",
+            categoryTitle: "Pancake",
+            categoryType: .pancake,
+            sizeCell: .medium,
+            recepies: []
+        ),
+        .init(
+            avatarImageName: "desserts",
+            categoryTitle: "Desserts",
+            categoryType: .desserts,
+            sizeCell: .medium,
+            recepies: []
+        )
     ]
 }
