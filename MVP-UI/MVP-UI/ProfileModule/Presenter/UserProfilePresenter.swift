@@ -1,33 +1,60 @@
 // UserProfilePresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
-import Foundation
 import UIKit
 
-protocol UserProfileProtocol: AnyObject {
-    func presentViewController()
-    func changeName()
+/// Протокол презентера
+protocol UserProfilePresenterInputProtocol: AnyObject {
+    /// Метод для тапа по ячейке
+    func tapSelectItem(index: Int)
+    /// Запрос пользователя
+    func requestUser()
+    /// Метод дляя обновления информации о пользователе
+    func updateUserName(withName name: String)
+    ///  Метод для экшена по кнопке
+    func actionAlert()
 }
 
-/// Презентер для экрана с профилем
+/// Презентер экрана профиля
 final class UserProfilePresenter {
-    weak var userCoordinator: UserProfileCoordinator?
+    private weak var userCoordinator: UserProfileCoordinator?
+    private weak var view: UserProfileViewInputProtocol?
+    private var user: ProfileHeaderCellSource?
 
-    weak var view: UIViewController?
-
-    init(view: UIViewController) {
+    init(view: UserProfileViewInputProtocol?, userCoordinator: UserProfileCoordinator) {
         self.view = view
+        self.userCoordinator = userCoordinator
     }
 }
 
 // MARK: - extension + UserProfileProtocol
 
-extension UserProfilePresenter: UserProfileProtocol {
-    func presentViewController() {
-        userCoordinator?.pushDetailViewController()
+extension UserProfilePresenter: UserProfilePresenterInputProtocol {
+    func actionAlert() {
+        view?.showAlertChangeName()
     }
 
-    func changeName() {
-        debugPrint("ChangeName")
+    func updateUserName(withName name: String) {
+        user?.userName = name
+        view?.setTitleNameUser(name: name)
+    }
+
+    func tapSelectItem(index: Int) {
+        guard index == 0 else { return }
+        view?.showBonusView()
+    }
+
+    func requestUser() {
+        let dataHeader = ProfileHeaderCellSource.getProfileHeader()
+        let dataNavigation = ProfileNavigationCellSource.getProfileNavigation()
+        let rowsType: [ProfileItem] = [
+            .header(dataHeader),
+            .navigation(dataNavigation)
+        ]
+        view?.updateTable(profileTable: rowsType)
+    }
+
+    func presentViewController() {
+        userCoordinator?.pushDetailViewController()
     }
 }

@@ -5,26 +5,25 @@ import Foundation
 import UIKit
 
 /// Контейнер для проставления зависимостей и сборки модуля
-class AppBulder {
-    func makeRecipesViewController() -> RecipesViewController {
-        /// Создаем экземпляр класa с рецептами вью
+final class AppBulder {
+    func makeRecipesViewController(recipecCoordinator: RecipesCoordinator) -> RecipesViewController {
         let recepisViewController = RecipesViewController()
-        /// создаем экземпляр класса с презентером
-        let recepisPresenter = RecipesPresenter(view: recepisViewController)
-        /// указываем ссылки друг на друга( инъекция)
+        let recepisPresenter = RecipesPresenter(view: recepisViewController, coordinator: recipecCoordinator)
         recepisViewController.recipesPresenter = recepisPresenter
         recepisViewController.tabBarItem = UITabBarItem(
             title: "Recipes",
             image: UIImage.recipes,
             selectedImage: UIImage.recipesFill
         )
-
         return recepisViewController
     }
 
-    func makeFavoritesViewController() -> FavoritesViewController {
+    func makeFavoritesViewController(favoritesCoordinator: FavoritesCoordinator) -> FavoritesViewController {
         let favoritesViewController = FavoritesViewController()
-        let favoritesPresenter = FavoritesPresenter(view: favoritesViewController)
+        let favoritesPresenter = FavoritesPresenter(
+            view: favoritesViewController,
+            favoritesCoordinator: favoritesCoordinator
+        )
         favoritesViewController.favoritesPresenter = favoritesPresenter
         favoritesViewController.tabBarItem = UITabBarItem(
             title: "Favorites",
@@ -34,15 +33,17 @@ class AppBulder {
         return favoritesViewController
     }
 
-    func makeUserProfileViewController() -> UserProfileViewController {
-        let userProfileViewController = UserProfileViewController()
-        let userProfilePresenter = UserProfilePresenter(view: userProfileViewController)
-        userProfileViewController.userProfilePresenter = userProfilePresenter
-        userProfileViewController.tabBarItem = UITabBarItem(
+    func makeUserProfileViewController(
+        userProfileUserCoordinator: UserProfileCoordinator
+    ) -> UserProfileViewController {
+        let view = UserProfileViewController()
+        let presenter = UserProfilePresenter(view: view, userCoordinator: userProfileUserCoordinator)
+        view.presenter = presenter
+        view.tabBarItem = UITabBarItem(
             title: "Profile",
             image: UIImage.smile,
             selectedImage: UIImage.smileFill
         )
-        return userProfileViewController
+        return view
     }
 }

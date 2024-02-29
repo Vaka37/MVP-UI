@@ -6,14 +6,11 @@ import UIKit
 
 /// Координатор для  профиля
 final class UserProfileCoordinator: BaseCoordinator {
-    var rootViewController: UINavigationController
-    var onFinishFlow: ((_: String) -> Void)?
+    var rootViewController: UINavigationController?
 
-    init(rootController: UIViewController) {
-        rootViewController = UINavigationController(rootViewController: rootController)
+    func setRootController(viewController: UIViewController) {
+        rootViewController = UINavigationController(rootViewController: viewController)
     }
 
-    func pushDetailViewController() {
-        debugPrint("Переход на экран с рецептами")
-    }
+    func pushDetailViewController() {}
 }

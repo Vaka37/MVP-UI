@@ -6,10 +6,9 @@ import UIKit
 
 /// Координатор для экрана с фаворитами
 final class FavoritesCoordinator: BaseCoordinator {
-    var rootViewController: UINavigationController
-    var onFinishFlow: ((_: String) -> Void)?
+    var rootViewController: UINavigationController?
 
-    init(rootController: UIViewController) {
-        rootViewController = UINavigationController(rootViewController: rootController)
+    func setRootController(viewController: UIViewController) {
+        rootViewController = UINavigationController(rootViewController: viewController)
     }
 }

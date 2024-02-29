@@ -15,31 +15,41 @@ final class ApplicationCoordinator: BaseCoordinator {
     private func tabBarMain() {
         tabBarViewController = TabBarController()
 
-        let recipesModule = appBuilder.makeRecipesViewController()
-        let recipesCoordinator = RecipesCoordinator(rootController: recipesModule)
-        recipesModule.recipesPresenter?.recipesCoordinator = recipesCoordinator
+        let recipesCoordinator = RecipesCoordinator()
+        let recipesModule = appBuilder.makeRecipesViewController(recipecCoordinator: recipesCoordinator)
+        recipesCoordinator.setRootController(viewController: recipesModule)
         add(coordinator: recipesCoordinator)
 
-        let favoritesModule = appBuilder.makeFavoritesViewController()
-        let favoritesCoordinator = FavoritesCoordinator(rootController: favoritesModule)
-        favoritesModule.favoritesPresenter?.favoritesCoordinator = favoritesCoordinator
-        add(coordinator: favoritesCoordinator)
+        let favoriteCoordinator = FavoritesCoordinator()
+        let favoritesModule = appBuilder.makeFavoritesViewController(favoritesCoordinator: favoriteCoordinator)
+        favoriteCoordinator.setRootController(viewController: favoritesModule)
+        add(coordinator: favoriteCoordinator)
 
-        let userProfileModule = appBuilder.makeUserProfileViewController()
-        let userProfileCoordinator = UserProfileCoordinator(rootController: userProfileModule)
-        userProfileModule.userProfilePresenter?.userCoordinator = userProfileCoordinator
-        add(coordinator: userProfileCoordinator)
+        let userCoordinator = UserProfileCoordinator()
+        let userProfileModule = appBuilder.makeUserProfileViewController(userProfileUserCoordinator: userCoordinator)
+        userCoordinator.setRootController(viewController: userProfileModule)
+        add(coordinator: userCoordinator)
+
+        guard let recipesRootViewController = recipesCoordinator.rootViewController else { return }
+        guard let favoriteViewController = favoriteCoordinator.rootViewController else { return }
+        guard let userViewController = userCoordinator.rootViewController else { return }
 
         tabBarViewController?.setViewControllers(
             [
-                recipesCoordinator.rootViewController,
-                favoritesCoordinator.rootViewController,
-                userProfileCoordinator.rootViewController
+                recipesRootViewController,
+                favoriteViewController,
+                userViewController
             ],
             animated: false
         )
         guard let tabBarViewController = tabBarViewController else { return }
 
         setAsRoot​(​_​: tabBarViewController)
+    }
+
+    private func toAutorization() {
+        let autorizationCoordinator = AutorizationCoordinator()
+        add(coordinator: autorizationCoordinator)
+        autorizationCoordinator.start()
     }
 }
