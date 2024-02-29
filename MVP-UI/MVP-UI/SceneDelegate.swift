@@ -18,10 +18,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func configureSceneDelegate(windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
-        if let window {
-            window.makeKeyAndVisible()
-            applicationCoordinator = ApplicationCoordinator()
-            applicationCoordinator?.start()
-        }
+        window?.rootViewController = UINavigationController(rootViewController: RecipesListViewController())
+        // if let window {
+        window?.makeKeyAndVisible()
+//            applicationCoordinator = ApplicationCoordinator()
+//            applicationCoordinator?.start()
+//        }
     }
 }
