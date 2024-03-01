@@ -7,15 +7,15 @@ import UIKit
 /// Контейнер для проставления зависимостей и сборки модуля
 final class AppBulder {
     func makeRecipesViewController(recipecCoordinator: RecipesCoordinator) -> RecipesViewController {
-        let recepisViewController = RecipesViewController()
-        let recepisPresenter = RecipesPresenter(view: recepisViewController, coordinator: recipecCoordinator)
-        recepisViewController.recipesPresenter = recepisPresenter
-        recepisViewController.tabBarItem = UITabBarItem(
+        let view = RecipesViewController()
+        let presenter = RecipesPresenter(view: view, coordinator: recipecCoordinator)
+        view.presenter = presenter
+        view.tabBarItem = UITabBarItem(
             title: "Recipes",
             image: UIImage.recipes,
             selectedImage: UIImage.recipesFill
         )
-        return recepisViewController
+        return view
     }
 
     func makeFavoritesViewController(favoritesCoordinator: FavoritesCoordinator) -> FavoritesViewController {

@@ -3,7 +3,156 @@
 
 import UIKit
 
+/// Протокол презентера экрана категорий
+protocol CategoryViewInputProtocol: AnyObject {
+    /// Метод для обновления таблицы
+    func updateData(category: Storage)
+}
+
 /// Экран с рецептами
 final class RecipesViewController: UIViewController {
-    var recipesPresenter: RecipesPresenter?
+    // MARK: - Constants
+
+    enum Constants {
+        static let titleRecipesItem = "Recipes"
+        static let minimumLineSpacing: CGFloat = 15
+        static let widthSmallCell: CGFloat = 40
+        static let heightSmallCell: CGFloat = 40
+        static let widthMediumCell: CGFloat = 30
+        static let heightMediumCell: CGFloat = 30
+        static let basicSizeCell: CGFloat = 50
+    }
+
+    // MARK: - Public Properties
+
+    var presenter: RecipesPresenter?
+    var storage: Storage?
+
+    // MARK: - Private Properties
+
+    private let layout = UICollectionViewFlowLayout()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+
+    // MARK: - Life Cycle
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.requestDataCategory()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addSubview()
+        makeCollectionView()
+        makeNavigationBar()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        setupConstraints()
+    }
+
+    // MARK: - Private Methods
+
+    private func addSubview() {
+        view.addSubview(collectionView)
+    }
+
+    private func makeCollectionView() {
+        collectionView.register(RecipiesViewCell.self, forCellWithReuseIdentifier: RecipiesViewCell.identifier)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+
+    private func makeNavigationBar() {
+        title = Constants.titleRecipesItem
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    private func setupConstraints() {
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+}
+
+// MARK: - Подписываюсь на Data Source для коллекции
+
+extension RecipesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        storage?.category.count ?? 0
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RecipiesViewCell.identifier,
+            for: indexPath
+        ) as? RecipiesViewCell else { return UICollectionViewCell() }
+        guard let storage = storage else { return cell }
+        cell.configure(model: storage.category[indexPath.item])
+        cell.categoryPushHandler = {
+            self.presenter?.tappedOnCell(type: storage.category[indexPath.item])
+        }
+        return cell
+    }
+}
+
+// MARK: - Подписываюсь на Delegate Layout для коллекции
+
+extension RecipesViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        guard let storage = storage
+        else { return CGSize(width: Constants.basicSizeCell, height: Constants.basicSizeCell) }
+        let size = storage.category[indexPath.item].sizeCell
+        switch size {
+        case .small:
+            let small = CGSize(
+                width: (UIScreen.main.bounds.width - Constants.widthSmallCell) / 3,
+                height: (UIScreen.main.bounds.width - Constants.heightSmallCell) / 3
+            )
+            return small
+        case .medium:
+            let medium = CGSize(
+                width: (UIScreen.main.bounds.width - Constants.widthMediumCell) / 2,
+                height: (UIScreen.main.bounds.width - Constants.heightMediumCell) / 2
+            )
+            return medium
+        case .big:
+            let big = CGSize(width: 250, height: 250)
+            return big
+        }
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        Constants.minimumLineSpacing
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    }
+}
+
+extension RecipesViewController: CategoryViewInputProtocol {
+    func updateData(category: Storage) {
+        storage = category
+        collectionView.reloadData()
+    }
 }
