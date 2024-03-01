@@ -5,12 +5,10 @@ import Foundation
 
 /// Составляющие категории
 struct Category {
-    /// Аватар категории
+    /// Аватар
     var avatarImageName: String
-    /// Название категории
+    /// Название
     var categoryTitle: String
-    /// сетка категорий
-    var categoryType: CategoryType
     /// размер ячейки
     var sizeCell: SizeCellCategory
     /// Рецепты

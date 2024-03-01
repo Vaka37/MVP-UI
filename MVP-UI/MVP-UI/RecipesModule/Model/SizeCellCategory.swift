@@ -5,7 +5,10 @@ import Foundation
 
 /// размеры ячейки
 enum SizeCellCategory {
+    /// маленькая
     case small
+    /// средняя
     case medium
+    /// большая
     case big
 }

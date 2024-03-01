@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Рецепт
+/// Составляющая рецепта
 struct Recipie {
     /// Аватар рецепта
     var avatarRecipie: String
