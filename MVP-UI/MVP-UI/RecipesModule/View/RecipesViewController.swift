@@ -10,11 +10,17 @@ protocol CategoryViewInputProtocol: AnyObject {
 }
 
 /// Экран с рецептами
-class RecipesViewController: UIViewController {
+final class RecipesViewController: UIViewController {
     // MARK: - Constants
 
     enum Constants {
         static let titleRecipesItem = "Recipes"
+        static let minimumLineSpacing: CGFloat = 15
+        static let widthSmallCell: CGFloat = 40
+        static let heightSmallCell: CGFloat = 40
+        static let widthMediumCell: CGFloat = 30
+        static let heightMediumCell: CGFloat = 30
+        static let basicSizeCell: CGFloat = 50
     }
 
     // MARK: - Public Properties
@@ -105,19 +111,20 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        guard let storage = storage else { return CGSize(width: 50, height: 50) }
+        guard let storage = storage
+        else { return CGSize(width: Constants.basicSizeCell, height: Constants.basicSizeCell) }
         let size = storage.category[indexPath.item].sizeCell
         switch size {
         case .small:
             let small = CGSize(
-                width: (UIScreen.main.bounds.width - 40) / 3,
-                height: (UIScreen.main.bounds.width - 40) / 3
+                width: (UIScreen.main.bounds.width - Constants.widthSmallCell) / 3,
+                height: (UIScreen.main.bounds.width - Constants.heightSmallCell) / 3
             )
             return small
         case .medium:
             let medium = CGSize(
-                width: (UIScreen.main.bounds.width - 30) / 2,
-                height: (UIScreen.main.bounds.width - 30) / 2
+                width: (UIScreen.main.bounds.width - Constants.widthMediumCell) / 2,
+                height: (UIScreen.main.bounds.width - Constants.heightMediumCell) / 2
             )
             return medium
         case .big:
@@ -131,7 +138,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        15
+        Constants.minimumLineSpacing
     }
 
     func collectionView(

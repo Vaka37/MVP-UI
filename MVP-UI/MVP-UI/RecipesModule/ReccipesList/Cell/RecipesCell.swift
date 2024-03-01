@@ -5,6 +5,8 @@ import UIKit
 
 /// Ячейка с рецептами
 final class RecipesCell: UITableViewCell {
+    // MARK: - Constants
+
     private enum Constants {
         static let fontVerdana = "Verdana"
         static let timerImageViewName = "timer"
@@ -14,7 +16,7 @@ final class RecipesCell: UITableViewCell {
         static let pizzaLabelText = " kkal"
     }
 
-    // MARK: - VIsual Components
+    // MARK: - Visual Components
 
     private let uiViewBackground: UIView = {
         let uiView = UIView()

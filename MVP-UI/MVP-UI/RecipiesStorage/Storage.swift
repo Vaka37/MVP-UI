@@ -47,36 +47,32 @@ final class Storage {
     ]
 
     lazy var category: [Category] = [
-        .init(avatarImageName: "salad", categoryTitle: "Salad", categoryType: .salad, sizeCell: .medium, recepies: []),
-        .init(avatarImageName: "soup", categoryTitle: "Soup", categoryType: .soup, sizeCell: .medium, recepies: []),
+        .init(avatarImageName: "salad", categoryTitle: "Salad", sizeCell: .medium, recepies: []),
+        .init(avatarImageName: "soup", categoryTitle: "Soup", sizeCell: .medium, recepies: []),
         .init(
             avatarImageName: "chicken",
             categoryTitle: "Chicken",
-            categoryType: .chicken,
             sizeCell: .big,
             recepies: []
         ),
-        .init(avatarImageName: "meat", categoryTitle: "Meat", categoryType: .meat, sizeCell: .small, recepies: []),
-        .init(avatarImageName: "fish", categoryTitle: "Fish", categoryType: .fish, sizeCell: .small, recepies: fish),
+        .init(avatarImageName: "meat", categoryTitle: "Meat", sizeCell: .small, recepies: []),
+        .init(avatarImageName: "fish", categoryTitle: "Fish", sizeCell: .small, recepies: fish),
         .init(
             avatarImageName: "side dish",
             categoryTitle: "Side dish",
-            categoryType: .sideDish,
             sizeCell: .small,
             recepies: []
         ),
-        .init(avatarImageName: "drinks", categoryTitle: "Drinks", categoryType: .drinks, sizeCell: .big, recepies: []),
+        .init(avatarImageName: "drinks", categoryTitle: "Drinks", sizeCell: .big, recepies: []),
         .init(
             avatarImageName: "pancakes",
             categoryTitle: "Pancake",
-            categoryType: .pancake,
             sizeCell: .medium,
             recepies: []
         ),
         .init(
             avatarImageName: "desserts",
             categoryTitle: "Desserts",
-            categoryType: .desserts,
             sizeCell: .medium,
             recepies: []
         )

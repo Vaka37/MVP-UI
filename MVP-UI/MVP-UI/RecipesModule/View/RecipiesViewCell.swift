@@ -4,7 +4,7 @@
 import UIKit
 
 ///  Ячейка категорий рецептов
-class RecipiesViewCell: UICollectionViewCell {
+final class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Constants
 
     enum Constants {
@@ -15,11 +15,13 @@ class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Public Properties
 
     static let identifier = NSStringFromClass(RecipiesViewCell.self)
+    var categoryPushHandler: VoidHandler?
 
     // MARK: - Private Properties
 
     private var modelCategory: Category?
-    var categoryPushHandler: VoidHandler?
+
+    // MARK: - Visual Components
 
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
@@ -35,7 +37,7 @@ class RecipiesViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = modelCategory?.categoryTitle
         label.textColor = .white
-        label.backgroundColor = #colorLiteral(red: 0.5816243291, green: 0.5965673327, blue: 0.6049087644, alpha: 0.6044857202)
+        label.backgroundColor = .backgroundNameCategory
         label.textAlignment = .center
         label.contentMode = .scaleAspectFit
         label.clipsToBounds = true
@@ -55,14 +57,18 @@ class RecipiesViewCell: UICollectionViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        createContentView()
+        addSubview()
+        setupConstraints()
     }
+
+    // MARK: - Public Methods
 
     func configure(model: Category) {
         let image = UIImage(named: model.avatarImageName)
         categoryButton.setImage(image, for: .normal)
         nameCategoryLabel.text = model.categoryTitle
-        selectedBackgroundView = .none
     }
 
     // MARK: - Private Methods

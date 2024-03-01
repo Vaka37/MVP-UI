@@ -1,7 +1,6 @@
 // RecipesPresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
-import Foundation
 import UIKit
 
 /// Протокол для рецент
@@ -19,13 +18,15 @@ final class RecipesPresenter {
     private weak var recipesCoordinator: RecipesCoordinator?
     private weak var view: CategoryViewInputProtocol?
 
+    // MARK: - Initializers
+
     init(view: CategoryViewInputProtocol, coordinator: RecipesCoordinator) {
         self.view = view
         recipesCoordinator = coordinator
     }
 }
 
-// MARK: - extension + RecipesProtocol
+// MARK: - Extension + RecipesProtocol
 
 extension RecipesPresenter: RecipesPresenterInputProtocol {
     func requestDataCategory() {

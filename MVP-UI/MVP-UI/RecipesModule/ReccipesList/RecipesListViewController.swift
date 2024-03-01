@@ -42,9 +42,6 @@ final class RecipesListViewController: UIViewController {
     // MARK: - Public Properties
 
     var recipes: Category?
-
-    // MARK: - Private Methods
-
     var recipePresenter: RecipePresenter?
 
     // MARK: - Life Cycle
@@ -116,7 +113,7 @@ final class RecipesListViewController: UIViewController {
     }
 }
 
-// MARK: - Layoyt
+// MARK: - Extension + Layout
 
 extension RecipesListViewController {
     private func makeAnchorsSearchBar() {
@@ -152,11 +149,11 @@ extension RecipesListViewController {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - Extension + UITableViewDelegate
 
 extension RecipesListViewController: UITableViewDelegate {}
 
-// MARK: - UITableViewDataSource
+// MARK: - Extension + UITableViewDataSource
 
 extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -179,7 +176,7 @@ extension RecipesListViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - RecipesViewProtocol
+// MARK: - Extension + RecipesViewProtocol
 
 extension RecipesListViewController: RecipesViewProtocol {
     func getRecipes(recipes: Category) {
