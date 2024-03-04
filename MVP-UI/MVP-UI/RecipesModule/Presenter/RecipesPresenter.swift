@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Протокол для рецент
+/// Протокол категорий рецептов
 protocol RecipesPresenterInputProtocol: AnyObject {
     /// Получение данных от категорий
     func requestDataCategory()
