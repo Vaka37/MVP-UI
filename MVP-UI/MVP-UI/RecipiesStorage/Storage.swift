@@ -7,127 +7,89 @@ import Foundation
 final class Storage {
     // MARK: - Public Properties
 
-    var fish: [Recipie] = [
-        Recipie(
+    var fish: [Recipe] = [
+        Recipe(
             avatarRecipie: "fish1",
             titleRecipies: "Simple Fish And Corn",
-            cookingTimeTitle: "60",
+            cookingTimeTitle: "60 min",
             caloriesTitle: "274",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ),
-            recipeDescriptionTitle: "1/2 to 2 fish heads, depending on size, about 5 pounds total 2 tablespoons"
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "1/2 to 2 fish heads, depending on size, about 5 pounds total\n" +
+                "2 tablespoons vegetable oil\n" +
+                "1/4 cup red or green thai curry paste\n" +
+                "3 tablespoons fish sauce or anchovy sauce\n" +
+                "1 tablespoon sugar\n" +
+                "1 can coconut milk, about 12 ounces\n" +
+                "3 medium size asian eggplants, cut int 1 inch rounds\n" +
+                "Handful of bird's eye chilies\n" +
+                "1/2 cup thai basil leaves\n" +
+                "Juice of 3 limes\n" +
+                "1/2 to 2 fish heads, depending on size, about 5 pounds total\n" +
+                "2 tablespoons vegetable oil\n" +
+                "1/4 cup red or green thai curry paste\n" +
+                "3 tablespoons fish sauce or anchovy sauce\n" +
+                "1 tablespoon sugar\n" +
+                "1 can coconut milk, about 12 ounces\n" +
+                "3 medium size asian eggplants, cut int 1 inch rounds\n" +
+                "Handful of bird's eye chilies\n" +
+                "1/2 cup thai basil leaves\n" +
+                "Juice of 3 limes\n" +
+                "1/2 to 2 fish heads, depending on size, about 5 pounds total\n" +
+                "2 tablespoons vegetable oil\n" +
+                "1/4 cup red or green thai curry paste\n" +
+                "3 tablespoons fish sauce or anchovy sauce\n" +
+                "1 tablespoon sugar\n" +
+                "1 can coconut milk, about 12 ounces\n" +
+                "3 medium size asian eggplants, cut int 1 inch rounds\n" +
+                "Handful of bird's eye chilies\n" +
+                "1/2 cup thai basil leaves\n" +
+                "Juice of 3 limes",
+            portionWeight: "793 g"
         ),
-        Recipie(
+        Recipe(
             avatarRecipie: "fish2",
             titleRecipies: "Baked Fish with Lemon Herb Sauce",
-            cookingTimeTitle: "90",
+            cookingTimeTitle: "90 min",
             caloriesTitle: "616",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ), recipeDescriptionTitle: ""
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "",
+            portionWeight: "191 g"
         ),
-        Recipie(
+        Recipe(
             avatarRecipie: "fish3",
             titleRecipies: "Lemon and Chilli Fish Burrito",
-            cookingTimeTitle: "90",
+            cookingTimeTitle: "90 min",
             caloriesTitle: "226",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ), recipeDescriptionTitle: ""
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "",
+            portionWeight: "715 g"
         ),
-        Recipie(
+        Recipe(
             avatarRecipie: "fish4",
             titleRecipies: "Fast Roast Fish & Show Peas Recipes",
-            cookingTimeTitle: "80",
+            cookingTimeTitle: "80 min",
             caloriesTitle: "94",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ), recipeDescriptionTitle: ""
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "",
+            portionWeight: "890 g"
         ),
-        Recipie(
+        Recipe(
             avatarRecipie: "fish5",
             titleRecipies: "Salmon with Cantaloupe and Fried Shallots",
-            cookingTimeTitle: "100",
+            cookingTimeTitle: "100 min",
             caloriesTitle: "410",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ), recipeDescriptionTitle: ""
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "",
+            portionWeight: "555 g"
         ),
-        Recipie(
+        Recipe(
             avatarRecipie: "fish6",
             titleRecipies: "Chilli and Tomato Fish",
-            cookingTimeTitle: "100",
+            cookingTimeTitle: "100 min",
             caloriesTitle: "174",
-            nutrientsTitle: NutrientsFields(
-                nutrientName: NutrientsNames(
-                    calories: "Enerc kcal",
-                    carbohydrates: "Carbohydrates",
-                    fats: "Fats",
-                    proteins: "Proteins"
-                ),
-                significance: NutrientsValues(
-                    energyKcal: "1322 kcal",
-                    carbohydrates: "10,78 g",
-                    fats: "10,00 g",
-                    proteins: "97,30 g"
-                )
-            ), recipeDescriptionTitle: ""
+            nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
+            recipeDescriptionTitle: "",
+            portionWeight: "895 g"
         )
     ]
 

@@ -55,7 +55,7 @@ final class RecipesListViewController: UIViewController {
     // MARK: - Private Methods
 
     private func configureUI() {
-        addTapGestureToHideKeyboard()
+//        addTapGestureToHideKeyboard()
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(recipesTableView)
@@ -151,7 +151,16 @@ extension RecipesListViewController {
 
 // MARK: - Extension + UITableViewDelegate
 
-extension RecipesListViewController: UITableViewDelegate {}
+extension RecipesListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let recipe = recipes?.recepies[indexPath.row] else { return }
+        recipePresenter?.tappedOnCell(recipe: recipe)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        125
+    }
+}
 
 // MARK: - Extension + UITableViewDataSource
 
@@ -169,10 +178,6 @@ extension RecipesListViewController: UITableViewDataSource {
         guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
         cell.configure(with: recipe)
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        125
     }
 }
 
