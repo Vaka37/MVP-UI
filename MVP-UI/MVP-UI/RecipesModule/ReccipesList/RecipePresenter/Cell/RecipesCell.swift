@@ -95,7 +95,7 @@ final class RecipesCell: UITableViewCell {
 
     // MARK: - Public Methods
 
-    func configure(with items: Recipie) {
+    func configure(with items: Recipe) {
         recipeImageView.image = UIImage(named: items.avatarRecipie)
         titleRecipe.text = items.titleRecipies
         timeLabel.text = items.cookingTimeTitle + Constants.timeLabelText
@@ -105,7 +105,7 @@ final class RecipesCell: UITableViewCell {
     // MARK: - Private Methods
 
     private func setupViews() {
-        selectionStyle = .none
+//        selectionStyle = .none
         contentView.addSubview(uiViewBackground)
         contentView.addSubview(recipeImageView)
         contentView.addSubview(titleRecipe)
@@ -138,6 +138,7 @@ final class RecipesCell: UITableViewCell {
         recipeImageView.leadingAnchor.constraint(equalTo: uiViewBackground.leadingAnchor, constant: 10)
             .isActive = true
         recipeImageView.topAnchor.constraint(equalTo: uiViewBackground.topAnchor, constant: 10).isActive = true
+        recipeImageView.bottomAnchor.constraint(equalTo: uiViewBackground.bottomAnchor, constant: -10).isActive = true
     }
 
     private func setupAnchorsTitleRecipe() {

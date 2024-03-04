@@ -12,5 +12,5 @@ struct Category {
     /// размер ячейки
     var sizeCell: SizeCellCategory
     /// Рецепты
-    var recepies: [Recipie]
+    var recepies: [Recipe]
 }

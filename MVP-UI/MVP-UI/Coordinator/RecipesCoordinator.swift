@@ -13,8 +13,19 @@ final class RecipesCoordinator: BaseCoordinator {
 
     func pushDetailViewController(category: Category) {
         let recipiesViewController = RecipesListViewController()
-        let presenter = RecipePresenter(view: recipiesViewController, category: category)
+        let presenter = RecipePresenter(
+            view: recipiesViewController,
+            category: category,
+            detailsRecipeCoordinator: self
+        )
         recipiesViewController.recipePresenter = presenter
         rootViewController?.pushViewController(recipiesViewController, animated: true)
+    }
+
+    func pushRecipeDetailsViewController(recipe: Recipe) {
+        let recipesDetailsViewController = RecipesDetailsViewController()
+        let presenter = DetailsPresenter(view: recipesDetailsViewController, recipe: recipe, recipesCoordinator: self)
+        recipesDetailsViewController.detailsPresenter = presenter
+        rootViewController?.pushViewController(recipesDetailsViewController, animated: true)
     }
 }
