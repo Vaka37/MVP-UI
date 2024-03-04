@@ -41,8 +41,11 @@ final class RecipesListViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    var recipes: Category?
     var recipePresenter: RecipePresenter?
+
+    // MARK: - Private Properties
+
+    private var recipes: Category?
 
     // MARK: - Life Cycle
 
