@@ -5,6 +5,7 @@ import UIKit
 
 /// Протокол рецепта
 protocol DetailsPresenterInputProtocol {
+    /// данные экрана рецептов
     func getDetail()
 }
 
@@ -26,6 +27,7 @@ final class DetailsPresenter {
 }
 
 // MARK: - Extension + DetailsPresenterInputProtocol
+
 extension DetailsPresenter: DetailsPresenterInputProtocol {
     func getDetail() {
         view?.getDetail(recipe: recipe)

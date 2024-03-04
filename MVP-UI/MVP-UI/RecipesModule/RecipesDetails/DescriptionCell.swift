@@ -70,7 +70,7 @@ final class DescriptionCell: UITableViewCell {
     private func makeGradient() {
         let gradient = CAGradientLayer()
         gradient.frame = bacgroundDescription.bounds
-        bacgroundDescription.layer.cornerRadius = 24
+        gradient.cornerRadius = 24
         gradient.colors = [Constants.topGradientColor.cgColor, Constants.bottomGradientColor.cgColor]
         bacgroundDescription.layer.insertSublayer(gradient, at: 0)
     }

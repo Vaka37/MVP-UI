@@ -5,10 +5,11 @@ import UIKit
 
 /// Протокол презентера детального экрана
 protocol DetailsViewInputProtocol: AnyObject {
+    /// данные экрана рецептов
     func getDetail(recipe: Recipe)
 }
 
-/// Экрана рецепта
+/// Экран рецепта
 final class RecipesDetailsViewController: UIViewController {
     // MARK: - Constants
 
@@ -18,6 +19,9 @@ final class RecipesDetailsViewController: UIViewController {
         static let heightCellDescription: CGFloat = 690
         static let titleAlert = "Функционал в разработке"
         static let confirmActionAlert = "Ok"
+        static let titleArrowBackward = "arrowBackward"
+        static let titleFavorites = "favorites"
+        static let titleShared = "shared"
     }
 
     enum RowsType {
@@ -45,7 +49,6 @@ final class RecipesDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         detailsPresenter?.getDetail()
-
         addSubview()
         makeTableView()
         makeBarButtonItem()
@@ -73,28 +76,24 @@ final class RecipesDetailsViewController: UIViewController {
 
     private func makeBarButtonItem() {
         let arrowButton = UIButton(type: .custom)
-        arrowButton.setImage(UIImage(named: "arrowBackward"), for: .normal)
+        arrowButton.setImage(UIImage(named: Constants.titleArrowBackward), for: .normal)
         arrowButton.addTarget(self, action: #selector(returnsAllRecipes), for: .touchUpInside)
-
         let arrowLogo = UIBarButtonItem(customView: arrowButton)
-
         let favoritesLogo = UIBarButtonItem(
-            image: UIImage(named: "favorites"),
+            image: UIImage(named: Constants.titleFavorites),
             style: .plain,
             target: self,
             action: #selector(savesRecipeFavorites)
         )
         let shareLogo = UIBarButtonItem(
-            image: UIImage(named: "shared"),
+            image: UIImage(named: Constants.titleShared),
             style: .plain,
             target: self,
             action: #selector(method)
         )
-
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = arrowLogo
         navigationItem.rightBarButtonItems = [favoritesLogo, shareLogo]
-
         [arrowLogo, shareLogo, favoritesLogo].forEach { $0.tintColor = .black }
     }
 
@@ -116,7 +115,6 @@ final class RecipesDetailsViewController: UIViewController {
     @objc private func savesRecipeFavorites() {
         let alert = UIAlertController(title: Constants.titleAlert, message: nil, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: Constants.confirmActionAlert, style: .default, handler: nil)
-
         alert.addAction(confirmAction)
         present(alert, animated: true)
     }

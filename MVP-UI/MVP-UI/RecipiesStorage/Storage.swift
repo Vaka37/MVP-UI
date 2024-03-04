@@ -11,7 +11,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish1",
             titleRecipies: "Simple Fish And Corn",
-            cookingTimeTitle: "60 min",
+            cookingTimeTitle: "60",
             caloriesTitle: "274",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "1/2 to 2 fish heads, depending on size, about 5 pounds total\n" +
@@ -49,7 +49,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish2",
             titleRecipies: "Baked Fish with Lemon Herb Sauce",
-            cookingTimeTitle: "90 min",
+            cookingTimeTitle: "90",
             caloriesTitle: "616",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "",
@@ -58,7 +58,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish3",
             titleRecipies: "Lemon and Chilli Fish Burrito",
-            cookingTimeTitle: "90 min",
+            cookingTimeTitle: "90",
             caloriesTitle: "226",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "",
@@ -67,7 +67,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish4",
             titleRecipies: "Fast Roast Fish & Show Peas Recipes",
-            cookingTimeTitle: "80 min",
+            cookingTimeTitle: "80",
             caloriesTitle: "94",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "",
@@ -76,7 +76,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish5",
             titleRecipies: "Salmon with Cantaloupe and Fried Shallots",
-            cookingTimeTitle: "100 min",
+            cookingTimeTitle: "100",
             caloriesTitle: "410",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "",
@@ -85,7 +85,7 @@ final class Storage {
         Recipe(
             avatarRecipie: "fish6",
             titleRecipies: "Chilli and Tomato Fish",
-            cookingTimeTitle: "100 min",
+            cookingTimeTitle: "100",
             caloriesTitle: "174",
             nutrientsValue: ["1322 kcal", "10,78 g", "10,00 g", "97,30 g"],
             recipeDescriptionTitle: "",

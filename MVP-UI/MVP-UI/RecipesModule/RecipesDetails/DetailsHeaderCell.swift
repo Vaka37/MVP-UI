@@ -11,6 +11,8 @@ final class DetailsHeaderCell: UITableViewCell {
         static let fontVerdana = "Verdana"
         static let fontVerdanaBold = "Verdana-Bold"
         static let titleCookingTime = "Cooking time"
+        static let indent = " "
+        static let titleMinutesTime = "min"
     }
 
     // MARK: - Visual Components
@@ -71,8 +73,7 @@ final class DetailsHeaderCell: UITableViewCell {
 
     private let timerImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .timer
-        imageView.tintColor = UIColor.white
+        imageView.image = .timerWhite
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -118,15 +119,16 @@ final class DetailsHeaderCell: UITableViewCell {
     }
 
     // MARK: - Public Methods
-    
+
     func configure(info: Recipe) {
         nameRecipeLabel.text = info.titleRecipies
         foodImageView.image = UIImage(named: info.avatarRecipie)
         portionWeightLabel.text = info.portionWeight
-        cookingTimeLabel.text = info.cookingTimeTitle
+        cookingTimeLabel.text = info.cookingTimeTitle + Constants.indent + Constants.titleMinutesTime
     }
 
     // MARK: - Private Methods
+
     private func cornerRoundingView() {
         DispatchQueue.main.async {
             self.backgroundPortionView.layer.cornerRadius = self.backgroundPortionView.frame.size.width / 2
