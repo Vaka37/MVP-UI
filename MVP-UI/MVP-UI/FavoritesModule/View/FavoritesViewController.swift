@@ -3,7 +3,7 @@
 
 import UIKit
 
-///  Экран с фаворитами
+///  Экран с избранными
 final class FavoritesViewController: UIViewController {
     // MARK: - Constants
 
