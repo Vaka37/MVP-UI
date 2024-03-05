@@ -124,7 +124,7 @@ final class DetailsHeaderCell: UITableViewCell {
         nameRecipeLabel.text = info.titleRecipies
         foodImageView.image = UIImage(named: info.avatarRecipie)
         portionWeightLabel.text = info.portionWeight
-        cookingTimeLabel.text = info.cookingTimeTitle + Constants.indent + Constants.titleMinutesTime
+        cookingTimeLabel.text = "\(info.cookingTimeTitle)" + Constants.indent + Constants.titleMinutesTime
     }
 
     // MARK: - Private Methods

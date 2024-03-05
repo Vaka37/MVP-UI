@@ -28,6 +28,9 @@
 		93F8D8D32B8E55DF00751ABD /* NavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F8D8D22B8E55DF00751ABD /* NavigationTableViewCell.swift */; };
 		93F8D8D72B8E683F00751ABD /* ProfileNavigationCellSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F8D8D62B8E683F00751ABD /* ProfileNavigationCellSource.swift */; };
 		93F8D8D92B8E73AB00751ABD /* ProfileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F8D8D82B8E73AB00751ABD /* ProfileItem.swift */; };
+		D509B2FE2B97AD4B00C094E2 /* SortedMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D509B2FD2B97AD4B00C094E2 /* SortedMethod.swift */; };
+		D509B3012B97B95A00C094E2 /* ShimerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D509B3002B97B95A00C094E2 /* ShimerViewCell.swift */; };
+		D509B3032B97BCFC00C094E2 /* StateShimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D509B3022B97BCFC00C094E2 /* StateShimer.swift */; };
 		D56FC8FC2B90DD9A0007F8CE /* RecipePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FC8FB2B90DD9A0007F8CE /* RecipePresenter.swift */; };
 		D571D46F2B8D3CEF000757E9 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D46E2B8D3CEF000757E9 /* BaseCoordinator.swift */; };
 		D571D4712B8D3E3C000757E9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D571D4702B8D3E3C000757E9 /* AppCoordinator.swift */; };
@@ -77,6 +80,9 @@
 		93F8D8D22B8E55DF00751ABD /* NavigationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTableViewCell.swift; sourceTree = "<group>"; };
 		93F8D8D62B8E683F00751ABD /* ProfileNavigationCellSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNavigationCellSource.swift; sourceTree = "<group>"; };
 		93F8D8D82B8E73AB00751ABD /* ProfileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileItem.swift; sourceTree = "<group>"; };
+		D509B2FD2B97AD4B00C094E2 /* SortedMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedMethod.swift; sourceTree = "<group>"; };
+		D509B3002B97B95A00C094E2 /* ShimerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimerViewCell.swift; sourceTree = "<group>"; };
+		D509B3022B97BCFC00C094E2 /* StateShimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateShimer.swift; sourceTree = "<group>"; };
 		D56FC8FB2B90DD9A0007F8CE /* RecipePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePresenter.swift; sourceTree = "<group>"; };
 		D571D46E2B8D3CEF000757E9 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		D571D4702B8D3E3C000757E9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -169,8 +175,25 @@
 			isa = PBXGroup;
 			children = (
 				D5783B252B90922C00C81FAF /* RecipesCell.swift */,
+				D509B3002B97B95A00C094E2 /* ShimerViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		D509B2FF2B97AD9900C094E2 /* Sorted */ = {
+			isa = PBXGroup;
+			children = (
+				D509B2FD2B97AD4B00C094E2 /* SortedMethod.swift */,
+			);
+			path = Sorted;
+			sourceTree = "<group>";
+		};
+		D509B3042B97BE5100C094E2 /* StateShimer */ = {
+			isa = PBXGroup;
+			children = (
+				D509B3022B97BCFC00C094E2 /* StateShimer.swift */,
+			);
+			path = StateShimer;
 			sourceTree = "<group>";
 		};
 		D56FC8FD2B90DDDB0007F8CE /* RecipePresenter */ = {
@@ -372,6 +395,7 @@
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
+				D509B3042B97BE5100C094E2 /* StateShimer */,
 				D571F5372B8D095500BAE03F /* FavoritesModule */,
 				D571F5382B8D097000BAE03F /* ProfileModule */,
 				D571F5362B8D092F00BAE03F /* RecipesModule */,
@@ -379,6 +403,7 @@
 				D571F5352B8D08E800BAE03F /* AutorizationModule */,
 				D571F5422B8D0DCB00BAE03F /* Model */,
 				D571D46D2B8D3C64000757E9 /* Coordinator */,
+				D509B2FF2B97AD9900C094E2 /* Sorted */,
 				D571D4962B8F1ADC000757E9 /* Extension */,
 				D5EFBD732B8CD7E4005F6F9B /* TabBarViewController */,
 				D5EFBD622B8CA6B0005F6F9B /* Assets.xcassets */,
@@ -515,6 +540,7 @@
 				9388EE302B96FD1E00E42D46 /* UIColor+Extension.swift in Sources */,
 				D571D4772B8D4A4A000757E9 /* RecipesPresenter.swift in Sources */,
 				D571D47B2B8D53F2000757E9 /* FavoritesPresenter.swift in Sources */,
+				D509B3032B97BCFC00C094E2 /* StateShimer.swift in Sources */,
 				D5EFBD722B8CD621005F6F9B /* TabBarController.swift in Sources */,
 				D5EFBD792B8CDA2E005F6F9B /* UserProfileViewController.swift in Sources */,
 				D571D4932B8E035D000757E9 /* AutorizationPresenter.swift in Sources */,
@@ -537,6 +563,7 @@
 				D571D49A2B8F1B68000757E9 /* UIViewController+Extension.swift in Sources */,
 				D571D4812B8D5989000757E9 /* UserProfileCoordinator.swift in Sources */,
 				93658E342B8E0842006BAF05 /* ProfileHeaderCellSource.swift in Sources */,
+				D509B2FE2B97AD4B00C094E2 /* SortedMethod.swift in Sources */,
 				937B275A2B9469E300976E4C /* DescriptionCell.swift in Sources */,
 				93F8D8D32B8E55DF00751ABD /* NavigationTableViewCell.swift in Sources */,
 				D5783B262B90922C00C81FAF /* RecipesCell.swift in Sources */,
@@ -545,6 +572,7 @@
 				9308560A2B9091E0009E71DE /* RecipiesViewCell.swift in Sources */,
 				93F8D8D72B8E683F00751ABD /* ProfileNavigationCellSource.swift in Sources */,
 				93D3A3532B933165003E86DE /* DetailsInfoCell.swift in Sources */,
+				D509B3012B97B95A00C094E2 /* ShimerViewCell.swift in Sources */,
 				93D301052B8F80780035D421 /* BonusViewController.swift in Sources */,
 				D5EFBD5C2B8CA6AA005F6F9B /* SceneDelegate.swift in Sources */,
 				D571D4792B8D4BF6000757E9 /* RecipesCoordinator.swift in Sources */,

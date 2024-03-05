@@ -3,10 +3,10 @@
 
 import UIKit
 
-/// Табличное предсставлене с рецептами
+/// Табличное представлене с рецептами
 final class RecipesListViewController: UIViewController {
     // MARK: - Constants
-
+    
     private enum Constants {
         static let cellIdendefire = "CellRecipes"
         static let backBarButtonImage = UIImage(systemName: "arrow.backward")
@@ -16,9 +16,9 @@ final class RecipesListViewController: UIViewController {
         static let caloriesButtonTitle = "Calories"
         static let timeButtonTitle = "Time"
     }
-
+    
     // MARK: - Visual Components
-
+    
     private lazy var recipesTableView: UITableView = {
         let table = UITableView()
         table.delegate = self
@@ -28,61 +28,73 @@ final class RecipesListViewController: UIViewController {
         table.showsVerticalScrollIndicator = false
         return table
     }()
-
-    private let searchBar: UISearchBar = {
+    
+    private lazy var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = Constants.serchPlaceholder
         search.backgroundImage = UIImage()
+        search.sizeToFit()
+        search.delegate = self
         return search
     }()
-
+    
     let caloriesButton = UIButton()
     let timeButton = UIButton()
-
+    
     // MARK: - Public Properties
-
+    
     var recipePresenter: RecipePresenter?
-
+    
     // MARK: - Private Properties
-
+    
+    private var stateShimer = StateShimer.loading
     private var recipes: Category?
-
+    private var searchRecipes: [Recipe] = []
+    
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipePresenter?.getUser()
+        recipePresenter?.getRecipe()
         configureUI()
+        recipePresenter?.changeShimer()
     }
-
+    
     // MARK: - Private Methods
-
+    
     private func configureUI() {
-//        addTapGestureToHideKeyboard()
+        configureNavigation()
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(recipesTableView)
         makeFilterButton(button: caloriesButton, title: Constants.caloriesButtonTitle)
         makeFilterButton(button: timeButton, title: Constants.timeButtonTitle)
-        configureNavigation()
         makeAnchor()
+        searchRecipes = recipes?.recepies ?? []
     }
-
+    
     private func configureNavigation() {
         navigationController?.navigationBar.tintColor = .black
-        let customButton = UIButton(type: .custom)
-        customButton.setImage(Constants.backBarButtonImage, for: .normal)
-        if let buttonTitle = recipes?.categoryTitle {
-            customButton.setTitle("  \(buttonTitle)", for: .normal)
-        }
-        customButton.addTarget(self, action: #selector(dissmiss), for: .touchUpInside)
-        customButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 28)
-        customButton.setTitleColor(.black, for: .normal)
-        let customBarButtonItem = UIBarButtonItem(customView: customButton)
-        navigationItem.leftBarButtonItem = customBarButtonItem
+        let back = UIBarButtonItem(
+            image: Constants.backBarButtonImage,
+            style: .done,
+            target: self,
+            action: #selector(dissmiss)
+        )
+        let backTitle = UIBarButtonItem(
+            title: recipes?.categoryTitle,
+            style: .done,
+            target: self,
+            action: #selector(dissmiss)
+        )
+        let font = UIFont.boldSystemFont(ofSize: 26.0)
+        let textAttributes: [NSAttributedString.Key: Any] = [.font: font]
+        backTitle.setTitleTextAttributes(textAttributes, for: .normal)
+        navigationItem.leftBarButtonItems = [back, backTitle]
+        navigationController?.navigationBar.prefersLargeTitles = false
         tabBarController?.tabBar.isHidden = true
     }
-
+    
     private func makeFilterButton(button: UIButton, title: String) {
         button.setTitle(title, for: .normal)
         button.setImage(Constants.filterIconImage, for: .normal)
@@ -93,24 +105,26 @@ final class RecipesListViewController: UIViewController {
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -30, bottom: 0, right: 10)
         timeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 10)
         caloriesButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 80, bottom: 0, right: 10)
-        button.addTarget(self, action: #selector(timeButtonTapped), for: .touchUpInside)
+        timeButton.addTarget(self, action: #selector(timeButtonTapped), for: .touchUpInside)
+        caloriesButton.addTarget(self, action: #selector(caloriesButtonTapped), for: .touchUpInside)
         view.addSubview(button)
     }
-
+    
     private func makeAnchor() {
         makeAnchorsSearchBar()
         setupAnchorsCaloriesButton()
         setupAnchorsTimeButton()
         makeTableViewAnchor()
     }
-
-    @objc private func timeButtonTapped(seder: UIButton) {
-        seder.backgroundColor = UIColor(red: 112 / 255, green: 185 / 255, blue: 190 / 255, alpha: 1.0)
-        seder.setTitleColor(.white, for: .normal)
-        seder.imageView?.transform = seder.imageView?.transform.rotated(by: .pi) ?? CGAffineTransform()
-        seder.setTitleColor(.black, for: .normal)
+    
+    @objc private func caloriesButtonTapped() {
+        recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
     }
-
+    
+    @objc private func timeButtonTapped() {
+        recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
+    }
+    
     @objc private func dissmiss() {
         navigationController?.popViewController(animated: true)
     }
@@ -126,7 +140,7 @@ extension RecipesListViewController {
         searchBar.widthAnchor.constraint(equalToConstant: 335).isActive = true
         searchBar.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
-
+    
     private func makeTableViewAnchor() {
         recipesTableView.translatesAutoresizingMaskIntoConstraints = false
         recipesTableView.topAnchor.constraint(equalTo: timeButton.bottomAnchor, constant: 10).isActive = true
@@ -134,7 +148,7 @@ extension RecipesListViewController {
         recipesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         recipesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-
+    
     private func setupAnchorsCaloriesButton() {
         caloriesButton.translatesAutoresizingMaskIntoConstraints = false
         caloriesButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -142,7 +156,7 @@ extension RecipesListViewController {
         caloriesButton.widthAnchor.constraint(equalToConstant: 112).isActive = true
         caloriesButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
-
+    
     private func setupAnchorsTimeButton() {
         timeButton.translatesAutoresizingMaskIntoConstraints = false
         timeButton.leadingAnchor.constraint(equalTo: caloriesButton.trailingAnchor, constant: 11).isActive = true
@@ -159,7 +173,7 @@ extension RecipesListViewController: UITableViewDelegate {
         guard let recipe = recipes?.recepies[indexPath.row] else { return }
         recipePresenter?.tappedOnCell(recipe: recipe)
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         125
     }
@@ -171,24 +185,71 @@ extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipes?.recepies.count ?? 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: Constants.cellIdendefire,
-            for: indexPath
-        ) as? RecipesCell
-        else { return UITableViewCell() }
-        guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
-        cell.configure(with: recipe)
-        return cell
+        switch stateShimer {
+        case .loading:
+            return ShimerViewCell()
+        case .done:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: Constants.cellIdendefire,
+                for: indexPath
+            ) as? RecipesCell
+            else { return UITableViewCell() }
+            guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
+            cell.configure(with: recipe)
+            return cell
+        }
     }
 }
 
 // MARK: - Extension + RecipesViewProtocol
 
 extension RecipesListViewController: RecipesViewProtocol {
+    func changeShimerState() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.stateShimer = .done
+            self.recipesTableView.reloadData()
+        }
+    }
+    
+    func buttonCaloriesState(color: String, image: String) {
+        caloriesButton.backgroundColor = UIColor(named: color)
+        caloriesButton.setTitleColor(.white, for: .normal)
+        caloriesButton.setImage(UIImage(named: image), for: .normal)
+        caloriesButton.setTitleColor(.black, for: .normal)
+    }
+    
+    func buttonTimeState(color: String, image: String) {
+        timeButton.backgroundColor = UIColor(named: color)
+        timeButton.setTitleColor(.white, for: .normal)
+        timeButton.setImage(UIImage(named: image), for: .normal)
+        timeButton.setTitleColor(.black, for: .normal)
+    }
+    
+    func sortedRecip(recipe: [Recipe]) {
+        recipes?.recepies = recipe
+        recipesTableView.reloadData()
+    }
+    
     func getRecipes(recipes: Category) {
         self.recipes = recipes
         recipesTableView.reloadData()
+    }
+}
+
+// MARK: - Extension + UISearchBarDelegate
+
+extension RecipesListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count > 2 {
+            let searchFiltered = recipes?.recepies
+                .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
+            recipes?.recepies = searchFiltered ?? []
+            recipesTableView.reloadData()
+        } else {
+            recipes?.recepies = searchRecipes
+            recipesTableView.reloadData()
+        }
     }
 }

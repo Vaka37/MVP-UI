@@ -10,9 +10,9 @@ struct Recipe {
     /// Название рецепта
     var titleRecipies: String
     /// Время изготовления блюда
-    var cookingTimeTitle: String
+    var cookingTimeTitle: Int
     /// Калории блюда
-    var caloriesTitle: String
+    var caloriesTitle: Int
     /// Питательные вещества
     var nutrientsValue: [String]
     /// Описание рецепта
