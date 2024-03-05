@@ -13,6 +13,13 @@ protocol UserProfileViewInputProtocol: AnyObject {
     func setTitleNameUser(name: String)
     ///  Метод для показа бонус-контролерра
     func showBonusView()
+    /// Метод для показа политики конфиденциальности
+    func showTermsPrivacyPolicy(
+        withAnimator animator: UIViewPropertyAnimator,
+        animatorEffect: UIVisualEffectView,
+        view: UIView,
+        termsPrivacyPolicyViewController: TermsPrivatePolicyViewController
+    )
 }
 
 /// Экран с информацией о пользователе
@@ -39,6 +46,7 @@ final class UserProfileViewController: UIViewController {
     // MARK: - Private Properties
 
     private var rowTypes: [ProfileItem]?
+    private var termsPrivacyPolicyViewController: TermsPrivatePolicyViewController?
 
     // MARK: - Life Cycle
 
@@ -163,6 +171,38 @@ extension UserProfileViewController: UITableViewDelegate {
 // MARK: - Подписываюконтроллер на протокол
 
 extension UserProfileViewController: UserProfileViewInputProtocol {
+    func showTermsPrivacyPolicy(
+        withAnimator animator: UIViewPropertyAnimator,
+        animatorEffect: UIVisualEffectView,
+        view: UIView,
+        termsPrivacyPolicyViewController: TermsPrivatePolicyViewController
+    ) {
+        view.addSubview(animatorEffect)
+
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        termsPrivacyPolicyViewController.view.addGestureRecognizer(panGesture)
+
+        animator.startAnimation()
+
+        present(termsPrivacyPolicyViewController, animated: true, completion: nil)
+    }
+
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+
+        switch gesture.state {
+        case .changed:
+            termsPrivacyPolicyViewController?.view.center = CGPoint(
+                x: (termsPrivacyPolicyViewController?.view.center.x ?? 200) + translation.x,
+                y: (termsPrivacyPolicyViewController?.view.center.y ?? 350) + translation.y
+            )
+            gesture.setTranslation(CGPoint.zero, in: view)
+
+        default:
+            break
+        }
+    }
+
     func showBonusView() {
         let bonusViewController = BonusViewController()
         if let sheetPresentationController = bonusViewController.sheetPresentationController {

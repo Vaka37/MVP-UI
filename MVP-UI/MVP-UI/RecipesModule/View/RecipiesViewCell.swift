@@ -20,6 +20,7 @@ final class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Private Properties
 
     private var modelCategory: Category?
+    var categoryLayer: CAGradientLayer?
 
     // MARK: - Visual Components
 
@@ -61,14 +62,34 @@ final class RecipiesViewCell: UICollectionViewCell {
         createContentView()
         addSubview()
         setupConstraints()
+        print(categoryLayer, "State Handler Cell")
     }
+
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        categoryLayer?.cornerRadius = 18
+//        categoryLayer?.frame = contentView.bounds
+//        categoryLayer?.colors = [UIColor.systemGray3.cgColor, UIColor.white.cgColor]
+//        categoryLayer?.startPoint = CGPoint(x: 0, y: 0.5)
+//        categoryLayer?.endPoint = CGPoint(x: 1, y: 0.5)
+//        categoryButton.layer.addSublayer(categoryLayer ?? CAGradientLayer())
+//        contentView.layer.addSublayer(categoryLayer ?? CAGradientLayer())
+//    }
 
     // MARK: - Public Methods
 
-    func configure(model: Category) {
+    func configure(model: Category, categoryLayer: CAGradientLayer) {
+        self.categoryLayer = categoryLayer
         let image = UIImage(named: model.avatarImageName)
         categoryButton.setImage(image, for: .normal)
         nameCategoryLabel.text = model.categoryTitle
+
+        self.categoryLayer?.cornerRadius = 18
+        self.categoryLayer?.frame = contentView.frame
+        self.categoryLayer?.colors = [UIColor.systemGray3.cgColor, UIColor.white.cgColor]
+        self.categoryLayer?.startPoint = CGPoint(x: 0, y: 0.5)
+        self.categoryLayer?.endPoint = CGPoint(x: 1, y: 0.5)
+        contentView.layer.addSublayer(self.categoryLayer ?? CAGradientLayer())
     }
 
     // MARK: - Private Methods

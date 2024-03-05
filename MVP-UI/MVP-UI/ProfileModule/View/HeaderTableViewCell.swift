@@ -32,7 +32,7 @@ final class HeaderTableViewCell: UITableViewCell {
     private lazy var editingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(.editingIcon, for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.blackColor(alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(editingButtonTapped), for: .touchUpInside)
         return button

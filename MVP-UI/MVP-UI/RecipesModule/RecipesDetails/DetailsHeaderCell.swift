@@ -38,7 +38,7 @@ final class DetailsHeaderCell: UITableViewCell {
 
     private let backgroundPortionView: UIView = {
         let view = UIView()
-        view.backgroundColor = .selectedIconTabBar
+        view.backgroundColor = UIColor.selectedIconTabBarColor(alpha: 0.85)
         view.alpha = 0.85
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

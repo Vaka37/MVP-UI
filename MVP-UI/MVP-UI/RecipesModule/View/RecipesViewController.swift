@@ -30,22 +30,27 @@ final class RecipesViewController: UIViewController {
 
     // MARK: - Private Properties
 
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     private let layout = UICollectionViewFlowLayout()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private var stateHandlerShimmer: StateHandlerShimmer?
+    private let categoryLayer = CAGradientLayer()
 
     // MARK: - Life Cycle
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter?.requestDataCategory()
-        tabBarController?.tabBar.isHidden = false
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubview()
         makeCollectionView()
         makeNavigationBar()
+        stateHandlerShimmer = StateHandlerShimmer(categoryLayer: categoryLayer, recipesViewController: self)
+        print(categoryLayer, "State Handler View Controller")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.requestDataCategory()
+        tabBarController?.tabBar.isHidden = false
+        stateHandlerShimmer?.setState(newState: .loading)
     }
 
     override func viewWillLayoutSubviews() {
@@ -96,7 +101,8 @@ extension RecipesViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? RecipiesViewCell else { return UICollectionViewCell() }
         guard let storage = storage else { return cell }
-        cell.configure(model: storage.category[indexPath.item])
+//        cell.configure(model: storage.category[indexPath.item])
+        cell.configure(model: storage.category[indexPath.item], categoryLayer: categoryLayer)
         cell.categoryPushHandler = {
             self.presenter?.tappedOnCell(type: storage.category[indexPath.item])
         }
