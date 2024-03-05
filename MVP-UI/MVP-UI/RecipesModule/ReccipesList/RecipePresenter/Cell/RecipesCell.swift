@@ -98,14 +98,13 @@ final class RecipesCell: UITableViewCell {
     func configure(with items: Recipe) {
         recipeImageView.image = UIImage(named: items.avatarRecipie)
         titleRecipe.text = items.titleRecipies
-        timeLabel.text = items.cookingTimeTitle + Constants.timeLabelText
-        pizzaLabel.text = items.caloriesTitle + Constants.pizzaLabelText
+        timeLabel.text = "\(items.cookingTimeTitle)" + Constants.timeLabelText
+        pizzaLabel.text = "\(items.caloriesTitle)" + Constants.pizzaLabelText
     }
 
     // MARK: - Private Methods
 
     private func setupViews() {
-//        selectionStyle = .none
         contentView.addSubview(uiViewBackground)
         contentView.addSubview(recipeImageView)
         contentView.addSubview(titleRecipe)
