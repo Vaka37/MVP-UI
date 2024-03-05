@@ -85,6 +85,14 @@ final class RecipiesViewCell: UICollectionViewCell {
         categoryButton.addSubview(nameCategoryLabel)
     }
 
+    @objc private func pushCategory() {
+        categoryPushHandler?()
+    }
+}
+
+// MARK: - Layoyt
+
+extension RecipiesViewCell {
     private func setupConstraints() {
         setupCategoryButtonConstraints()
         setupNameCategoryConstraints()
@@ -102,9 +110,5 @@ final class RecipiesViewCell: UICollectionViewCell {
         nameCategoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         nameCategoryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         nameCategoryLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width / 5).isActive = true
-    }
-
-    @objc private func pushCategory() {
-        categoryPushHandler?()
     }
 }

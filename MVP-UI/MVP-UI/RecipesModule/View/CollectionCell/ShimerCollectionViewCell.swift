@@ -46,7 +46,6 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        createContentView()
         addSubview()
         setupConstraints()
     }
@@ -54,7 +53,6 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        createContentView()
         addSubview()
         setupConstraints()
     }
@@ -115,13 +113,6 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
             group.beginTime = previousGroup.beginTime + 0.33
         }
         return group
-    }
-
-    private func createContentView() {
-        contentView.layer.shadowRadius = 5
-        contentView.layer.shadowOffset = CGSize(width: 5, height: 6)
-        contentView.layer.shadowColor = UIColor.black.cgColor
-        contentView.layer.shadowOpacity = 0.4
     }
 
     private func addSubview() {
