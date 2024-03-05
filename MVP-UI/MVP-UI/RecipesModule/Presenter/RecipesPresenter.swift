@@ -9,6 +9,8 @@ protocol RecipesPresenterInputProtocol: AnyObject {
     func requestDataCategory()
     /// Метод по тапу на ячейку
     func tappedOnCell(type: Category)
+    /// Меняем состояние шимера
+    func changeShimerState()
 }
 
 /// Презентер для рецептов
@@ -29,6 +31,10 @@ final class RecipesPresenter {
 // MARK: - Extension + RecipesProtocol
 
 extension RecipesPresenter: RecipesPresenterInputProtocol {
+    func changeShimerState() {
+        view?.changeShimerState()
+    }
+
     func requestDataCategory() {
         let storage = Storage()
         view?.updateData(category: storage)

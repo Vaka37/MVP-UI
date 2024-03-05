@@ -44,9 +44,9 @@ final class RecipePresenter {
         self.category = category
         self.detailsRecipeCoordinator = detailsRecipeCoordinator
     }
-    
-//MARK: - Private Methods
-    
+
+    // MARK: - Private Methods
+
     /// Метод меняющий состояниие кнопки калориев
     func buttonCaloriesChange(category: [Recipe]) {
         if sortedCalories == .non {
@@ -88,7 +88,7 @@ extension RecipePresenter: RecipeProtocol {
     func changeShimer() {
         view?.changeShimerState()
     }
-    
+
     func sortedRecipe(category: [Recipe]) {
         let defaultRecipes = self.category.recepies
         var sorted = category

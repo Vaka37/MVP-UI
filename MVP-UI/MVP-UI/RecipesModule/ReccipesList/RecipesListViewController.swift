@@ -6,7 +6,7 @@ import UIKit
 /// Табличное представлене с рецептами
 final class RecipesListViewController: UIViewController {
     // MARK: - Constants
-    
+
     private enum Constants {
         static let cellIdendefire = "CellRecipes"
         static let backBarButtonImage = UIImage(systemName: "arrow.backward")
@@ -16,9 +16,9 @@ final class RecipesListViewController: UIViewController {
         static let caloriesButtonTitle = "Calories"
         static let timeButtonTitle = "Time"
     }
-    
+
     // MARK: - Visual Components
-    
+
     private lazy var recipesTableView: UITableView = {
         let table = UITableView()
         table.delegate = self
@@ -28,7 +28,7 @@ final class RecipesListViewController: UIViewController {
         table.showsVerticalScrollIndicator = false
         return table
     }()
-    
+
     private lazy var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = Constants.serchPlaceholder
@@ -37,31 +37,31 @@ final class RecipesListViewController: UIViewController {
         search.delegate = self
         return search
     }()
-    
+
     let caloriesButton = UIButton()
     let timeButton = UIButton()
-    
+
     // MARK: - Public Properties
-    
+
     var recipePresenter: RecipePresenter?
-    
+
     // MARK: - Private Properties
-    
+
     private var stateShimer = StateShimer.loading
     private var recipes: Category?
     private var searchRecipes: [Recipe] = []
-    
+
     // MARK: - Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         recipePresenter?.getRecipe()
         configureUI()
         recipePresenter?.changeShimer()
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func configureUI() {
         configureNavigation()
         view.backgroundColor = .white
@@ -72,7 +72,7 @@ final class RecipesListViewController: UIViewController {
         makeAnchor()
         searchRecipes = recipes?.recepies ?? []
     }
-    
+
     private func configureNavigation() {
         navigationController?.navigationBar.tintColor = .black
         let back = UIBarButtonItem(
@@ -94,7 +94,7 @@ final class RecipesListViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         tabBarController?.tabBar.isHidden = true
     }
-    
+
     private func makeFilterButton(button: UIButton, title: String) {
         button.setTitle(title, for: .normal)
         button.setImage(Constants.filterIconImage, for: .normal)
@@ -109,22 +109,22 @@ final class RecipesListViewController: UIViewController {
         caloriesButton.addTarget(self, action: #selector(caloriesButtonTapped), for: .touchUpInside)
         view.addSubview(button)
     }
-    
+
     private func makeAnchor() {
         makeAnchorsSearchBar()
         setupAnchorsCaloriesButton()
         setupAnchorsTimeButton()
         makeTableViewAnchor()
     }
-    
+
     @objc private func caloriesButtonTapped() {
         recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
     }
-    
+
     @objc private func timeButtonTapped() {
         recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
     }
-    
+
     @objc private func dissmiss() {
         navigationController?.popViewController(animated: true)
     }
@@ -140,7 +140,7 @@ extension RecipesListViewController {
         searchBar.widthAnchor.constraint(equalToConstant: 335).isActive = true
         searchBar.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
-    
+
     private func makeTableViewAnchor() {
         recipesTableView.translatesAutoresizingMaskIntoConstraints = false
         recipesTableView.topAnchor.constraint(equalTo: timeButton.bottomAnchor, constant: 10).isActive = true
@@ -148,7 +148,7 @@ extension RecipesListViewController {
         recipesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         recipesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-    
+
     private func setupAnchorsCaloriesButton() {
         caloriesButton.translatesAutoresizingMaskIntoConstraints = false
         caloriesButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -156,7 +156,7 @@ extension RecipesListViewController {
         caloriesButton.widthAnchor.constraint(equalToConstant: 112).isActive = true
         caloriesButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
-    
+
     private func setupAnchorsTimeButton() {
         timeButton.translatesAutoresizingMaskIntoConstraints = false
         timeButton.leadingAnchor.constraint(equalTo: caloriesButton.trailingAnchor, constant: 11).isActive = true
@@ -173,7 +173,7 @@ extension RecipesListViewController: UITableViewDelegate {
         guard let recipe = recipes?.recepies[indexPath.row] else { return }
         recipePresenter?.tappedOnCell(recipe: recipe)
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         125
     }
@@ -185,7 +185,7 @@ extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipes?.recepies.count ?? 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch stateShimer {
         case .loading:
@@ -212,26 +212,26 @@ extension RecipesListViewController: RecipesViewProtocol {
             self.recipesTableView.reloadData()
         }
     }
-    
+
     func buttonCaloriesState(color: String, image: String) {
         caloriesButton.backgroundColor = UIColor(named: color)
         caloriesButton.setTitleColor(.white, for: .normal)
         caloriesButton.setImage(UIImage(named: image), for: .normal)
         caloriesButton.setTitleColor(.black, for: .normal)
     }
-    
+
     func buttonTimeState(color: String, image: String) {
         timeButton.backgroundColor = UIColor(named: color)
         timeButton.setTitleColor(.white, for: .normal)
         timeButton.setImage(UIImage(named: image), for: .normal)
         timeButton.setTitleColor(.black, for: .normal)
     }
-    
+
     func sortedRecip(recipe: [Recipe]) {
         recipes?.recepies = recipe
         recipesTableView.reloadData()
     }
-    
+
     func getRecipes(recipes: Category) {
         self.recipes = recipes
         recipesTableView.reloadData()
