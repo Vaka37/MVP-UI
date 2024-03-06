@@ -15,6 +15,8 @@ final class RecipesListViewController: UIViewController {
         static let serchPlaceholder = "Search recipes"
         static let caloriesButtonTitle = "Calories"
         static let timeButtonTitle = "Time"
+        static let valueToStartSearch: CGFloat = 2
+        static let changeShimerState: CGFloat = 2
     }
 
     // MARK: - Visual Components
@@ -207,7 +209,7 @@ extension RecipesListViewController: UITableViewDataSource {
 
 extension RecipesListViewController: RecipesViewProtocol {
     func changeShimerState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.changeShimerState) {
             self.stateShimer = .done
             self.recipesTableView.reloadData()
         }

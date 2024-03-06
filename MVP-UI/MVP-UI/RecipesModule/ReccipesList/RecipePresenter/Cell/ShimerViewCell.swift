@@ -9,6 +9,8 @@ final class ShimerViewCell: UITableViewCell {
 
     private enum Constants {
         static let gradientKey = "shimerCell"
+        static let valueTime: CGFloat = 0.33
+        static let valueTimeInterval: CGFloat = 1.5
     }
 
     // MARK: - VIsual Components
@@ -20,59 +22,27 @@ final class ShimerViewCell: UITableViewCell {
         return uiView
     }()
 
-    private let recipeImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
-    private let titleRecipe: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let timeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let timerImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
-    private let pizzaImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
-    private let pizzaLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    public let nextButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let recipeImageView = UIImageView()
+    private let titleRecipe = UILabel()
+    private let timeLabel = UILabel()
+    private let timerImageView = UIImageView()
+    private let pizzaImageView = UIImageView()
+    private let pizzaLabel = UILabel()
+    public let nextButton = UIButton()
 
     // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .white
+        setupTamic()
         setupViews()
         setupAnchors()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupTamic()
         setupViews()
         setupAnchors()
     }
@@ -85,6 +55,16 @@ final class ShimerViewCell: UITableViewCell {
     }
 
     // MARK: - Private Methods
+
+    private func setupTamic() {
+        recipeImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleRecipe.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timerImageView.translatesAutoresizingMaskIntoConstraints = false
+        pizzaImageView.translatesAutoresizingMaskIntoConstraints = false
+        pizzaLabel.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+    }
 
     private func setupViews() {
         contentView.addSubview(uiViewBackground)
@@ -159,7 +139,7 @@ final class ShimerViewCell: UITableViewCell {
     }
 
     private func makeAnimation(previousGroup: CAAnimationGroup? = nil) -> CAAnimationGroup {
-        let animDuration: CFTimeInterval = 1.5
+        let animDuration: CFTimeInterval = Constants.valueTimeInterval
 
         let animation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.backgroundColor))
         animation.fromValue = UIColor.lightGray.cgColor
@@ -180,61 +160,61 @@ final class ShimerViewCell: UITableViewCell {
         group.isRemovedOnCompletion = false
 
         if let previousGroup = previousGroup {
-            group.beginTime = previousGroup.beginTime + 0.33
+            group.beginTime = previousGroup.beginTime + Constants.valueTime
         }
         return group
     }
 }
 
-// MARK: - Layoyt
+// MARK: - ShimerViewCell + Constraints
 
-extension ShimerViewCell {
-    private func setupAnchorsUiViewBackground() {
+private extension ShimerViewCell {
+    func setupAnchorsUiViewBackground() {
         uiViewBackground.widthAnchor.constraint(equalToConstant: 338).isActive = true
         uiViewBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         uiViewBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         uiViewBackground.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 14).isActive = true
     }
 
-    private func setupAnchorsRecipeImageView() {
+    func setupAnchorsRecipeImageView() {
         recipeImageView.leadingAnchor.constraint(equalTo: uiViewBackground.leadingAnchor, constant: 10).isActive = true
         recipeImageView.topAnchor.constraint(equalTo: uiViewBackground.topAnchor, constant: 10).isActive = true
         recipeImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         recipeImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
     }
 
-    private func setupAnchorsTitleRecipe() {
+    func setupAnchorsTitleRecipe() {
         titleRecipe.topAnchor.constraint(equalTo: uiViewBackground.topAnchor, constant: 22).isActive = true
         titleRecipe.leadingAnchor.constraint(equalTo: recipeImageView.trailingAnchor, constant: 20).isActive = true
         titleRecipe.widthAnchor.constraint(equalToConstant: 200).isActive = true
         titleRecipe.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
-    private func setupAnchorsTimeLabel() {
+    func setupAnchorsTimeLabel() {
         timeLabel.leadingAnchor.constraint(equalTo: recipeImageView.trailingAnchor, constant: 20).isActive = true
         timeLabel.topAnchor.constraint(equalTo: titleRecipe.bottomAnchor, constant: 20).isActive = true
         timeLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         timeLabel.widthAnchor.constraint(equalToConstant: 74).isActive = true
     }
 
-    private func setupAnchorsTimerImageView() {
+    func setupAnchorsTimerImageView() {
         timerImageView.leadingAnchor.constraint(equalTo: recipeImageView.trailingAnchor, constant: 22).isActive = true
         timerImageView.topAnchor.constraint(equalTo: titleRecipe.bottomAnchor, constant: 19).isActive = true
     }
 
-    private func setupAnchorsPizzaImageView() {
+    func setupAnchorsPizzaImageView() {
         pizzaImageView.leadingAnchor.constraint(equalTo: timeLabel.trailingAnchor, constant: 37).isActive = true
         pizzaImageView.topAnchor.constraint(equalTo: titleRecipe.bottomAnchor, constant: 19).isActive = true
     }
 
-    private func setupAnchorsPizzaLabel() {
+    func setupAnchorsPizzaLabel() {
         pizzaLabel.leadingAnchor.constraint(equalTo: timeLabel.trailingAnchor, constant: 35).isActive = true
         pizzaLabel.topAnchor.constraint(equalTo: titleRecipe.bottomAnchor, constant: 20).isActive = true
         pizzaLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         pizzaLabel.widthAnchor.constraint(equalToConstant: 91).isActive = true
     }
 
-    private func setupAnchorsNextButton() {
+    func setupAnchorsNextButton() {
         nextButton.trailingAnchor.constraint(equalTo: uiViewBackground.trailingAnchor, constant: -16).isActive = true
         nextButton.topAnchor.constraint(equalTo: uiViewBackground.topAnchor, constant: 40).isActive = true
     }

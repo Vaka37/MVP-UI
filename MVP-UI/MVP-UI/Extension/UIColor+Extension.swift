@@ -5,8 +5,12 @@ import UIKit
 
 /// Расширение доступа к цветам
 extension UIColor {
+    /// Словарь с названием и цветом
     static var colorStoreMap: [String: UIColor] = [:]
 
+    /// - Parameter red, green, blue: цвета
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func rgba(
         _ red: CGFloat,
         _ green: CGFloat,
@@ -28,6 +32,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка черного цвета
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func blackColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -39,6 +46,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета для иконок tabBar
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func selectedIconTabBarColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -50,6 +60,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета заднего фона описания
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func backgroundDescriptionColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -61,6 +74,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета заднего фона категорий
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func backgroundNameCategoryColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -72,6 +88,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета для кнопки входа
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func logInButtonColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -83,6 +102,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета для кнопки категорий
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func shadowButtonCategoryColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 
@@ -94,6 +116,9 @@ extension UIColor {
         return color
     }
 
+    /// Настройка цвета для фона всплывающего окна предупреждения
+    /// - Parameter alpha: прозрачность
+    /// - Returns: готовый цвет
     class func splashColor(alpha: CGFloat) -> UIColor {
         let key = "\(alpha)"
 

@@ -204,7 +204,7 @@ final class AutorizationViewController: UIViewController {
     }
 }
 
-// MARK: - Layoyt
+// MARK: - AutorizationViewController + Constraints
 
 extension AutorizationViewController {
     private func makeLoginLabelAnchor() {

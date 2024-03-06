@@ -10,7 +10,6 @@ final class DescriptionCell: UITableViewCell {
     private enum Constants {
         static let fontVerdana = "Verdana"
         static let topGradientColor = UIColor.backgroundDescription
-//        static let topGradientColor = UIColor.backgroundDescriptionColor()
         static let bottomGradientColor = UIColor.white
     }
 
@@ -73,7 +72,6 @@ final class DescriptionCell: UITableViewCell {
         gradient.frame = bacgroundDescription.bounds
         gradient.cornerRadius = 24
         gradient.colors = [Constants.topGradientColor.cgColor, Constants.bottomGradientColor.cgColor]
-//        gradient.colors = [Constants.topGradientColor, Constants.bottomGradientColor.cgColor]
         bacgroundDescription.layer.insertSublayer(gradient, at: 0)
     }
 

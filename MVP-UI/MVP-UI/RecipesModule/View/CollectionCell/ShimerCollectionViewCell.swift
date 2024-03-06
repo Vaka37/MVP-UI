@@ -18,26 +18,18 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
     // MARK: - Private Properties
 
     private var modelCategory: Category?
-    var categoryLayer: CAGradientLayer?
+    private var categoryLayer: CAGradientLayer?
 
     // MARK: - Visual Components
 
-    private lazy var categoryButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var nameCategoryLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private lazy var categoryButton = UIButton()
+    private lazy var nameCategoryLabel = UILabel()
 
     // MARK: - Initializers
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        setupTamic()
         addSubview()
         setupConstraints()
     }
@@ -45,6 +37,7 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupTamic()
         addSubview()
         setupConstraints()
     }
@@ -57,6 +50,11 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - Private Methods
+
+    private func setupTamic() {
+        categoryButton.translatesAutoresizingMaskIntoConstraints = false
+        nameCategoryLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 
     private func addGradient() {
         let gradientBackground = CAGradientLayer()

@@ -93,7 +93,7 @@ final class UserProfileViewController: UIViewController {
     }
 }
 
-// MARK: - Подписываюсь на Data Source для таблицы
+// MARK: - UserProfileViewController + UITableViewDataSource
 
 extension UserProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -138,7 +138,7 @@ extension UserProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Подписываюсь на Delegate для таблицы
+// MARK: - UserProfileViewController + UITableViewDelegate
 
 extension UserProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -164,7 +164,7 @@ extension UserProfileViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - Подписываюконтроллер на протокол
+// MARK: - UserProfileViewController + UserProfileViewInputProtocol
 
 extension UserProfileViewController: UserProfileViewInputProtocol {
     func showTermsPrivacyPolicy() {

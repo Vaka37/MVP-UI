@@ -23,6 +23,7 @@ final class RecipesViewController: UIViewController {
         static let widthMediumCell: CGFloat = 30
         static let heightMediumCell: CGFloat = 30
         static let basicSizeCell: CGFloat = 50
+        static let timeChangeShimerState: CGFloat = 2
     }
 
     // MARK: - Public Properties
@@ -33,7 +34,7 @@ final class RecipesViewController: UIViewController {
     // MARK: - Private Properties
 
     private var stateShimer = StateShimer.loading
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     private let layout = UICollectionViewFlowLayout()
     private let categoryLayer = CAGradientLayer()
 
@@ -169,9 +170,11 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - RecipesViewController + CategoryViewInputProtocol
+
 extension RecipesViewController: CategoryViewInputProtocol {
     func changeShimerState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.timeChangeShimerState) {
             self.stateShimer = .done
             self.collectionView.reloadData()
         }
