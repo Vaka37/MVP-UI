@@ -29,6 +29,16 @@ protocol RecipeProtocol: AnyObject {
 
 /// Презентер экрана рецептов
 final class RecipePresenter {
+    // MARK: - Constants
+
+    enum Constants {
+        static let buttonSortedPressed = "buttonSortedPressed"
+        static let backgroundDescription = "backgroundDescription"
+        static let fitredLow = "fitredLow"
+        static let sortedHigh = "sortedHigh"
+        static let filterIcon = "filterIcon"
+    }
+
     // MARK: - Private Properties
 
     private weak var detailsRecipeCoordinator: RecipesCoordinator?
@@ -51,15 +61,15 @@ final class RecipePresenter {
     func buttonCaloriesChange(category: [Recipe]) {
         if sortedCalories == .non {
             sortedCalories = .caloriesLow
-            view?.buttonCaloriesState(color: "buttonSortedPressed", image: "fitredLow")
+            view?.buttonCaloriesState(color: Constants.buttonSortedPressed, image: Constants.fitredLow)
             sortedRecipe(category: category)
         } else if sortedCalories == .caloriesLow {
             sortedCalories = .caloriesHigh
-            view?.buttonCaloriesState(color: "buttonSortedPressed", image: "sortedHigh")
+            view?.buttonCaloriesState(color: Constants.buttonSortedPressed, image: Constants.sortedHigh)
             sortedRecipe(category: category)
         } else if sortedCalories == .caloriesHigh {
             sortedCalories = .non
-            view?.buttonCaloriesState(color: "backgroundDescription", image: "filterIcon")
+            view?.buttonCaloriesState(color: Constants.backgroundDescription, image: Constants.filterIcon)
             sortedRecipe(category: category)
         }
     }
@@ -68,15 +78,15 @@ final class RecipePresenter {
     func buttonTimeChange(category: [Recipe]) {
         if sortedTime == .non {
             sortedTime = .timeLow
-            view?.buttonTimeState(color: "buttonSortedPressed", image: "fitredLow")
+            view?.buttonTimeState(color: Constants.buttonSortedPressed, image: Constants.fitredLow)
             sortedRecipe(category: category)
         } else if sortedTime == .timeLow {
-            view?.buttonTimeState(color: "buttonSortedPressed", image: "sortedHigh")
+            view?.buttonTimeState(color: Constants.buttonSortedPressed, image: Constants.sortedHigh)
             sortedTime = .timeHigh
             sortedRecipe(category: category)
         } else if sortedTime == .timeHigh {
             sortedTime = .non
-            view?.buttonTimeState(color: "backgroundDescription", image: "filterIcon")
+            view?.buttonTimeState(color: Constants.backgroundDescription, image: Constants.filterIcon)
             sortedRecipe(category: category)
         }
     }

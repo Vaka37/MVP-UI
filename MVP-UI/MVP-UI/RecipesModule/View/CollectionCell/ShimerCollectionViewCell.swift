@@ -19,6 +19,8 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
 
     private var modelCategory: Category?
     private var categoryLayer: CAGradientLayer?
+    private let gradientBackground = CAGradientLayer()
+    private let gradientTitle = CAGradientLayer()
 
     // MARK: - Visual Components
 
@@ -47,6 +49,8 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: self.layer)
         addGradient()
+        setupGradientBackground()
+        setupGradientTitle()
     }
 
     // MARK: - Private Methods
@@ -56,23 +60,25 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
         nameCategoryLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func addGradient() {
-        let gradientBackground = CAGradientLayer()
+    private func setupGradientBackground() {
         gradientBackground.startPoint = CGPoint(x: 0, y: 0.5)
         gradientBackground.endPoint = CGPoint(x: 1, y: 0.5)
         gradientBackground.frame = contentView.bounds
         gradientBackground.cornerRadius = 12
         categoryButton.layer.addSublayer(gradientBackground)
+    }
 
-        let viewBackgroundGroup = makeAnimation()
-        viewBackgroundGroup.beginTime = 0.0
-        gradientBackground.add(viewBackgroundGroup, forKey: Constants.gradientKey)
-
-        let gradientTitle = CAGradientLayer()
+    private func setupGradientTitle() {
         gradientTitle.startPoint = CGPoint(x: 0, y: 0.5)
         gradientTitle.endPoint = CGPoint(x: 1, y: 0.5)
         gradientTitle.frame = nameCategoryLabel.bounds
         nameCategoryLabel.layer.addSublayer(gradientTitle)
+    }
+
+    private func addGradient() {
+        let viewBackgroundGroup = makeAnimation()
+        viewBackgroundGroup.beginTime = 0.0
+        gradientBackground.add(viewBackgroundGroup, forKey: Constants.gradientKey)
 
         let titleGroup = makeAnimation(previousGroup: viewBackgroundGroup)
         gradientTitle.add(titleGroup, forKey: Constants.gradientKey)

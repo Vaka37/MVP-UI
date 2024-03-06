@@ -30,6 +30,14 @@ final class ShimerViewCell: UITableViewCell {
     private let pizzaLabel = UILabel()
     public let nextButton = UIButton()
 
+    // MARK: - Private Properties
+
+    private let gradientBackground = CAGradientLayer()
+    private let gradientImage = CAGradientLayer()
+    private let gradientTitle = CAGradientLayer()
+    private let gradientTimelabel = CAGradientLayer()
+    private let gradientPizzalabel = CAGradientLayer()
+
     // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -52,6 +60,11 @@ final class ShimerViewCell: UITableViewCell {
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: self.layer)
         addGradient()
+        setupGradiBackground()
+        setupGradientImage()
+        setupGradientTitle()
+        setupGradientTimelabel()
+        setupGradientPizzalabel()
     }
 
     // MARK: - Private Methods
@@ -88,51 +101,56 @@ final class ShimerViewCell: UITableViewCell {
         setupAnchorsNextButton()
     }
 
-    private func addGradient() {
-        let gradientBackground = CAGradientLayer()
+    private func setupGradiBackground() {
         gradientBackground.startPoint = CGPoint(x: 0, y: 0.5)
         gradientBackground.endPoint = CGPoint(x: 1, y: 0.5)
         gradientBackground.frame = uiViewBackground.bounds
         gradientBackground.cornerRadius = 12
         uiViewBackground.layer.addSublayer(gradientBackground)
+    }
 
-        let viewBackgroundGroup = makeAnimation()
-        viewBackgroundGroup.beginTime = 0.0
-        gradientBackground.add(viewBackgroundGroup, forKey: Constants.gradientKey)
-
-        let gradientImage = CAGradientLayer()
+    private func setupGradientImage() {
         gradientImage.startPoint = CGPoint(x: 0, y: 0.5)
         gradientImage.endPoint = CGPoint(x: 1, y: 0.5)
         gradientImage.cornerRadius = 12
         gradientImage.frame = recipeImageView.bounds
         recipeImageView.layer.addSublayer(gradientImage)
+    }
 
-        let imageGroup = makeAnimation(previousGroup: viewBackgroundGroup)
-        gradientImage.add(imageGroup, forKey: Constants.gradientKey)
-
-        let gradientTitle = CAGradientLayer()
+    private func setupGradientTitle() {
         gradientTitle.startPoint = CGPoint(x: 0, y: 0.5)
         gradientTitle.endPoint = CGPoint(x: 1, y: 0.5)
         gradientTitle.frame = titleRecipe.bounds
         titleRecipe.layer.addSublayer(gradientTitle)
+    }
 
-        let titleGroup = makeAnimation(previousGroup: viewBackgroundGroup)
-        gradientTitle.add(titleGroup, forKey: Constants.gradientKey)
-
-        let gradientTimelabel = CAGradientLayer()
+    private func setupGradientTimelabel() {
         gradientTimelabel.startPoint = CGPoint(x: 1, y: 0.5)
         gradientTimelabel.endPoint = CGPoint(x: 0, y: 0.5)
         gradientTimelabel.frame = timeLabel.bounds
         timeLabel.layer.addSublayer(gradientTimelabel)
+    }
 
-        let timeGroup = makeAnimation(previousGroup: viewBackgroundGroup)
-        gradientTimelabel.add(timeGroup, forKey: Constants.gradientKey)
-
-        let gradientPizzalabel = CAGradientLayer()
+    private func setupGradientPizzalabel() {
         gradientPizzalabel.startPoint = CGPoint(x: 1, y: 0.5)
         gradientPizzalabel.endPoint = CGPoint(x: 0, y: 0.5)
         gradientPizzalabel.frame = pizzaLabel.bounds
         pizzaLabel.layer.addSublayer(gradientPizzalabel)
+    }
+
+    private func addGradient() {
+        let viewBackgroundGroup = makeAnimation()
+        viewBackgroundGroup.beginTime = 0.0
+        gradientBackground.add(viewBackgroundGroup, forKey: Constants.gradientKey)
+
+        let imageGroup = makeAnimation(previousGroup: viewBackgroundGroup)
+        gradientImage.add(imageGroup, forKey: Constants.gradientKey)
+
+        let titleGroup = makeAnimation(previousGroup: viewBackgroundGroup)
+        gradientTitle.add(titleGroup, forKey: Constants.gradientKey)
+
+        let timeGroup = makeAnimation(previousGroup: viewBackgroundGroup)
+        gradientTimelabel.add(timeGroup, forKey: Constants.gradientKey)
 
         let pizzaGroup = makeAnimation(previousGroup: viewBackgroundGroup)
         gradientPizzalabel.add(pizzaGroup, forKey: Constants.gradientKey)
