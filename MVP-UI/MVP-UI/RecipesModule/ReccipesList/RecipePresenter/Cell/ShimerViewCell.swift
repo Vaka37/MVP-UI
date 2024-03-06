@@ -5,9 +5,8 @@ import UIKit
 
 /// Ячейка с шимером
 final class ShimerViewCell: UITableViewCell {
-    
     // MARK: - Constants
-    
+
     private enum Constants {
         static let gradientKey = "shimerCell"
     }

@@ -20,9 +20,6 @@ final class UserProfilePresenter {
     private weak var userCoordinator: UserProfileCoordinator?
     private weak var view: UserProfileViewInputProtocol?
     private var user: ProfileHeaderCellSource?
-    private var animator: UIViewPropertyAnimator?
-//    private var userProfileViewController: UserProfileViewController?
-    private var termsPrivatePolicyViewController: TermsPrivatePolicyViewController?
 
     init(view: UserProfileViewInputProtocol?, userCoordinator: UserProfileCoordinator) {
         self.view = view
@@ -47,43 +44,7 @@ extension UserProfilePresenter: UserProfilePresenterInputProtocol {
         case 0:
             view?.showBonusView()
         case 1:
-            let termsPrivatePolicyViewController = TermsPrivatePolicyViewController()
-            let visualEffect = UIVisualEffectView()
-            animator = UIViewPropertyAnimator(duration: 0.9, curve: .easeInOut, animations: { [weak self] in
-                visualEffect.alpha = 0.5
-            })
-            if let propertyAnimator = animator, let view = termsPrivatePolicyViewController.view {
-                animator = propertyAnimator
-                self.view?.showTermsPrivacyPolicy(
-                    withAnimator: propertyAnimator,
-                    animatorEffect: visualEffect,
-                    view: view,
-                    termsPrivacyPolicyViewController: termsPrivatePolicyViewController
-                )
-
-                let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-                panGesture.isEnabled = true
-                panGesture.cancelsTouchesInView = false
-            }
-        default:
-            break
-        }
-    }
-
-    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-        switch gesture.state {
-        case .changed:
-            let translation = gesture.translation(in: termsPrivatePolicyViewController?.view)
-            let progress = translation.y / ((termsPrivatePolicyViewController?.view.bounds.height ?? 0) / 2)
-            animator?.fractionComplete = min(max(progress, 0), 1)
-        case .ended:
-            let velocity = gesture.velocity(in: termsPrivatePolicyViewController?.view)
-            if velocity.y > 0 {
-                animator?.isReversed = true
-            } else {
-                animator?.isReversed = false
-            }
-            animator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+            view?.showTermsPrivacyPolicy()
         default:
             break
         }

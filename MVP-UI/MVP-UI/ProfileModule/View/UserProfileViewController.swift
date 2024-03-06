@@ -14,12 +14,7 @@ protocol UserProfileViewInputProtocol: AnyObject {
     ///  Метод для показа бонус-контролерра
     func showBonusView()
     /// Метод для показа политики конфиденциальности
-    func showTermsPrivacyPolicy(
-        withAnimator animator: UIViewPropertyAnimator,
-        animatorEffect: UIVisualEffectView,
-        view: UIView,
-        termsPrivacyPolicyViewController: TermsPrivatePolicyViewController
-    )
+    func showTermsPrivacyPolicy()
 }
 
 /// Экран с информацией о пользователе
@@ -46,7 +41,8 @@ final class UserProfileViewController: UIViewController {
     // MARK: - Private Properties
 
     private var rowTypes: [ProfileItem]?
-    private var termsPrivacyPolicyViewController: TermsPrivatePolicyViewController?
+    private var termsPrivacyPolicyView: TermsPrivatePolicyView?
+    private var visualEffectView: UIVisualEffectView?
 
     // MARK: - Life Cycle
 
@@ -171,35 +167,38 @@ extension UserProfileViewController: UITableViewDelegate {
 // MARK: - Подписываюконтроллер на протокол
 
 extension UserProfileViewController: UserProfileViewInputProtocol {
-    func showTermsPrivacyPolicy(
-        withAnimator animator: UIViewPropertyAnimator,
-        animatorEffect: UIVisualEffectView,
-        view: UIView,
-        termsPrivacyPolicyViewController: TermsPrivatePolicyViewController
-    ) {
-        view.addSubview(animatorEffect)
+    func showTermsPrivacyPolicy() {
+        termsPrivacyPolicyView = TermsPrivatePolicyView(frame: CGRect(
+            x: 0,
+            y: view.frame.height - 300,
+            width: view.bounds.width,
+            height: view.bounds.height
+        ))
+        visualEffectView = UIVisualEffectView(frame: view.frame)
+        guard let visualEffectView = visualEffectView else { return }
+        view.addSubview(visualEffectView)
+        let blurAnimator = UIViewPropertyAnimator(duration: 1, dampingRatio: 1) {
+            self.visualEffectView?.effect = UIBlurEffect(style: .extraLight)
+        }
+        blurAnimator.startAnimation()
+        let connectedScenes = UIApplication.shared.connectedScenes
+        let windowScene = connectedScenes.first as? UIWindowScene
 
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-        termsPrivacyPolicyViewController.view.addGestureRecognizer(panGesture)
+        UIView.animate(withDuration: 2) {
+            windowScene?.windows.last?.addSubview(self.termsPrivacyPolicyView ?? TermsPrivatePolicyView())
+        }
 
-        animator.startAnimation()
-
-        present(termsPrivacyPolicyViewController, animated: true, completion: nil)
-    }
-
-    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
-
-        switch gesture.state {
-        case .changed:
-            termsPrivacyPolicyViewController?.view.center = CGPoint(
-                x: (termsPrivacyPolicyViewController?.view.center.x ?? 200) + translation.x,
-                y: (termsPrivacyPolicyViewController?.view.center.y ?? 350) + translation.y
-            )
-            gesture.setTranslation(CGPoint.zero, in: view)
-
-        default:
-            break
+        termsPrivacyPolicyView?.handler = { [weak self] in
+            self?.visualEffectView?.isUserInteractionEnabled = false
+            let blurAnimation = UIViewPropertyAnimator(duration: 1, dampingRatio: 1) {
+                self?.visualEffectView?.effect = nil
+            }
+            blurAnimator.startAnimation()
+            self?.visualEffectView?.isUserInteractionEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self?.termsPrivacyPolicyView?.removeFromSuperview()
+                blurAnimator.stopAnimation(true)
+            }
         }
     }
 
