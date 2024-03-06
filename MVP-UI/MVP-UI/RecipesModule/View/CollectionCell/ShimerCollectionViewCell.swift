@@ -24,20 +24,12 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
 
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = Constants.valueCornerRadius
-        button.contentMode = .scaleAspectFit
-        button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
     private lazy var nameCategoryLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.backgroundColor = .backgroundNameCategory
-        label.textAlignment = .center
-        label.contentMode = .scaleAspectFit
-        label.clipsToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -81,7 +73,7 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
         let gradientTitle = CAGradientLayer()
         gradientTitle.startPoint = CGPoint(x: 0, y: 0.5)
         gradientTitle.endPoint = CGPoint(x: 1, y: 0.5)
-        gradientTitle.frame = nameCategoryLabel.frame
+        gradientTitle.frame = nameCategoryLabel.bounds
         nameCategoryLabel.layer.addSublayer(gradientTitle)
 
         let titleGroup = makeAnimation(previousGroup: viewBackgroundGroup)
@@ -97,21 +89,18 @@ final class ShimerCollectionViewCell: UICollectionViewCell {
         animation.duration = animDuration
         animation.beginTime = 0.0
 
-        let animation2 = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.backgroundColor))
-        animation2.fromValue = UIColor.white.cgColor
-        animation2.toValue = UIColor.lightGray.cgColor
-        animation2.duration = animDuration
-        animation2.beginTime = animation.beginTime + animation2.duration
+        let secondAnimation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.backgroundColor))
+        secondAnimation.fromValue = UIColor.white.cgColor
+        secondAnimation.toValue = UIColor.lightGray.cgColor
+        secondAnimation.duration = animDuration
+        secondAnimation.beginTime = animation.beginTime + secondAnimation.duration
 
         let group = CAAnimationGroup()
-        group.animations = [animation, animation2]
+        group.animations = [animation, secondAnimation]
         group.repeatCount = .greatestFiniteMagnitude
-        group.duration = animation2.beginTime + animation.duration
+        group.duration = secondAnimation.beginTime + animation.duration
         group.isRemovedOnCompletion = false
 
-        if let previousGroup = previousGroup {
-            group.beginTime = previousGroup.beginTime + 0.33
-        }
         return group
     }
 

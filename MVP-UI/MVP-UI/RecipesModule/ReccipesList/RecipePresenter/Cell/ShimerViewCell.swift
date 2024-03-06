@@ -165,16 +165,16 @@ final class ShimerViewCell: UITableViewCell {
         animation.duration = animDuration
         animation.beginTime = 0.0
 
-        let animation2 = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.backgroundColor))
-        animation2.fromValue = UIColor.white.cgColor
-        animation2.toValue = UIColor.lightGray.cgColor
-        animation2.duration = animDuration
-        animation2.beginTime = animation.beginTime + animation2.duration
+        let secondAnimation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.backgroundColor))
+        secondAnimation.fromValue = UIColor.white.cgColor
+        secondAnimation.toValue = UIColor.lightGray.cgColor
+        secondAnimation.duration = animDuration
+        secondAnimation.beginTime = animation.beginTime + secondAnimation.duration
 
         let group = CAAnimationGroup()
-        group.animations = [animation, animation2]
+        group.animations = [animation, secondAnimation]
         group.repeatCount = .greatestFiniteMagnitude
-        group.duration = animation2.beginTime + animation.duration
+        group.duration = secondAnimation.beginTime + animation.duration
         group.isRemovedOnCompletion = false
 
         if let previousGroup = previousGroup {
