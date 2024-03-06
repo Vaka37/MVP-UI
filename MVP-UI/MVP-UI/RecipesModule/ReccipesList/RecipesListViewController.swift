@@ -17,6 +17,7 @@ final class RecipesListViewController: UIViewController {
         static let timeButtonTitle = "Time"
         static let valueToStartSearch: CGFloat = 2
         static let changeShimerState: CGFloat = 2
+        static let valueSearchText = 2
     }
 
     // MARK: - Visual Components
@@ -244,7 +245,7 @@ extension RecipesListViewController: RecipesViewProtocol {
 
 extension RecipesListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count > 2 {
+        if searchText.count > Constants.valueSearchText {
             let searchFiltered = recipes?.recepies
                 .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
             recipes?.recepies = searchFiltered ?? []

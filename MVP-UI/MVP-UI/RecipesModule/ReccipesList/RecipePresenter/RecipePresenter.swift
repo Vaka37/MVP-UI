@@ -59,15 +59,16 @@ final class RecipePresenter {
 
     /// Метод меняющий состояниие кнопки калориев
     func buttonCaloriesChange(category: [Recipe]) {
-        if sortedCalories == .non {
+        switch sortedCalories {
+        case .non:
             sortedCalories = .caloriesLow
             view?.buttonCaloriesState(color: Constants.buttonSortedPressed, image: Constants.fitredLow)
             sortedRecipe(category: category)
-        } else if sortedCalories == .caloriesLow {
+        case .caloriesLow:
             sortedCalories = .caloriesHigh
             view?.buttonCaloriesState(color: Constants.buttonSortedPressed, image: Constants.sortedHigh)
             sortedRecipe(category: category)
-        } else if sortedCalories == .caloriesHigh {
+        case .caloriesHigh:
             sortedCalories = .non
             view?.buttonCaloriesState(color: Constants.backgroundDescription, image: Constants.filterIcon)
             sortedRecipe(category: category)
@@ -76,15 +77,16 @@ final class RecipePresenter {
 
     /// Метод меняющий состояниие кнопки таймера
     func buttonTimeChange(category: [Recipe]) {
-        if sortedTime == .non {
+        switch sortedTime {
+        case .non:
             sortedTime = .timeLow
             view?.buttonTimeState(color: Constants.buttonSortedPressed, image: Constants.fitredLow)
             sortedRecipe(category: category)
-        } else if sortedTime == .timeLow {
+        case .timeLow:
             view?.buttonTimeState(color: Constants.buttonSortedPressed, image: Constants.sortedHigh)
             sortedTime = .timeHigh
             sortedRecipe(category: category)
-        } else if sortedTime == .timeHigh {
+        case .timeHigh:
             sortedTime = .non
             view?.buttonTimeState(color: Constants.backgroundDescription, image: Constants.filterIcon)
             sortedRecipe(category: category)

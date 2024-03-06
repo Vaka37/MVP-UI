@@ -28,6 +28,7 @@ final class UserProfileViewController: UIViewController {
         static let cancelAlertButton = "Cancel"
         static let placeholderAlert = "Name Surname"
         static let doneButton = "Ok"
+        static let timer: CGFloat = 2
     }
 
     // MARK: - Visual Components
@@ -170,7 +171,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
     func showTermsPrivacyPolicy() {
         termsPrivacyPolicyView = TermsPrivatePolicyView(frame: CGRect(
             x: 0,
-            y: view.frame.height - 300,
+            y: view.frame.height - 500,
             width: view.bounds.width,
             height: view.bounds.height
         ))
@@ -195,7 +196,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
             }
             blurAnimator.startAnimation()
             self?.visualEffectView?.isUserInteractionEnabled = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.timer) {
                 self?.termsPrivacyPolicyView?.removeFromSuperview()
                 blurAnimator.stopAnimation(true)
             }
