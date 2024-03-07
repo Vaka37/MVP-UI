@@ -57,15 +57,14 @@ extension AutorizationPresenter: AutorizationProtocol {
         guard let login = login else { return }
         guard let password = password else { return }
         if password.count < Constants.value {
-            goToMainTabBarScreen()
-            // Здесь идет проверка пароля на валидность
-//            view?.showSpashScreenOn()
-//            view?.setTitleColorPassword(color: "splashColor", isValidatePassword: false)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                self.view?.showSpashScreenOff()
-//            }
+            view?.showSpashScreenOn()
+            view?.setTitleColorPassword(color: "splashColor", isValidatePassword: false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.view?.showSpashScreenOff()
+            }
             return
         } else {
+            goToMainTabBarScreen()
             view?.setTitleColorPassword(
                 color: Constants.color,
                 isValidatePassword: true

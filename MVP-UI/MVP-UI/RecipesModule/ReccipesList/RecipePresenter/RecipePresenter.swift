@@ -101,6 +101,64 @@ extension RecipePresenter: RecipeProtocol {
         view?.changeShimerState()
     }
 
+    func sortedCaloriesLow(items: [Recipe]) -> [Recipe] {
+        if sortedTime == .timeLow {
+            return items.sorted(by: { lhs, rhs in
+                if lhs.caloriesTitle == rhs.caloriesTitle {
+                    return lhs.cookingTimeTitle < rhs.cookingTimeTitle
+                }
+                return lhs.caloriesTitle < rhs.caloriesTitle
+            })
+        } else if sortedTime == .timeHigh {
+            return items.sorted(by: { lhs, rhs in
+                if lhs.caloriesTitle == rhs.caloriesTitle {
+                    return lhs.cookingTimeTitle > rhs.cookingTimeTitle
+                }
+                return lhs.caloriesTitle < rhs.caloriesTitle
+            })
+        } else {
+            return items.sorted(by: { $0.caloriesTitle < $1.caloriesTitle })
+        }
+    }
+
+    func sortedCaloriesHigh(items: [Recipe]) -> [Recipe] {
+        if sortedTime == .timeLow {
+            return items.sorted(by: { lhs, rhs in
+                if lhs.caloriesTitle == rhs.caloriesTitle {
+                    return lhs.cookingTimeTitle > rhs.cookingTimeTitle
+                }
+                return lhs.caloriesTitle > rhs.caloriesTitle
+            })
+        } else if sortedTime == .timeHigh {
+            return items.sorted(by: { lhs, rhs in
+                if lhs.caloriesTitle == rhs.caloriesTitle {
+                    return lhs.cookingTimeTitle < rhs.cookingTimeTitle
+                }
+                return lhs.caloriesTitle > rhs.caloriesTitle
+            })
+        } else {
+            return items.sorted(by: { $0.caloriesTitle > $1.caloriesTitle })
+        }
+    }
+
+    func sortedTimeLow(items: [Recipe]) -> [Recipe] {
+        items.sorted(by: { lhs, rhs in
+            if lhs.cookingTimeTitle == rhs.cookingTimeTitle {
+                return lhs.caloriesTitle < rhs.caloriesTitle
+            }
+            return lhs.cookingTimeTitle < rhs.cookingTimeTitle
+        })
+    }
+
+    func sortedTimeHigh(items: [Recipe]) -> [Recipe] {
+        items.sorted(by: { lhs, rhs in
+            if lhs.cookingTimeTitle == rhs.cookingTimeTitle {
+                return lhs.caloriesTitle < rhs.caloriesTitle
+            }
+            return lhs.cookingTimeTitle > rhs.cookingTimeTitle
+        })
+    }
+
     func sortedRecipe(category: [Recipe]) {
         let defaultRecipes = self.category.recepies
         var sorted = category
@@ -109,59 +167,16 @@ extension RecipePresenter: RecipeProtocol {
             sorted = defaultRecipes
             view?.sortedRecip(recipe: sorted)
         case (.caloriesLow, _):
-            if sortedTime == .timeLow {
-                sorted = category.sorted(by: { lhs, rhs in
-                    if lhs.caloriesTitle == rhs.caloriesTitle {
-                        return lhs.cookingTimeTitle < rhs.cookingTimeTitle
-                    }
-                    return lhs.caloriesTitle < rhs.caloriesTitle
-                })
-            } else if sortedTime == .timeHigh {
-                sorted = category.sorted(by: { lhs, rhs in
-                    if lhs.caloriesTitle == rhs.caloriesTitle {
-                        return lhs.cookingTimeTitle > rhs.cookingTimeTitle
-                    }
-                    return lhs.caloriesTitle < rhs.caloriesTitle
-                })
-            } else {
-                sorted = category.sorted(by: { $0.caloriesTitle < $1.caloriesTitle })
-            }
+            sorted = sortedCaloriesLow(items: category)
             view?.sortedRecip(recipe: sorted)
         case (.caloriesHigh, _):
-            if sortedTime == .timeLow {
-                sorted = category.sorted(by: { lhs, rhs in
-                    if lhs.caloriesTitle == rhs.caloriesTitle {
-                        return lhs.cookingTimeTitle > rhs.cookingTimeTitle
-                    }
-                    return lhs.caloriesTitle > rhs.caloriesTitle
-                })
-            } else if sortedTime == .timeHigh {
-                sorted = category.sorted(by: { lhs, rhs in
-                    if lhs.caloriesTitle == rhs.caloriesTitle {
-                        return lhs.cookingTimeTitle < rhs.cookingTimeTitle
-                    }
-                    return lhs.caloriesTitle > rhs.caloriesTitle
-                })
-            } else {
-                sorted = category.sorted(by: { $0.caloriesTitle > $1.caloriesTitle })
-            }
+            sorted = sortedCaloriesHigh(items: sorted)
             view?.sortedRecip(recipe: sorted)
         case (_, .timeLow):
-            sorted = category.sorted(by: { lhs, rhs in
-                if lhs.cookingTimeTitle == rhs.cookingTimeTitle {
-                    return lhs.caloriesTitle < rhs.caloriesTitle
-                }
-                return lhs.cookingTimeTitle < rhs.cookingTimeTitle
-            })
+            sorted = sortedTimeLow(items: sorted)
             view?.sortedRecip(recipe: sorted)
         case (_, .timeHigh):
-            sorted = category.sorted(by: { lhs, rhs in
-                if lhs.cookingTimeTitle == rhs.cookingTimeTitle {
-                    return lhs.caloriesTitle < rhs.caloriesTitle
-                }
-                return lhs.cookingTimeTitle > rhs.cookingTimeTitle
-            })
-            sorted = category.sorted(by: { $0.cookingTimeTitle > $1.cookingTimeTitle })
+            sorted = sortedTimeHigh(items: sorted)
             view?.sortedRecip(recipe: sorted)
         }
     }
