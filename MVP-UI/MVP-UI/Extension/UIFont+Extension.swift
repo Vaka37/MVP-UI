@@ -19,7 +19,7 @@ extension UIFont {
         if let customFont = UIFont(name: Constants.fontVerdana, size: size) {
             return customFont
         }
-        return UIFont.systemFont(ofSize: size)
+        return systemFont(ofSize: size)
     }
 
     /// Настройка шрифта Verdana-Bold
@@ -29,6 +29,10 @@ extension UIFont {
         if let customFont = UIFont(name: Constants.fontVerdanaBold, size: size) {
             return customFont
         }
-        return UIFont.systemFont(ofSize: size)
+        return systemFont(ofSize: size)
+    }
+
+    private func systemFont(ofSize: CGFloat) -> UIFont {
+        UIFont.systemFont(ofSize: ofSize)
     }
 }

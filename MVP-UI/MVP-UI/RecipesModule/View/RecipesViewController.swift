@@ -42,6 +42,7 @@ final class RecipesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.requestDataCategory()
         addSubview()
         makeCollectionView()
         makeNavigationBar()
@@ -49,7 +50,6 @@ final class RecipesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter?.requestDataCategory()
         tabBarController?.tabBar.isHidden = false
     }
 
