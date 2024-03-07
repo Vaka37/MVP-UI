@@ -40,8 +40,14 @@ extension UserProfilePresenter: UserProfilePresenterInputProtocol {
     }
 
     func tapSelectItem(index: Int) {
-        guard index == 0 else { return }
-        view?.showBonusView()
+        switch index {
+        case 0:
+            view?.showBonusView()
+        case 1:
+            view?.showTermsPrivacyPolicy()
+        default:
+            break
+        }
     }
 
     func requestUser() {

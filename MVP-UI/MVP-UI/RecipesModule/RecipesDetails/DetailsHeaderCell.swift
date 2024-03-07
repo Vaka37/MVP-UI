@@ -38,7 +38,7 @@ final class DetailsHeaderCell: UITableViewCell {
 
     private let backgroundPortionView: UIView = {
         let view = UIView()
-        view.backgroundColor = .selectedIconTabBar
+        view.backgroundColor = UIColor.selectedIconTabBarColor(alpha: 0.85)
         view.alpha = 0.85
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -124,7 +124,7 @@ final class DetailsHeaderCell: UITableViewCell {
         nameRecipeLabel.text = info.titleRecipies
         foodImageView.image = UIImage(named: info.avatarRecipie)
         portionWeightLabel.text = info.portionWeight
-        cookingTimeLabel.text = info.cookingTimeTitle + Constants.indent + Constants.titleMinutesTime
+        cookingTimeLabel.text = "\(info.cookingTimeTitle)" + Constants.indent + Constants.titleMinutesTime
     }
 
     // MARK: - Private Methods

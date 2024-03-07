@@ -13,6 +13,8 @@ protocol UserProfileViewInputProtocol: AnyObject {
     func setTitleNameUser(name: String)
     ///  Метод для показа бонус-контролерра
     func showBonusView()
+    /// Метод для показа политики конфиденциальности
+    func showTermsPrivacyPolicy()
 }
 
 /// Экран с информацией о пользователе
@@ -26,6 +28,7 @@ final class UserProfileViewController: UIViewController {
         static let cancelAlertButton = "Cancel"
         static let placeholderAlert = "Name Surname"
         static let doneButton = "Ok"
+        static let timer: CGFloat = 2
     }
 
     // MARK: - Visual Components
@@ -39,6 +42,8 @@ final class UserProfileViewController: UIViewController {
     // MARK: - Private Properties
 
     private var rowTypes: [ProfileItem]?
+    private var termsPrivacyPolicyView: TermsPrivatePolicyView?
+    private var visualEffectView: UIVisualEffectView?
 
     // MARK: - Life Cycle
 
@@ -89,7 +94,7 @@ final class UserProfileViewController: UIViewController {
     }
 }
 
-// MARK: - Подписываюсь на Data Source для таблицы
+// MARK: - UserProfileViewController + UITableViewDataSource
 
 extension UserProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -134,7 +139,7 @@ extension UserProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Подписываюсь на Delegate для таблицы
+// MARK: - UserProfileViewController + UITableViewDelegate
 
 extension UserProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -160,9 +165,44 @@ extension UserProfileViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - Подписываюконтроллер на протокол
+// MARK: - UserProfileViewController + UserProfileViewInputProtocol
 
 extension UserProfileViewController: UserProfileViewInputProtocol {
+    func showTermsPrivacyPolicy() {
+        termsPrivacyPolicyView = TermsPrivatePolicyView(frame: CGRect(
+            x: 0,
+            y: view.frame.height - 500,
+            width: view.bounds.width,
+            height: view.bounds.height
+        ))
+        visualEffectView = UIVisualEffectView(frame: view.frame)
+        guard let visualEffectView = visualEffectView else { return }
+        view.addSubview(visualEffectView)
+        let blurAnimator = UIViewPropertyAnimator(duration: 1, dampingRatio: 1) {
+            self.visualEffectView?.effect = UIBlurEffect(style: .extraLight)
+        }
+        blurAnimator.startAnimation()
+        let connectedScenes = UIApplication.shared.connectedScenes
+        let windowScene = connectedScenes.first as? UIWindowScene
+
+        UIView.animate(withDuration: 2) {
+            windowScene?.windows.last?.addSubview(self.termsPrivacyPolicyView ?? TermsPrivatePolicyView())
+        }
+
+        termsPrivacyPolicyView?.handler = { [weak self] in
+            self?.visualEffectView?.isUserInteractionEnabled = false
+            let blurAnimation = UIViewPropertyAnimator(duration: 1, dampingRatio: 1) {
+                self?.visualEffectView?.effect = nil
+            }
+            blurAnimator.startAnimation()
+            self?.visualEffectView?.isUserInteractionEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.timer) {
+                self?.termsPrivacyPolicyView?.removeFromSuperview()
+                blurAnimator.stopAnimation(true)
+            }
+        }
+    }
+
     func showBonusView() {
         let bonusViewController = BonusViewController()
         if let sheetPresentationController = bonusViewController.sheetPresentationController {

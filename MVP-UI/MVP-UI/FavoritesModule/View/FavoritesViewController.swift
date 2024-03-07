@@ -71,7 +71,7 @@ final class FavoritesViewController: UIViewController {
     }
 }
 
-// MARK: - Layoyt
+// MARK: - FavoritesViewController + Constraints
 
 extension FavoritesViewController {
     private func createEmptyFavoritesAnchor() {

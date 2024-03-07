@@ -9,7 +9,7 @@ final class ApplicationCoordinator: BaseCoordinator {
     private var tabBarViewController: TabBarController?
     private var appBuilder = AppBulder()
     override func start() {
-        tabBarMain()
+        toAutorization()
     }
 
     private func tabBarMain() {
@@ -49,6 +49,10 @@ final class ApplicationCoordinator: BaseCoordinator {
 
     private func toAutorization() {
         let autorizationCoordinator = AutorizationCoordinator()
+        autorizationCoordinator.onFinishFlow = { [weak self] in
+            self?.remove(coordinator: autorizationCoordinator)
+            self?.tabBarMain()
+        }
         add(coordinator: autorizationCoordinator)
         autorizationCoordinator.start()
     }

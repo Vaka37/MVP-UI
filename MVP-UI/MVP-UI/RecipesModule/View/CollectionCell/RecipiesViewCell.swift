@@ -85,26 +85,30 @@ final class RecipiesViewCell: UICollectionViewCell {
         categoryButton.addSubview(nameCategoryLabel)
     }
 
-    private func setupConstraints() {
+    @objc private func pushCategory() {
+        categoryPushHandler?()
+    }
+}
+
+// MARK: - RecipiesViewCell + Constraints
+
+private extension RecipiesViewCell {
+    func setupConstraints() {
         setupCategoryButtonConstraints()
         setupNameCategoryConstraints()
     }
 
-    private func setupCategoryButtonConstraints() {
+    func setupCategoryButtonConstraints() {
         categoryButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         categoryButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         categoryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         categoryButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
 
-    private func setupNameCategoryConstraints() {
+    func setupNameCategoryConstraints() {
         nameCategoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         nameCategoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         nameCategoryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         nameCategoryLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width / 5).isActive = true
-    }
-
-    @objc private func pushCategory() {
-        categoryPushHandler?()
     }
 }
