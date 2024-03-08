@@ -9,13 +9,17 @@ final class HeaderTableViewCell: UITableViewCell {
 
     enum Constants {
         static var fontVerdanaBold = "Verdana-Bold"
+        static let defaultAvatar = UIImage.imageProfile
     }
 
     // MARK: - Visual Components
 
-    private var avatarProfileImageView: UIImageView = {
+    private lazy var avatarProfileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        let imageTap = UITapGestureRecognizer(target: self, action: #selector(changeIcon(gestureRecognizer:)))
+        imageView.addGestureRecognizer(imageTap)
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
 
@@ -41,6 +45,7 @@ final class HeaderTableViewCell: UITableViewCell {
     // MARK: - Public Properties
 
     var editingButtonHandler: VoidHandler?
+    var changeImageHandler: VoidHandler?
 
     static let identifier = NSStringFromClass(HeaderTableViewCell.self)
 
@@ -62,9 +67,13 @@ final class HeaderTableViewCell: UITableViewCell {
     // MARK: - Public Methods
 
     func configure(with info: ProfileHeaderCellSource) {
-        avatarProfileImageView.image = UIImage(named: info.avatarImageName)
         userNameLabel.text = info.userName
         selectionStyle = .none
+        if let avatar = info.avatarImageName {
+            avatarProfileImageView.image = UIImage(data: avatar)
+        } else {
+            avatarProfileImageView.image = Constants.defaultAvatar
+        }
     }
 
     // MARK: - Private Methods
@@ -104,5 +113,9 @@ final class HeaderTableViewCell: UITableViewCell {
 
     @objc private func editingButtonTapped() {
         editingButtonHandler?()
+    }
+
+    @objc private func changeIcon(gestureRecognizer: UITapGestureRecognizer) {
+        changeImageHandler?()
     }
 }
