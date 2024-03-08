@@ -6,13 +6,17 @@ import Foundation
 /// Источник данных ячейки шапки профиля
 struct ProfileHeaderCellSource {
     /// Аватарка пользователя
-    let avatarImageName: String
+    let avatarImageName: Data?
     /// Имя пользователя
     var userName: String
 
     // MARK: - Public Methods
 
     static func getProfileHeader() -> ProfileHeaderCellSource {
-        ProfileHeaderCellSource(avatarImageName: "imageProfile", userName: "Name Surname")
+        let userServis = UserSevice.shared
+        return ProfileHeaderCellSource(
+            avatarImageName: userServis.userAvatar,
+            userName: userServis.user?.login ?? "Untilted"
+        )
     }
 }

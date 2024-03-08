@@ -1,7 +1,7 @@
 // UserProfilePresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
-import UIKit
+import Foundation
 
 /// Протокол презентера
 protocol UserProfilePresenterInputProtocol: AnyObject {
@@ -13,13 +13,22 @@ protocol UserProfilePresenterInputProtocol: AnyObject {
     func updateUserName(withName name: String)
     ///  Метод для экшена по кнопке
     func actionAlert()
+    /// обновляем данные пользователя
+    func updateUserInfo(avatar: Data)
 }
 
 /// Презентер экрана профиля
 final class UserProfilePresenter {
+    // MARK: - Constants
+
+    private enum Constants {
+        static let defaultLogin = "Нет Имени"
+    }
+
     private weak var userCoordinator: UserProfileCoordinator?
     private weak var view: UserProfileViewInputProtocol?
     private var user: ProfileHeaderCellSource?
+    private var userService = UserSevice.shared
 
     init(view: UserProfileViewInputProtocol?, userCoordinator: UserProfileCoordinator) {
         self.view = view
@@ -30,6 +39,18 @@ final class UserProfilePresenter {
 // MARK: - extension + UserProfileProtocol
 
 extension UserProfilePresenter: UserProfilePresenterInputProtocol {
+    func updateUserInfo(avatar: Data) {
+        let oldUser = userService
+        let newUser = User(
+            login: oldUser.user?.login ?? Constants.defaultLogin,
+            emailTitle: oldUser.user?.emailTitle ?? "",
+            passwordTitle: oldUser.user?.passwordTitle ?? ""
+        )
+        oldUser.saveImage(name: avatar)
+        oldUser.loadImage()
+        userService.save(user: newUser)
+    }
+
     func actionAlert() {
         view?.showAlertChangeName()
     }
@@ -37,6 +58,13 @@ extension UserProfilePresenter: UserProfilePresenterInputProtocol {
     func updateUserName(withName name: String) {
         user?.userName = name
         view?.setTitleNameUser(name: name)
+        let oldUser = userService.user
+        let newUser = User(
+            login: name,
+            emailTitle: oldUser?.emailTitle ?? "",
+            passwordTitle: oldUser?.passwordTitle ?? ""
+        )
+        userService.save(user: newUser)
     }
 
     func tapSelectItem(index: Int) {
