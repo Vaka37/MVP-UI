@@ -21,6 +21,7 @@
 		937B275A2B9469E300976E4C /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B27592B9469E300976E4C /* DescriptionCell.swift */; };
 		9388EE302B96FD1E00E42D46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388EE2F2B96FD1E00E42D46 /* UIColor+Extension.swift */; };
 		9388EE322B9717A300E42D46 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388EE312B9717A300E42D46 /* UIFont+Extension.swift */; };
+		93B976592B99C42600A137DC /* ServiceLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B976582B99C42600A137DC /* ServiceLog.swift */; };
 		93D301052B8F80780035D421 /* BonusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D301042B8F80780035D421 /* BonusViewController.swift */; };
 		93D3A3532B933165003E86DE /* DetailsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3A3522B933165003E86DE /* DetailsInfoCell.swift */; };
 		93D3A3552B933E83003E86DE /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3A3542B933E83003E86DE /* UIStackView+Extension.swift */; };
@@ -73,6 +74,7 @@
 		937B27592B9469E300976E4C /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		9388EE2F2B96FD1E00E42D46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9388EE312B9717A300E42D46 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		93B976582B99C42600A137DC /* ServiceLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLog.swift; sourceTree = "<group>"; };
 		93D301042B8F80780035D421 /* BonusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusViewController.swift; sourceTree = "<group>"; };
 		93D3A3522B933165003E86DE /* DetailsInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsInfoCell.swift; sourceTree = "<group>"; };
 		93D3A3542B933E83003E86DE /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
@@ -178,6 +180,14 @@
 				D509B3002B97B95A00C094E2 /* ShimerViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		93B976572B99C2B900A137DC /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				93B976582B99C42600A137DC /* ServiceLog.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		D509B2FF2B97AD9900C094E2 /* Sorted */ = {
@@ -400,6 +410,7 @@
 		D5EFBD582B8CA6AA005F6F9B /* MVP-UI */ = {
 			isa = PBXGroup;
 			children = (
+				93B976572B99C2B900A137DC /* Service */,
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
@@ -567,6 +578,7 @@
 				D571D47D2B8D545F000757E9 /* FavoritesCoordinator.swift in Sources */,
 				D5783B212B8FAD5400C81FAF /* TypeAlias.swift in Sources */,
 				93658E362B8E452E006BAF05 /* HeaderTableViewCell.swift in Sources */,
+				93B976592B99C42600A137DC /* ServiceLog.swift in Sources */,
 				D5EFBD772B8CD9E4005F6F9B /* FavoritesViewController.swift in Sources */,
 				D571D49A2B8F1B68000757E9 /* UIViewController+Extension.swift in Sources */,
 				D571D4812B8D5989000757E9 /* UserProfileCoordinator.swift in Sources */,
