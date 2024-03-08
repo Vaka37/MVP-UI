@@ -97,7 +97,7 @@ final class RecipiesViewCell: UICollectionViewCell {
         ).first?.appendingPathComponent("log.txt") {
             let logAction = LogAction.userOpenRecipeScene(categoryTitle)
             logAction.log(fileURL: logURL)
-            
+
             do {
                 let logContent = try String(contentsOf: logURL)
                 print("Содержимое файла log.txt:")

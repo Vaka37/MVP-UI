@@ -64,7 +64,8 @@ final class RecipesListViewController: UIViewController {
 
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
-            in: .userDomainMask).first?.appendingPathComponent("log.txt") {
+            in: .userDomainMask
+        ).first?.appendingPathComponent("log.txt") {
             debugPrint("Путь к файлу: \(logURL.path)")
         } else {
             print("Файл не нашел")

@@ -44,8 +44,11 @@ final class AutorizationPresenter {
     // MARK: - State User
 
     enum StateUser {
+        /// не авторизирован
         case non
+        /// аккаунт подтвержден
         case verification
+        /// ошибка авторизации
         case noVerification
     }
 
