@@ -189,6 +189,7 @@
 		93B976572B99C2B900A137DC /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D571AE8A2B9A3D3F00EC9B2E /* SettingsUserDefault */,
 				93B976582B99C42600A137DC /* ServiceLog.swift */,
 			);
 			path = Service;
@@ -424,7 +425,6 @@
 		D5EFBD582B8CA6AA005F6F9B /* MVP-UI */ = {
 			isa = PBXGroup;
 			children = (
-				93B976572B99C2B900A137DC /* Service */,
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
@@ -437,7 +437,7 @@
 				D571D46D2B8D3C64000757E9 /* Coordinator */,
 				D509B2FF2B97AD9900C094E2 /* Sorted */,
 				D571D4962B8F1ADC000757E9 /* Extension */,
-				D571AE8A2B9A3D3F00EC9B2E /* SettingsUserDefault */,
+				93B976572B99C2B900A137DC /* Service */,
 				D5EFBD732B8CD7E4005F6F9B /* TabBarViewController */,
 				D5EFBD622B8CA6B0005F6F9B /* Assets.xcassets */,
 				D5EFBD672B8CA6B0005F6F9B /* Info.plist */,

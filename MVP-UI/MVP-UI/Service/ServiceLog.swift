@@ -3,26 +3,24 @@
 
 import UIKit
 
-/// Действия юзера
+/// Действия пользователя
 enum LogAction {
     case userOpenRecipeScene(String)
     case userOpenRecipe(String)
     case userSharedRecipe(String)
 
+    // MARK: - Public Methods
+    
     func log(fileURL: URL) {
         let command = LogCommand(action: self)
         LogerInvoker.shared.addLogCommand(command, fileURL: fileURL)
     }
 }
 
-/// Command
+/// Записывает действия пользователя. Command
 final class LogCommand {
-    let action: LogAction
-
-    init(action: LogAction) {
-        self.action = action
-    }
-
+    // MARK: - Public Properties
+    
     var logMessage: String {
         switch action {
         case .userOpenRecipeScene:
@@ -33,10 +31,23 @@ final class LogCommand {
             return "Пользователь поделился рецептом: \(title)"
         }
     }
+    
+    // MARK: - Private Properties
+    
+    private let action: LogAction
+
+    
+    // MARK: - Initializers
+    init(action: LogAction) {
+        self.action = action
+    }
 }
 
-/// Receiver
+/// Логирует сообщения в файл. Receiver
 final class Logger {
+    
+    // MARK: - Public Methods
+    
     func writeMessageToLog(message: String, fileURL: URL) {
         do {
             try writeLog(message: message, fileURL: fileURL)
@@ -47,7 +58,6 @@ final class Logger {
 
     func writeLog(message: String, fileURL: URL) throws {
         let data = (message + "\n").data(using: .utf8) ?? Data()
-
         do {
             if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
                 fileHandle.seekToEndOfFile()
@@ -63,18 +73,27 @@ final class Logger {
     }
 }
 
-/// Invoker
+/// Логирует действия пользователя. Invoker
 final class LogerInvoker {
+    
+    // MARK: - Public Properties
+    
     static let shared = LogerInvoker()
 
+    // MARK: - Private Properties
+    
     private let logger = Logger()
     private let batchSize = 1
     private var commands: [LogCommand] = []
 
+    // MARK: - Public Methods
+    
     func addLogCommand(_ command: LogCommand, fileURL: URL) {
         commands.append(command)
         executeCommandsIfNeeded(fileURL: fileURL)
     }
+    
+    // MARK: - Private Methods
 
     private func executeCommandsIfNeeded(fileURL: URL) {
         guard commands.count >= batchSize else { return }
