@@ -89,7 +89,7 @@ final class RecipesDetailsViewController: UIViewController {
             image: UIImage(named: Constants.titleShared),
             style: .plain,
             target: self,
-            action: #selector(method)
+            action: #selector(sharedRecipe)
         )
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = arrowLogo
@@ -117,6 +117,24 @@ final class RecipesDetailsViewController: UIViewController {
         let confirmAction = UIAlertAction(title: Constants.confirmActionAlert, style: .default, handler: nil)
         alert.addAction(confirmAction)
         present(alert, animated: true)
+    }
+
+    @objc private func sharedRecipe() {
+        if let recipeShare = recipe?.titleRecipies, let logURL = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first?.appendingPathComponent("log.txt") {
+            let logAction = LogAction.userSharedRecipe(recipeShare)
+            logAction.log(fileURL: logURL)
+            do {
+                let logContent = try String(contentsOf: logURL)
+                print(logContent)
+            } catch {
+                print("При чтении файла возникла ошибка: \(error.localizedDescription)")
+            }
+        } else {
+            print("Нет пути к файлу")
+        }
     }
 }
 

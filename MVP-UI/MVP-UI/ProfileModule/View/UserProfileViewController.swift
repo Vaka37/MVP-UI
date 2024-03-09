@@ -33,6 +33,7 @@ final class UserProfileViewController: UIViewController {
 
     // MARK: - Visual Components
 
+    private lazy var imagePicker = UIImagePickerController()
     private let tableView = UITableView(frame: .zero, style: .plain)
 
     // MARK: - Public Properties
@@ -92,6 +93,13 @@ final class UserProfileViewController: UIViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
+
+    private func callImagePickerController() {
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UserProfileViewController + UITableViewDataSource
@@ -122,10 +130,11 @@ extension UserProfileViewController: UITableViewDataSource {
                 for: indexPath
             ) as? HeaderTableViewCell else { return UITableViewCell() }
             cell.configure(with: header)
-
             cell.editingButtonHandler = { [weak self] in
                 self?.presenter?.actionAlert()
             }
+            cell.changeImageHandler = callImagePickerController
+
             return cell
 
         case let .navigation(navigation):
@@ -198,7 +207,7 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
             self?.visualEffectView?.isUserInteractionEnabled = false
             DispatchQueue.main.asyncAfter(deadline: .now() + Constants.timer) {
                 self?.termsPrivacyPolicyView?.removeFromSuperview()
-                blurAnimator.stopAnimation(true)
+                visualEffectView.removeFromSuperview()
             }
         }
     }
@@ -254,5 +263,24 @@ extension UserProfileViewController: UserProfileViewInputProtocol {
     func updateTable(profileTable: [ProfileItem]) {
         rowTypes = profileTable
         tableView.reloadData()
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension UserProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let photo = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            presenter?.updateUserInfo(avatar: photo.pngData() ?? Data())
+            tableView.reloadData()
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

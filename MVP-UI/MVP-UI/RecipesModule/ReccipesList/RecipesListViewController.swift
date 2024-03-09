@@ -61,6 +61,15 @@ final class RecipesListViewController: UIViewController {
         recipePresenter?.getRecipe()
         configureUI()
         recipePresenter?.changeShimer()
+
+        if let logURL = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first?.appendingPathComponent("log.txt") {
+            debugPrint("Путь к файлу: \(logURL.path)")
+        } else {
+            print("Файл не нашел")
+        }
     }
 
     // MARK: - Private Methods
@@ -174,6 +183,20 @@ extension RecipesListViewController {
 extension RecipesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let recipe = recipes?.recepies[indexPath.row] else { return }
+
+        if let logURL = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first?.appendingPathComponent("log.txt") {
+            LogAction.userOpenRecipe(recipe.titleRecipies).log(fileURL: logURL)
+            do {
+                let logContent = try String(contentsOf: logURL)
+                print(logContent)
+            } catch {
+                print("Ошибка чтения файла лога: \(error.localizedDescription)")
+            }
+        }
+
         recipePresenter?.tappedOnCell(recipe: recipe)
     }
 

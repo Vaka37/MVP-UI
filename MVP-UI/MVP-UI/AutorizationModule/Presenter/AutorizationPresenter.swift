@@ -23,6 +23,8 @@ protocol AutorizationViewControllerProtocol: AnyObject {
     func showSpashScreenOn()
     /// Скрыть сплеш
     func showSpashScreenOff()
+    /// Сохранение пользователя
+    func saveUser(email: String, password: String)
 }
 
 /// Презентер для экрана с авторизацией
@@ -30,7 +32,8 @@ final class AutorizationPresenter {
     // MARK: - Constants
 
     private enum Constants {
-        static let color = "splashColor"
+        static let splashRedColor = "splashColor"
+        static let labelDefaultColor = "сolorIconTabBar"
         static let loader = "loader"
         static let login = "Login"
         static let suffix = "@"
@@ -38,8 +41,26 @@ final class AutorizationPresenter {
         static let value = 6
     }
 
+    // MARK: - State User
+
+    enum StateUser {
+        /// не авторизирован
+        case non
+        /// аккаунт подтвержден
+        case verification
+        /// ошибка авторизации
+        case noVerification
+    }
+
+    // MARK: - Private Properties
+
     private weak var view: AutorizationViewControllerProtocol?
     private weak var autorizationCoordinator: AutorizationCoordinator?
+    private var stateUser: StateUser = .non
+    private let userService = UserSevice.shared
+
+    // MARK: - Init
+
     init(view: AutorizationViewControllerProtocol, coordinator: AutorizationCoordinator) {
         self.view = view
         autorizationCoordinator = coordinator
@@ -47,6 +68,40 @@ final class AutorizationPresenter {
 
     private func goToMainTabBarScreen() {
         autorizationCoordinator?.showMainViewController()
+    }
+
+    /// Сохраняем юзера в userDefault
+    func saveUser(email: String, password: String) {
+        let user = User(login: "Нет Имени", emailTitle: email, passwordTitle: password)
+        let caratacer = userService
+        caratacer.save(user: user)
+        caratacer.user = user
+        goToMainTabBarScreen()
+    }
+
+    /// проверяем есть ли наш юзер в userDefaults
+    func checkVerificationUser(email: String, password: String) {
+        let caratecer = userService
+        let user = try? caratecer.load()
+        if user.self == nil {
+            stateUser = .non
+        } else {
+            if user?.passwordTitle != password {
+                stateUser = .noVerification
+                if user?.emailTitle != email {
+                    stateUser = .noVerification
+                }
+            } else {
+                stateUser = .verification
+            }
+        }
+    }
+
+    private func validatePassword() {
+        view?.chekValidateUser(imageButton: Constants.loader, titleButton: nil)
+        view?.showSpashScreenOff()
+        view?.setTitleColorLogin(color: Constants.labelDefaultColor, isValidateLogin: true)
+        view?.setTitleColorPassword(color: Constants.labelDefaultColor, isValidatePassword: true)
     }
 }
 
@@ -56,33 +111,41 @@ extension AutorizationPresenter: AutorizationProtocol {
     func chekPassword(password: String?, login: String?) {
         guard let login = login else { return }
         guard let password = password else { return }
-        if password.count < Constants.value {
+        switch password.count {
+        case 0 ... 5:
             view?.showSpashScreenOn()
-            view?.setTitleColorPassword(color: "splashColor", isValidatePassword: false)
+            view?.setTitleColorPassword(color: Constants.splashRedColor, isValidatePassword: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.view?.showSpashScreenOff()
+                self.view?.setTitleColorLogin(color: Constants.labelDefaultColor, isValidateLogin: true)
+                self.view?.setTitleColorPassword(color: Constants.labelDefaultColor, isValidatePassword: true)
             }
-            return
-        } else {
-            goToMainTabBarScreen()
-            view?.setTitleColorPassword(
-                color: Constants.color,
-                isValidatePassword: true
-            )
-        }
-        view?.chekValidateUser(imageButton: Constants.loader, titleButton: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.timer) {
-            self.view?.chekValidateUser(imageButton: nil, titleButton: Constants.login)
-            self.view?.showSpashScreenOff()
+        default:
+            validatePassword()
+            checkVerificationUser(email: login, password: password)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                switch self.stateUser {
+                case .non:
+                    self.saveUser(email: login, password: password)
+                case .verification:
+                    self.goToMainTabBarScreen()
+                case .noVerification:
+                    self.view?.showSpashScreenOn()
+                    self.view?.chekValidateUser(imageButton: nil, titleButton: Constants.login)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.view?.showSpashScreenOff()
+                    }
+                }
+            }
         }
     }
 
     func chekUser(login: String?) {
         guard let login = login else { return }
         if !login.hasSuffix(Constants.suffix), !login.isEmpty {
-            view?.setTitleColorLogin(color: Constants.color, isValidateLogin: false)
+            view?.setTitleColorLogin(color: Constants.splashRedColor, isValidateLogin: false)
         } else {
-            view?.setTitleColorLogin(color: Constants.color, isValidateLogin: true)
+            view?.setTitleColorLogin(color: Constants.labelDefaultColor, isValidateLogin: true)
         }
     }
 }

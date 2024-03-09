@@ -292,6 +292,10 @@ extension AutorizationViewController: UITextFieldDelegate {
 // MARK: - AutorizationViewControllerProtocol
 
 extension AutorizationViewController: AutorizationViewControllerProtocol {
+    func saveUser(email: String, password: String) {
+        autorizationPresenter?.saveUser(email: loginTextField.text ?? "", password: passwordTextField.text ?? "")
+    }
+
     func showSpashScreenOn() {
         UIView.animate(withDuration: 0.4) {
             self.splashView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -200)

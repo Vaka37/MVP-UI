@@ -20,6 +20,8 @@ final class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Private Properties
 
     private var modelCategory: Category?
+    private let storage = Storage()
+    private let logger = Logger()
 
     // MARK: - Visual Components
 
@@ -66,6 +68,7 @@ final class RecipiesViewCell: UICollectionViewCell {
     // MARK: - Public Methods
 
     func configure(model: Category) {
+        modelCategory = model
         let image = UIImage(named: model.avatarImageName)
         categoryButton.setImage(image, for: .normal)
         nameCategoryLabel.text = model.categoryTitle
@@ -87,6 +90,24 @@ final class RecipiesViewCell: UICollectionViewCell {
 
     @objc private func pushCategory() {
         categoryPushHandler?()
+
+        if let categoryTitle = modelCategory?.categoryTitle, let logURL = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first?.appendingPathComponent("log.txt") {
+            let logAction = LogAction.userOpenRecipeScene(categoryTitle)
+            logAction.log(fileURL: logURL)
+
+            do {
+                let logContent = try String(contentsOf: logURL)
+                print("Содержимое файла log.txt:")
+                print(logContent)
+            } catch {
+                print("Ошибка чтения файла: \(error.localizedDescription)")
+            }
+        } else {
+            print("Нет пути к файлу")
+        }
     }
 }
 
