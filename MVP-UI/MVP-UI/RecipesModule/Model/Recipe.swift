@@ -4,7 +4,7 @@
 import Foundation
 
 /// Составляющая рецепта
-struct Recipe {
+struct Recipe: Codable, Equatable {
     /// Аватар рецепта
     var avatarRecipie: String
     /// Название рецепта
