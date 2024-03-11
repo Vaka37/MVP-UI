@@ -49,6 +49,7 @@ extension DetailsPresenter: DetailsPresenterInputProtocol {
 
     func checkFavorite() {
         let servis = FavoritesService.shared
+        if servis.favorites.isEmpty { view?.noFavorite() }
         for item in servis.favorites {
             if item.titleRecipies == recipe.titleRecipies {
                 view?.isFavorite()
