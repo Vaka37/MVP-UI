@@ -16,7 +16,7 @@ final class FavoritesViewController: UIViewController {
     // MARK: - Public Properties
 
     var favoritesPresenter: FavoritesPresenter?
-    var storage = Storage()
+    var recipe: [Recipe]?
 
     // MARK: - Visual Components
 
@@ -40,7 +40,9 @@ final class FavoritesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         favoritesPresenter?.emptyView()
+        favoritesTableView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -51,8 +53,6 @@ final class FavoritesViewController: UIViewController {
     // MARK: - Private Methods
 
     private func configureUI() {
-        // view.addSubview(favoritesTableView)
-        createAnchor()
         makeNavigationBar()
     }
 
@@ -61,13 +61,16 @@ final class FavoritesViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
-    private func createAnchor() {
-        // createFavoritesTableAnchor()
+    private func makeTableFavorites() {
+        view.addSubview(favoritesTableView)
+        createFavoritesTableAnchor()
+        emptyFavoritesImageView.removeFromSuperview()
     }
 
     private func addEmptyView() {
         view.addSubview(emptyFavoritesImageView)
         createEmptyFavoritesAnchor()
+        favoritesTableView.removeFromSuperview()
     }
 }
 
@@ -104,12 +107,17 @@ extension FavoritesViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 
 extension FavoritesViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let recipe = recipe?[indexPath.row] else { return }
+        favoritesPresenter?.pushDetailFavoritesViewController(recipe: recipe)
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         125
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        storage.fish.count
+        recipe?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,7 +125,8 @@ extension FavoritesViewController: UITableViewDataSource {
             withIdentifier: Constants.favoritesIdentefire,
             for: indexPath
         ) as? RecipesCell {
-            cell.configure(with: storage.fish[indexPath.row])
+            guard let recipe = recipe else { return cell }
+            cell.configure(with: recipe[indexPath.row])
             return cell
         }
         return UITableViewCell()
@@ -125,6 +134,15 @@ extension FavoritesViewController: UITableViewDataSource {
 }
 
 extension FavoritesViewController: FavoritesViewProtocol {
+    func makeTable(favorites: [Recipe]) {
+        recipe = favorites
+        makeTableFavorites()
+    }
+
+    func makeTable() {
+        makeTableFavorites()
+    }
+
     func emptyFaforites() {
         addEmptyView()
     }

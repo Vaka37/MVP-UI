@@ -12,7 +12,7 @@ protocol MementoUser: Codable, Encodable {
     /// Логин пользователя
     var login: String { get }
     /// Аватар
-    var avatar: String? { get }
+    var avatar: Data? { get }
 }
 
 /// Пользователь
@@ -20,5 +20,5 @@ struct User: MementoUser {
     var login: String
     var emailTitle: String
     var passwordTitle: String
-    var avatar: String?
+    var avatar: Data?
 }

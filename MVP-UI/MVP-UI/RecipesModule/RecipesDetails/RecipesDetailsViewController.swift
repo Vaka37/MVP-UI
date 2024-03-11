@@ -7,6 +7,10 @@ import UIKit
 protocol DetailsViewInputProtocol: AnyObject {
     /// данные экрана рецептов
     func getDetail(recipe: Recipe)
+    /// метод приисутсвия  рецепта в  избранным
+    func isFavorite()
+    /// метод отсутсвия  рецепта в  избранным
+    func noFavorite()
 }
 
 /// Экран рецепта
@@ -20,8 +24,9 @@ final class RecipesDetailsViewController: UIViewController {
         static let titleAlert = "Функционал в разработке"
         static let confirmActionAlert = "Ok"
         static let titleArrowBackward = "arrowBackward"
-        static let titleFavorites = "favorites"
+        static let titleNoFavorites = "noFavorite"
         static let titleShared = "shared"
+        static let isFavorite = "isFavorite"
     }
 
     enum RowsType {
@@ -51,7 +56,7 @@ final class RecipesDetailsViewController: UIViewController {
         detailsPresenter?.getDetail()
         addSubview()
         makeTableView()
-        makeBarButtonItem()
+        detailsPresenter?.checkFavorite()
     }
 
     override func viewWillLayoutSubviews() {
@@ -74,13 +79,13 @@ final class RecipesDetailsViewController: UIViewController {
         tableView.estimatedRowHeight = 300
     }
 
-    private func makeBarButtonItem() {
+    private func makeBarButtonItem(image: String, tintColor: UIColor) {
         let arrowButton = UIButton(type: .custom)
         arrowButton.setImage(UIImage(named: Constants.titleArrowBackward), for: .normal)
         arrowButton.addTarget(self, action: #selector(returnsAllRecipes), for: .touchUpInside)
         let arrowLogo = UIBarButtonItem(customView: arrowButton)
         let favoritesLogo = UIBarButtonItem(
-            image: UIImage(named: Constants.titleFavorites),
+            image: UIImage(named: image),
             style: .plain,
             target: self,
             action: #selector(savesRecipeFavorites)
@@ -91,10 +96,11 @@ final class RecipesDetailsViewController: UIViewController {
             target: self,
             action: #selector(sharedRecipe)
         )
+        favoritesLogo.tintColor = tintColor
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = arrowLogo
         navigationItem.rightBarButtonItems = [favoritesLogo, shareLogo]
-        [arrowLogo, shareLogo, favoritesLogo].forEach { $0.tintColor = .black }
+        [arrowLogo, shareLogo].forEach { $0.tintColor = .black }
     }
 
     private func addSubview() {
@@ -113,10 +119,7 @@ final class RecipesDetailsViewController: UIViewController {
     }
 
     @objc private func savesRecipeFavorites() {
-        let alert = UIAlertController(title: Constants.titleAlert, message: nil, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: Constants.confirmActionAlert, style: .default, handler: nil)
-        alert.addAction(confirmAction)
-        present(alert, animated: true)
+        detailsPresenter?.changeFavorites()
     }
 
     @objc private func sharedRecipe() {
@@ -198,6 +201,16 @@ extension RecipesDetailsViewController: UITableViewDelegate {
 // MARK: Extension + DetailsViewInputProtocol
 
 extension RecipesDetailsViewController: DetailsViewInputProtocol {
+    func noFavorite() {
+        makeBarButtonItem(image: Constants.titleNoFavorites, tintColor: .black)
+        tableView.reloadData()
+    }
+
+    func isFavorite() {
+        makeBarButtonItem(image: Constants.isFavorite, tintColor: .red)
+        tableView.reloadData()
+    }
+
     func getDetail(recipe: Recipe) {
         self.recipe = recipe
     }
