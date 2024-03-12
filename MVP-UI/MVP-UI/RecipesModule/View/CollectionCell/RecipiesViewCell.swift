@@ -133,6 +133,3 @@ private extension RecipiesViewCell {
         nameCategoryLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width / 5).isActive = true
     }
 }
-
-
-
