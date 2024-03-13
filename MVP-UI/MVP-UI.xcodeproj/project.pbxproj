@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10A264742BA188A7009D7757 /* RecipeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A264732BA188A7009D7757 /* RecipeDetail.swift */; };
 		930856032B908D73009E71DE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856022B908D73009E71DE /* Category.swift */; };
 		930856052B908D8E009E71DE /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856042B908D8E009E71DE /* Recipe.swift */; };
 		930856082B908DE1009E71DE /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856072B908DE1009E71DE /* Storage.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10A264732BA188A7009D7757 /* RecipeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetail.swift; sourceTree = "<group>"; };
 		930856022B908D73009E71DE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		930856042B908D8E009E71DE /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		930856072B908DE1009E71DE /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -137,6 +139,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10A264722BA18874009D7757 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				D5F979282BA119D30034AE5B /* RecipeDTO.swift */,
+				D5F9792A2BA11A820034AE5B /* RecipesStorage.swift */,
+				10A264732BA188A7009D7757 /* RecipeDetail.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		930856012B908D57009E71DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,6 +457,7 @@
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
+				10A264722BA18874009D7757 /* DTO */,
 				D5F979272BA119040034AE5B /* NetworkService */,
 				D509B3042B97BE5100C094E2 /* StateShimer */,
 				D571F5372B8D095500BAE03F /* FavoritesModule */,
@@ -475,8 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				D5F979252BA118FD0034AE5B /* NetworkService.swift */,
-				D5F979282BA119D30034AE5B /* RecipeDTO.swift */,
-				D5F9792A2BA11A820034AE5B /* RecipesStorage.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -597,6 +608,7 @@
 			files = (
 				D5EFBD5E2B8CA6AA005F6F9B /* AutorizationViewController.swift in Sources */,
 				D571D47F2B8D576C000757E9 /* UserProfilePresenter.swift in Sources */,
+				10A264742BA188A7009D7757 /* RecipeDetail.swift in Sources */,
 				D509B3072B97C90B00C094E2 /* ShimerCollectionViewCell.swift in Sources */,
 				936DC25D2B91F87500B0D755 /* DetailsHeaderCell.swift in Sources */,
 				9388EE302B96FD1E00E42D46 /* UIColor+Extension.swift in Sources */,

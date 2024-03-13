@@ -3,6 +3,7 @@
 
 import Foundation
 
+/// Работа с запросами
 final class NetworkService {
     // MARK: - DishType
 
@@ -52,11 +53,13 @@ final class NetworkService {
         }.resume()
     }
 
-    func getDetail(completionHandler: @escaping (Result<RecipesStorage, Error>) -> Void) {
+    func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void) {
+        let urlQueryItemsDetail: [URLQueryItem] = [.init(name: uri, value: "")]
         component.scheme = scheme
         component.host = host
         component.queryItems = urlQueryItems
         component.path = path
+        component.queryItems?.append(contentsOf: urlQueryItemsDetail)
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -66,7 +69,7 @@ final class NetworkService {
             }
             if let data = data {
                 do {
-                    let resultDetailsDTO = try JSONDecoder().decode(RecipeResponseDTO.self, from: data)
+                    let resultDetailsDTO = try JSONDecoder().decode(RecipeRetailDTO.self, from: data)
                     print(resultDetailsDTO)
                 } catch {
                     print(error.localizedDescription)

@@ -13,9 +13,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-//        configureSceneDelegate(windowScene: windowScene)
+        configureSceneDelegate(windowScene: windowScene)
         let networkService = NetworkService()
+        /// Запросы для проверки данных
         networkService.getRecipe { _ in
+        }
+        networkService.getDetail(uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_e074fb5e814ed30309780398e68c2b90") { _ in
         }
     }
 
