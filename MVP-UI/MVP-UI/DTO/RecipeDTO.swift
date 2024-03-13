@@ -36,7 +36,7 @@ struct DetailsResponseDTO: Codable {
 }
 
 /// Детальные рецепты
-struct RecipeRetailDTO: Codable {
+struct RecipeDetailDTO: Codable {
     /// Массив для запрса
     let hits: [DetailsResponseDTO]
 }
@@ -65,7 +65,7 @@ struct ImagesDTO: Codable {
     let thumbnail, small, regular: LagreDTO
     /// Ссылка на картинку
     let large: LagreDTO?
-    
+
     enum CodingKeys: String, CodingKey {
         case thumbnail = "THUMBNAIL"
         case small = "SMALL"

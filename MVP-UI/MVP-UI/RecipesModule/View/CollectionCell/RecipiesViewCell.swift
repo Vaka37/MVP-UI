@@ -100,10 +100,8 @@ final class RecipiesViewCell: UICollectionViewCell {
 
             do {
                 let logContent = try String(contentsOf: logURL)
-            } catch {
-            }
-        } else {
-        }
+            } catch {}
+        } else {}
     }
 }
 

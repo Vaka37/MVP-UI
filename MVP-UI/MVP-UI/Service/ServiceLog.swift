@@ -50,8 +50,7 @@ final class Logger {
     func writeMessageToLog(message: String, fileURL: URL) {
         do {
             try writeLog(message: message, fileURL: fileURL)
-        } catch {
-        }
+        } catch {}
     }
 
     func writeLog(message: String, fileURL: URL) throws {

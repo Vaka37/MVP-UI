@@ -5,6 +5,8 @@ import Foundation
 
 /// Работа с запросами
 final class NetworkService {
+    // MARK: - Constants
+
     private enum Constants {
         static let scheme = "https"
         static let host = "api.edamam.com"
@@ -59,8 +61,10 @@ final class NetworkService {
             if let data = data {
                 do {
                     let resultDetailsDTO = try JSONDecoder().decode(RecipeResponseDTO.self, from: data)
-                } catch {
-                }
+                    for item in resultDetailsDTO.hits {
+                        completionHandler(.success(RecipesStorage(dto: item.recipe)))
+                    }
+                } catch {}
             }
         }.resume()
     }
@@ -81,9 +85,12 @@ final class NetworkService {
             }
             if let data = data {
                 do {
-                    let resultDetailsDTO = try JSONDecoder().decode(RecipeRetailDTO.self, from: data)
-                } catch {
-                }
+                    let recipeDetailsDTO = try JSONDecoder().decode(RecipeDetailDTO.self, from: data)
+                    let ricepr = recipeDetailsDTO.hits
+                    for item in recipeDetailsDTO.hits {
+                        completionHandler(.success(RecipeDetail(dto: item.recipe)))
+                    }
+                } catch {}
             }
         }.resume()
     }

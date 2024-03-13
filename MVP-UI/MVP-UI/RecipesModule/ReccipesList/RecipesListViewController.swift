@@ -66,8 +66,7 @@ final class RecipesListViewController: UIViewController {
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
-        } else {
-        }
+        } else {}
     }
 
     // MARK: - Private Methods
@@ -189,8 +188,7 @@ extension RecipesListViewController: UITableViewDelegate {
             LogAction.userOpenRecipe(recipe.titleRecipies).log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
-            } catch {
-            }
+            } catch {}
         }
 
         recipePresenter?.tappedOnCell(recipe: recipe)

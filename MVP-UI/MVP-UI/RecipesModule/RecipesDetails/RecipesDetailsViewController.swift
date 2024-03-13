@@ -131,10 +131,8 @@ final class RecipesDetailsViewController: UIViewController {
             logAction.log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
-            } catch {
-            }
-        } else {
-        }
+            } catch {}
+        } else {}
     }
 }
 
