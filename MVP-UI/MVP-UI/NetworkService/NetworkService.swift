@@ -4,10 +4,15 @@
 import Foundation
 
 /// Протокол коммуникации с NetworkService
-protocol NetworkServiceProtocol {}
+protocol NetworkServiceProtocol {
+    /// получение рецептов
+    func getRecipe(completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void)
+    /// получение детальней рецепта
+    func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void)
+}
 
 /// Сервис  для работы с сетевыми запросами
-final class NetworkService {
+final class NetworkService: NetworkServiceProtocol {
     // MARK: - Constants
 
     private enum Constants {
@@ -72,7 +77,7 @@ final class NetworkService {
         component.path = path
     }
 
-    func getRecipe(completionHandler: @escaping (Result<RecipeCommonInfo, Error>) -> Void) {
+    func getRecipe(completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void) {
         createURLComponents()
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
@@ -84,10 +89,11 @@ final class NetworkService {
             if let data = data {
                 do {
                     let resultDetailsDTO = try JSONDecoder().decode(RecipeResponseDTO.self, from: data)
-                    for item in resultDetailsDTO.hits {
-                        completionHandler(.success(RecipeCommonInfo(dto: item.recipe)))
-                    }
-                } catch {}
+                    let result = resultDetailsDTO.hits.map { RecipeCommonInfo(dto: $0.recipe) }
+                    completionHandler(.success(result))
+                } catch {
+                    completionHandler(.failure(error))
+                }
             }
         }.resume()
     }
@@ -106,16 +112,13 @@ final class NetworkService {
             if let data = data {
                 do {
                     let recipeDetailsDTO = try JSONDecoder().decode(RecipeDetailDTO.self, from: data)
-                    let ricepe = recipeDetailsDTO.hits
-                    for item in ricepe {
-                        completionHandler(.success(RecipeDetail(dto: item.recipe)))
-                    }
-                } catch {}
+                    guard let result = recipeDetailsDTO.hits.first else { return }
+                    let detail = RecipeDetail(dto: result.recipe)
+                    completionHandler(.success(detail))
+                } catch {
+                    completionHandler(.failure(error))
+                }
             }
         }.resume()
     }
 }
-
-// MARK: - Extension + NetworkServiceProtocol
-
-extension NetworkService: NetworkServiceProtocol {}
