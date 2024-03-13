@@ -51,7 +51,6 @@ final class Logger {
         do {
             try writeLog(message: message, fileURL: fileURL)
         } catch {
-            print("не записал данные в журнал \(error.localizedDescription)")
         }
     }
 

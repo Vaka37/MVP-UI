@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         configureSceneDelegate(windowScene: windowScene)
         let networkService = NetworkService()
-        /// Запросы для проверки данных
+        //TODO: - Запросы для проверки данных
         networkService.getRecipe { _ in
         }
         networkService

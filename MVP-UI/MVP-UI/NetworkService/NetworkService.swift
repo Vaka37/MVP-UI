@@ -59,9 +59,7 @@ final class NetworkService {
             if let data = data {
                 do {
                     let resultDetailsDTO = try JSONDecoder().decode(RecipeResponseDTO.self, from: data)
-                    print(resultDetailsDTO)
                 } catch {
-                    print(error.localizedDescription)
                 }
             }
         }.resume()
@@ -84,9 +82,7 @@ final class NetworkService {
             if let data = data {
                 do {
                     let resultDetailsDTO = try JSONDecoder().decode(RecipeRetailDTO.self, from: data)
-                    print(resultDetailsDTO)
                 } catch {
-                    print(error.localizedDescription)
                 }
             }
         }.resume()

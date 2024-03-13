@@ -54,7 +54,7 @@ struct DetailDTO: Codable {
     /// Масса рецепта
     let totalWeight: Double
     /// КБЖУ
-    let totalNutrients: [String: Total]
+    let totalNutrients: [String: TotalDTO]
     /// Описание рецепта
     let ingredientLines: [String]
 }
@@ -121,7 +121,7 @@ enum Label: String, Codable {
 }
 
 /// Значения для ключей с деталями
-struct Total: Codable {
+struct TotalDTO: Codable {
     /// Заголовок
     let label: Label
 }

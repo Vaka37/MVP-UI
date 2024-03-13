@@ -16,7 +16,7 @@ final class RecipeDetail {
     /// Масса рецепта
     let totalWeight: Double
     /// КБЖУ
-    let totalNutrients: [String: Total]
+    let totalNutrients: [String: TotalDTO]
     /// Описание рецепта
     let ingridientLines: [String]
 

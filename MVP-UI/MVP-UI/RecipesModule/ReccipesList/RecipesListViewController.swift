@@ -66,9 +66,7 @@ final class RecipesListViewController: UIViewController {
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
-            debugPrint("Путь к файлу: \(logURL.path)")
         } else {
-            print("Файл не нашел")
         }
     }
 
@@ -191,9 +189,7 @@ extension RecipesListViewController: UITableViewDelegate {
             LogAction.userOpenRecipe(recipe.titleRecipies).log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
-                print(logContent)
             } catch {
-                print("Ошибка чтения файла лога: \(error.localizedDescription)")
             }
         }
 
