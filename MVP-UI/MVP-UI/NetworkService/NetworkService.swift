@@ -5,6 +5,20 @@ import Foundation
 
 /// Работа с запросами
 final class NetworkService {
+    private enum Constants {
+        static let scheme = "https"
+        static let host = "api.edamam.com"
+        static let path = "/api/recipes/v2"
+        static let componentsTypeKey = "type"
+        static let identefire = "app_id"
+        static let componnentsAppKey = "app_key"
+        static let componentsDishTypeKey = "dishType"
+        static let type = "public"
+        static let appKey = "2412c4c0d52ca924f6d6a486c1aa1ab6"
+        static let appId = "a726fb9c"
+        static let dishType = "dishType"
+    }
+
     // MARK: - DishType
 
     enum DishType: String {
@@ -19,15 +33,15 @@ final class NetworkService {
         case desserts
     }
 
-    var component = URLComponents()
-    var scheme = "https"
-    var host = "api.edamam.com"
-    var path = "/api/recipes/v2"
-    var urlQueryItems: [URLQueryItem] = [
-        .init(name: "type", value: "public"),
-        .init(name: "app_id", value: "a726fb9c"),
-        .init(name: "app_key", value: "2412c4c0d52ca924f6d6a486c1aa1ab6"),
-        .init(name: "dishType", value: DishType.salad.rawValue)
+    private var component = URLComponents()
+    private let scheme = Constants.scheme
+    private let host = Constants.host
+    private let path = Constants.path
+    private let urlQueryItems: [URLQueryItem] = [
+        .init(name: Constants.componentsTypeKey, value: Constants.type),
+        .init(name: Constants.identefire, value: Constants.appId),
+        .init(name: Constants.componnentsAppKey, value: Constants.appKey),
+        .init(name: Constants.componentsDishTypeKey, value: DishType.salad.rawValue)
     ]
 
     func getRecipe(completionHandler: @escaping (Result<RecipesStorage, Error>) -> Void) {

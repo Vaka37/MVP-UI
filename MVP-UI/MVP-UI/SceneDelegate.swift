@@ -18,8 +18,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         /// Запросы для проверки данных
         networkService.getRecipe { _ in
         }
-        networkService.getDetail(uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_e074fb5e814ed30309780398e68c2b90") { _ in
-        }
+        networkService
+            .getDetail(uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_e074fb5e814ed30309780398e68c2b90") { _ in
+            }
     }
 
     private func configureSceneDelegate(windowScene: UIWindowScene) {
