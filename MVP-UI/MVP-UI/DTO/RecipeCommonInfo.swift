@@ -1,17 +1,17 @@
-// RecipesStorage.swift
+// RecipeCommonInfo.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
-/// создание модели для хранения рецептов
-final class RecipesStorage {
-    /// картинка
+/// Краткая информация о рецепте
+final class RecipeCommonInfo {
+    /// Картинка
     let image: String
-    /// заголловок
+    /// Заголловок
     let label: String
-    /// время приготовллениия
+    /// Время приготовллениия
     let totaltime: Double
-    /// калории
+    /// Калории
     let calories: Int
     /// URI
     let uri: String

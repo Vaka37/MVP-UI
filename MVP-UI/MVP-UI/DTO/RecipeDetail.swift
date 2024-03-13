@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Слой детальных рецептов
+/// Детальная информация о рецепте
 final class RecipeDetail {
     /// Заголовок
     let label: String

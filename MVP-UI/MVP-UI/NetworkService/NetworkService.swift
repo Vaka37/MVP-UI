@@ -3,7 +3,10 @@
 
 import Foundation
 
-/// Работа с запросами
+/// Протокол коммуникации с NetworkService
+protocol NetworkServiceProtocol {}
+
+/// Сервис  для работы с сетевыми запросами
 final class NetworkService {
     // MARK: - Constants
 
@@ -23,15 +26,25 @@ final class NetworkService {
 
     // MARK: - DishType
 
+    /// Категории рецептов
     enum DishType: String {
+        /// Салат
         case salad
+        /// Суп
         case soup
+        /// Курица
         case chicken
+        /// Мясо
         case meat
+        /// Рыба
         case fish
+        /// Гарниры
         case sideDish
+        /// Блины
         case pancake
+        /// Напитки
         case drinks
+        /// Десерты
         case desserts
     }
 
@@ -39,18 +52,28 @@ final class NetworkService {
     private let scheme = Constants.scheme
     private let host = Constants.host
     private let path = Constants.path
-    private let urlQueryItems: [URLQueryItem] = [
-        .init(name: Constants.componentsTypeKey, value: Constants.type),
-        .init(name: Constants.identefire, value: Constants.appId),
-        .init(name: Constants.componnentsAppKey, value: Constants.appKey),
-        .init(name: Constants.componentsDishTypeKey, value: DishType.salad.rawValue)
-    ]
+    private var urlQueryItems: [URLQueryItem] {
+        createURLQueryItems()
+    }
 
-    func getRecipe(completionHandler: @escaping (Result<RecipesStorage, Error>) -> Void) {
+    func createURLQueryItems() -> [URLQueryItem] {
+        [
+            URLQueryItem(name: Constants.componentsTypeKey, value: Constants.type),
+            URLQueryItem(name: Constants.identefire, value: Constants.appId),
+            URLQueryItem(name: Constants.componnentsAppKey, value: Constants.appKey),
+            URLQueryItem(name: Constants.componentsDishTypeKey, value: DishType.salad.rawValue)
+        ]
+    }
+
+    func createURLComponents() {
         component.scheme = scheme
         component.host = host
         component.queryItems = urlQueryItems
         component.path = path
+    }
+
+    func getRecipe(completionHandler: @escaping (Result<RecipeCommonInfo, Error>) -> Void) {
+        createURLComponents()
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -62,7 +85,7 @@ final class NetworkService {
                 do {
                     let resultDetailsDTO = try JSONDecoder().decode(RecipeResponseDTO.self, from: data)
                     for item in resultDetailsDTO.hits {
-                        completionHandler(.success(RecipesStorage(dto: item.recipe)))
+                        completionHandler(.success(RecipeCommonInfo(dto: item.recipe)))
                     }
                 } catch {}
             }
@@ -71,10 +94,7 @@ final class NetworkService {
 
     func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void) {
         let urlQueryItemsDetail: [URLQueryItem] = [.init(name: uri, value: "")]
-        component.scheme = scheme
-        component.host = host
-        component.queryItems = urlQueryItems
-        component.path = path
+        createURLComponents()
         component.queryItems?.append(contentsOf: urlQueryItemsDetail)
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
@@ -86,8 +106,8 @@ final class NetworkService {
             if let data = data {
                 do {
                     let recipeDetailsDTO = try JSONDecoder().decode(RecipeDetailDTO.self, from: data)
-                    let ricepr = recipeDetailsDTO.hits
-                    for item in recipeDetailsDTO.hits {
+                    let ricepe = recipeDetailsDTO.hits
+                    for item in ricepe {
                         completionHandler(.success(RecipeDetail(dto: item.recipe)))
                     }
                 } catch {}
@@ -95,3 +115,7 @@ final class NetworkService {
         }.resume()
     }
 }
+
+// MARK: - Extension + NetworkServiceProtocol
+
+extension NetworkService: NetworkServiceProtocol {}
