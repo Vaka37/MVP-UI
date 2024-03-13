@@ -100,14 +100,8 @@ final class RecipiesViewCell: UICollectionViewCell {
 
             do {
                 let logContent = try String(contentsOf: logURL)
-                print("Содержимое файла log.txt:")
-                print(logContent)
-            } catch {
-                print("Ошибка чтения файла: \(error.localizedDescription)")
-            }
-        } else {
-            print("Нет пути к файлу")
-        }
+            } catch {}
+        } else {}
     }
 }
 

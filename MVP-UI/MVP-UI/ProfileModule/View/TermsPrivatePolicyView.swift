@@ -40,9 +40,11 @@ final class TermsPrivatePolicyView: UIView {
             "Thank you for being a part of our culinary community! Enjoy exploring and cooking up a storm!"
     }
 
-    /// состояния View
+    /// Состояния View
     enum StateView {
+        /// Открыта
         case openView
+        /// Закрыта
         case closeView
     }
 

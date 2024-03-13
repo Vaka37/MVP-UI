@@ -131,13 +131,8 @@ final class RecipesDetailsViewController: UIViewController {
             logAction.log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
-                print(logContent)
-            } catch {
-                print("При чтении файла возникла ошибка: \(error.localizedDescription)")
-            }
-        } else {
-            print("Нет пути к файлу")
-        }
+            } catch {}
+        } else {}
     }
 }
 

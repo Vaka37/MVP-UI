@@ -17,8 +17,12 @@ protocol MementoUser: Codable, Encodable {
 
 /// Пользователь
 struct User: MementoUser {
+    /// Логин пользователя
     var login: String
+    /// Почта пользователя
     var emailTitle: String
+    /// Пароль пользователя
     var passwordTitle: String
+    /// Аватар пользователя
     var avatar: Data?
 }
