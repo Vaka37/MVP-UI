@@ -13,7 +13,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        configureSceneDelegate(windowScene: windowScene)
+//        configureSceneDelegate(windowScene: windowScene)
+        let networkService = NetworkService()
+        networkService.getRecipe { _ in
+        }
     }
 
     private func configureSceneDelegate(windowScene: UIWindowScene) {

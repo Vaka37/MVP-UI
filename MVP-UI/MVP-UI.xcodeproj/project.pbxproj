@@ -60,6 +60,9 @@
 		D5EFBD722B8CD621005F6F9B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD712B8CD621005F6F9B /* TabBarController.swift */; };
 		D5EFBD772B8CD9E4005F6F9B /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD762B8CD9E4005F6F9B /* FavoritesViewController.swift */; };
 		D5EFBD792B8CDA2E005F6F9B /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EFBD782B8CDA2E005F6F9B /* UserProfileViewController.swift */; };
+		D5F979262BA118FD0034AE5B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F979252BA118FD0034AE5B /* NetworkService.swift */; };
+		D5F979292BA119D30034AE5B /* RecipeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F979282BA119D30034AE5B /* RecipeDTO.swift */; };
+		D5F9792B2BA11A820034AE5B /* RecipesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F9792A2BA11A820034AE5B /* RecipesStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +121,9 @@
 		D5EFBD712B8CD621005F6F9B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D5EFBD762B8CD9E4005F6F9B /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		D5EFBD782B8CDA2E005F6F9B /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		D5F979252BA118FD0034AE5B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		D5F979282BA119D30034AE5B /* RecipeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDTO.swift; sourceTree = "<group>"; };
+		D5F9792A2BA11A820034AE5B /* RecipesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +445,7 @@
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
+				D5F979272BA119040034AE5B /* NetworkService */,
 				D509B3042B97BE5100C094E2 /* StateShimer */,
 				D571F5372B8D095500BAE03F /* FavoritesModule */,
 				D571F5382B8D097000BAE03F /* ProfileModule */,
@@ -462,6 +469,16 @@
 				D5EFBD712B8CD621005F6F9B /* TabBarController.swift */,
 			);
 			path = TabBarViewController;
+			sourceTree = "<group>";
+		};
+		D5F979272BA119040034AE5B /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				D5F979252BA118FD0034AE5B /* NetworkService.swift */,
+				D5F979282BA119D30034AE5B /* RecipeDTO.swift */,
+				D5F9792A2BA11A820034AE5B /* RecipesStorage.swift */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -614,6 +631,7 @@
 				93F8D8D32B8E55DF00751ABD /* NavigationTableViewCell.swift in Sources */,
 				D5783B262B90922C00C81FAF /* RecipesCell.swift in Sources */,
 				D571D4712B8D3E3C000757E9 /* AppCoordinator.swift in Sources */,
+				D5F9792B2BA11A820034AE5B /* RecipesStorage.swift in Sources */,
 				936DC25A2B91F83000B0D755 /* DetailsPresenter.swift in Sources */,
 				D571AE8C2B9D027900EC9B2E /* FavoritesService.swift in Sources */,
 				9308560A2B9091E0009E71DE /* RecipiesViewCell.swift in Sources */,
@@ -621,10 +639,12 @@
 				93D3A3532B933165003E86DE /* DetailsInfoCell.swift in Sources */,
 				D509B3012B97B95A00C094E2 /* ShimerViewCell.swift in Sources */,
 				93D301052B8F80780035D421 /* BonusViewController.swift in Sources */,
+				D5F979262BA118FD0034AE5B /* NetworkService.swift in Sources */,
 				D5EFBD5C2B8CA6AA005F6F9B /* SceneDelegate.swift in Sources */,
 				D571AE782B99B6F700EC9B2E /* User.swift in Sources */,
 				D571D4792B8D4BF6000757E9 /* RecipesCoordinator.swift in Sources */,
 				934AE16E2B9600FE0060E699 /* TermsPrivatePolicyView.swift in Sources */,
+				D5F979292BA119D30034AE5B /* RecipeDTO.swift in Sources */,
 				D571D46F2B8D3CEF000757E9 /* BaseCoordinator.swift in Sources */,
 				930856032B908D73009E71DE /* Category.swift in Sources */,
 				D56FC8FC2B90DD9A0007F8CE /* RecipePresenter.swift in Sources */,
