@@ -42,7 +42,9 @@ final class TermsPrivatePolicyView: UIView {
 
     /// состояния View
     enum StateView {
+        /// открыта
         case openView
+        /// закрыта
         case closeView
     }
 

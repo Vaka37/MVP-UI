@@ -90,7 +90,7 @@ final class RecipesViewController: UIViewController {
     }
 }
 
-// MARK: - Подписываюсь на Data Source для коллекции
+// MARK: - Extension + UICollectionViewDataSource
 
 extension RecipesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -123,7 +123,7 @@ extension RecipesViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Подписываюсь на Delegate Layout для коллекции
+// MARK: - Extension + UICollectionViewDelegateFlowLayout
 
 extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
@@ -170,7 +170,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - RecipesViewController + CategoryViewInputProtocol
+// MARK: - Extension + CategoryViewInputProtocol
 
 extension RecipesViewController: CategoryViewInputProtocol {
     func changeShimerState() {
