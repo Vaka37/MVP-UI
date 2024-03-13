@@ -31,6 +31,7 @@ struct RecipeDTO: Codable {
 
 /// DetailsResponseDTO
 struct DetailsResponseDTO: Codable {
+    /// Рецепт
     let recipe: DetailDTO
 }
 
@@ -121,5 +122,6 @@ enum Label: String, Codable {
 
 /// Значения для ключей с деталями
 struct Total: Codable {
+    /// Заголовок
     let label: Label
 }
