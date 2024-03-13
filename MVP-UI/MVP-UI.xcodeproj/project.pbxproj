@@ -31,6 +31,7 @@
 		9389C05B2BA200AA00A0683E /* ComponentsImageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389C05A2BA200AA00A0683E /* ComponentsImageDTO.swift */; };
 		9389C05D2BA200DE00A0683E /* TotalDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389C05C2BA200DE00A0683E /* TotalDTO.swift */; };
 		93B976592B99C42600A137DC /* ServiceLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B976582B99C42600A137DC /* ServiceLog.swift */; };
+		93BCB2EB2BA24F3D0037BCFD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BCB2EA2BA24F3D0037BCFD /* UIImageView+Extension.swift */; };
 		93D301052B8F80780035D421 /* BonusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D301042B8F80780035D421 /* BonusViewController.swift */; };
 		93D3A3532B933165003E86DE /* DetailsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3A3522B933165003E86DE /* DetailsInfoCell.swift */; };
 		93D3A3552B933E83003E86DE /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3A3542B933E83003E86DE /* UIStackView+Extension.swift */; };
@@ -99,6 +100,7 @@
 		9389C05A2BA200AA00A0683E /* ComponentsImageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsImageDTO.swift; sourceTree = "<group>"; };
 		9389C05C2BA200DE00A0683E /* TotalDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalDTO.swift; sourceTree = "<group>"; };
 		93B976582B99C42600A137DC /* ServiceLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLog.swift; sourceTree = "<group>"; };
+		93BCB2EA2BA24F3D0037BCFD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		93D301042B8F80780035D421 /* BonusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusViewController.swift; sourceTree = "<group>"; };
 		93D3A3522B933165003E86DE /* DetailsInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsInfoCell.swift; sourceTree = "<group>"; };
 		93D3A3542B933E83003E86DE /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				D571D4992B8F1B68000757E9 /* UIViewController+Extension.swift */,
 				93D3A3542B933E83003E86DE /* UIStackView+Extension.swift */,
 				D5783B202B8FAD5400C81FAF /* TypeAlias.swift */,
+				93BCB2EA2BA24F3D0037BCFD /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				D571D4952B8E05D2000757E9 /* AutorizationCoordinator.swift in Sources */,
 				9388EE322B9717A300E42D46 /* UIFont+Extension.swift in Sources */,
 				9389C0552BA2001F00A0683E /* RecipeDetailDTO.swift in Sources */,
+				93BCB2EB2BA24F3D0037BCFD /* UIImageView+Extension.swift in Sources */,
 				D5783B232B9091D700C81FAF /* RecipesListViewController.swift in Sources */,
 				936DC2572B91F7E100B0D755 /* RecipesDetailsViewController.swift in Sources */,
 				D571D4732B8D48BA000757E9 /* AppBuilder.swift in Sources */,

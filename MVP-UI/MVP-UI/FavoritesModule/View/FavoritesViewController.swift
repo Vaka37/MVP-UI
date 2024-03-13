@@ -126,7 +126,7 @@ extension FavoritesViewController: UITableViewDataSource {
             for: indexPath
         ) as? RecipesCell {
             guard let recipe = recipe else { return cell }
-            cell.configure(with: recipe[indexPath.row])
+//            cell.configure(with: recipe[indexPath.row])
             return cell
         }
         return UITableViewCell()

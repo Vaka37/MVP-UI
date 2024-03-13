@@ -37,7 +37,7 @@ final class RecipiesViewCell: UICollectionViewCell {
 
     private lazy var nameCategoryLabel: UILabel = {
         let label = UILabel()
-        label.text = modelCategory?.categoryTitle
+        label.text = modelCategory?.categoryTitle.rawValue
         label.textColor = .white
         label.backgroundColor = .backgroundNameCategory
         label.textAlignment = .center
@@ -71,7 +71,7 @@ final class RecipiesViewCell: UICollectionViewCell {
         modelCategory = model
         let image = UIImage(named: model.avatarImageName)
         categoryButton.setImage(image, for: .normal)
-        nameCategoryLabel.text = model.categoryTitle
+        nameCategoryLabel.text = model.categoryTitle.rawValue
     }
 
     // MARK: - Private Methods
@@ -95,7 +95,7 @@ final class RecipiesViewCell: UICollectionViewCell {
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
-            let logAction = LogAction.userOpenRecipeScene(categoryTitle)
+            let logAction = LogAction.userOpenRecipeScene(categoryTitle.rawValue)
             logAction.log(fileURL: logURL)
 
             do {

@@ -1,10 +1,12 @@
 // RecipePresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
+import Foundation
+
 /// Протокол получения категории
 protocol RecipesViewProtocol: AnyObject {
     /// Получение категории
-    func getRecipes(recipes: Category)
+    func getRecipes(recipes: [RecipeCommonInfo])
     /// Сортировка Рецептов
     func sortedRecip(recipe: [Recipe])
     /// Изменение соятояния кнопки сортировки время
@@ -25,6 +27,8 @@ protocol RecipeProtocol: AnyObject {
     func sortedRecipe(category: [Recipe])
     /// Меняем состояние шимеров
     func changeShimer()
+    /// парсит рецепты
+    func parseRecipes()
 }
 
 /// Презентер экрана рецептов
@@ -44,8 +48,10 @@ final class RecipePresenter {
     private weak var detailsRecipeCoordinator: RecipesCoordinator?
     private weak var view: RecipesViewProtocol?
     private var category: Category
+    private var recipeCommonInfo: [RecipeCommonInfo]?
     private var sortedCalories = SortedCalories.non
     private var sortedTime = SortedTime.non
+    private var networkService = NetworkService()
 
     // MARK: - Initializers
 
@@ -53,6 +59,7 @@ final class RecipePresenter {
         self.view = view
         self.category = category
         self.detailsRecipeCoordinator = detailsRecipeCoordinator
+        parseRecipes()
     }
 
     // MARK: - Private Methods
@@ -97,6 +104,21 @@ final class RecipePresenter {
 // MARK: - Extension + RecipeProtocol
 
 extension RecipePresenter: RecipeProtocol {
+    func parseRecipes() {
+        networkService.getRecipe(type: category.categoryTitle) { [weak self] result in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(recipes):
+                    self.recipeCommonInfo = recipes
+                    self.view?.getRecipes(recipes: self.recipeCommonInfo ?? [])
+                case .failure:
+                    break
+                }
+            }
+        }
+    }
+
     func changeShimer() {
         view?.changeShimerState()
     }
@@ -186,6 +208,6 @@ extension RecipePresenter: RecipeProtocol {
     }
 
     func getRecipe() {
-        view?.getRecipes(recipes: category)
+        view?.getRecipes(recipes: recipeCommonInfo ?? [])
     }
 }

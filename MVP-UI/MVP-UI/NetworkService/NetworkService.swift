@@ -3,10 +3,51 @@
 
 import Foundation
 
+// MARK: - DishType
+
+/// Категории рецептов
+enum DishType: String {
+    /// Салат
+    case salad
+    /// Суп
+    case soup
+    /// Курица
+    case chicken
+    /// Мясо
+    case meat
+    /// Рыба
+    case fish
+    /// Гарниры
+    case sideDish
+    /// Блины
+    case pancake
+    /// Напитки
+    case drinks
+    /// Десерты
+    case desserts
+
+    var discription: String {
+        switch self {
+        case .meat, .fish, .chicken, .sideDish:
+            "Main course"
+        case .salad:
+            "Salad"
+        case .soup:
+            "Soup"
+        case .pancake:
+            "Pancake"
+        case .drinks:
+            "Drinks"
+        case .desserts:
+            "Desserts"
+        }
+    }
+}
+
 /// Протокол коммуникации с NetworkService
 protocol NetworkServiceProtocol {
     /// получение рецептов
-    func getRecipe(completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void)
+    func getRecipe(type: DishType, completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void)
     /// получение детальней рецепта
     func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void)
 }
@@ -29,56 +70,35 @@ final class NetworkService: NetworkServiceProtocol {
         static let dishType = "dishType"
     }
 
-    // MARK: - DishType
-
-    /// Категории рецептов
-    enum DishType: String {
-        /// Салат
-        case salad
-        /// Суп
-        case soup
-        /// Курица
-        case chicken
-        /// Мясо
-        case meat
-        /// Рыба
-        case fish
-        /// Гарниры
-        case sideDish
-        /// Блины
-        case pancake
-        /// Напитки
-        case drinks
-        /// Десерты
-        case desserts
-    }
-
     private var component = URLComponents()
     private let scheme = Constants.scheme
     private let host = Constants.host
     private let path = Constants.path
-    private var urlQueryItems: [URLQueryItem] {
-        createURLQueryItems()
-    }
+//    private var urlQueryItems: [URLQueryItem] {
+//        createURLQueryItems()
+//    }
 
-    func createURLQueryItems() -> [URLQueryItem] {
+    func createURLQueryItems(type: DishType) -> [URLQueryItem] {
         [
             URLQueryItem(name: Constants.componentsTypeKey, value: Constants.type),
             URLQueryItem(name: Constants.identefire, value: Constants.appId),
             URLQueryItem(name: Constants.componnentsAppKey, value: Constants.appKey),
-            URLQueryItem(name: Constants.componentsDishTypeKey, value: DishType.salad.rawValue)
+            URLQueryItem(name: Constants.componentsDishTypeKey, value: type.discription)
         ]
     }
 
-    func createURLComponents() {
+    func createURLComponents(type: DishType) {
         component.scheme = scheme
         component.host = host
-        component.queryItems = urlQueryItems
+        component.queryItems = createURLQueryItems(type: type)
         component.path = path
     }
 
-    func getRecipe(completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void) {
-        createURLComponents()
+    func getRecipe(type: DishType, completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void) {
+        createURLComponents(type: type)
+//        let urlQueryItem = URLQueryItem(name: Constants.componentsDishTypeKey, value: type.rawValue)
+//        component.queryItems?.append(urlQueryItem)
+
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -100,7 +120,7 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void) {
         let urlQueryItemsDetail: [URLQueryItem] = [.init(name: uri, value: "")]
-        createURLComponents()
+        createURLComponents(type: .salad)
         component.queryItems?.append(contentsOf: urlQueryItemsDetail)
         guard let url = component.url else { return }
         let request = URLRequest(url: url)

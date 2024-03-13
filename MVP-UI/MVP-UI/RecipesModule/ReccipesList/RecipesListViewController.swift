@@ -51,14 +51,13 @@ final class RecipesListViewController: UIViewController {
     // MARK: - Private Properties
 
     private var stateShimer = StateShimer.loading
-    private var recipes: Category?
+    private var recipes: [RecipeCommonInfo]?
     private var searchRecipes: [Recipe] = []
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipePresenter?.getRecipe()
         configureUI()
         recipePresenter?.changeShimer()
 
@@ -67,6 +66,11 @@ final class RecipesListViewController: UIViewController {
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
         } else {}
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        recipePresenter?.getRecipe()
     }
 
     // MARK: - Private Methods
@@ -79,7 +83,7 @@ final class RecipesListViewController: UIViewController {
         makeFilterButton(button: caloriesButton, title: Constants.caloriesButtonTitle)
         makeFilterButton(button: timeButton, title: Constants.timeButtonTitle)
         makeAnchor()
-        searchRecipes = recipes?.recepies ?? []
+//        searchRecipes = recipes?.recepies ?? []
     }
 
     private func configureNavigation() {
@@ -91,7 +95,8 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-            title: recipes?.categoryTitle,
+            //            title: recipes?.categoryTitle.rawValue,
+            title: "",
             style: .done,
             target: self,
             action: #selector(dissmiss)
@@ -127,11 +132,11 @@ final class RecipesListViewController: UIViewController {
     }
 
     @objc private func caloriesButtonTapped() {
-        recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
+//        recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
     }
 
     @objc private func timeButtonTapped() {
-        recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
+//        recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
     }
 
     @objc private func dissmiss() {
@@ -179,19 +184,19 @@ extension RecipesListViewController {
 
 extension RecipesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let recipe = recipes?.recepies[indexPath.row] else { return }
+        guard let recipe = recipes?[indexPath.row] else { return }
 
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
-            LogAction.userOpenRecipe(recipe.titleRecipies).log(fileURL: logURL)
+            LogAction.userOpenRecipe(recipe.label).log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
             } catch {}
         }
 
-        recipePresenter?.tappedOnCell(recipe: recipe)
+//        recipePresenter?.tappedOnCell(recipe: recipe)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -203,7 +208,8 @@ extension RecipesListViewController: UITableViewDelegate {
 
 extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        recipes?.recepies.count ?? 1
+//        recipes?.recepies.count ?? 1
+        recipes?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -216,8 +222,9 @@ extension RecipesListViewController: UITableViewDataSource {
                 for: indexPath
             ) as? RecipesCell
             else { return UITableViewCell() }
-            guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
+            guard let recipe = recipes?[indexPath.row] else { return cell }
             cell.configure(with: recipe)
+            cell.prepareForReuse()
             return cell
         }
     }
@@ -248,11 +255,11 @@ extension RecipesListViewController: RecipesViewProtocol {
     }
 
     func sortedRecip(recipe: [Recipe]) {
-        recipes?.recepies = recipe
+//        recipes?.recepies = recipe
         recipesTableView.reloadData()
     }
 
-    func getRecipes(recipes: Category) {
+    func getRecipes(recipes: [RecipeCommonInfo]) {
         self.recipes = recipes
         recipesTableView.reloadData()
     }
@@ -263,12 +270,12 @@ extension RecipesListViewController: RecipesViewProtocol {
 extension RecipesListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > Constants.valueSearchText {
-            let searchFiltered = recipes?.recepies
-                .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
-            recipes?.recepies = searchFiltered ?? []
+//            let searchFiltered = recipes?.recepies
+//                .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
+//            recipes?.recepies = searchFiltered ?? []
             recipesTableView.reloadData()
         } else {
-            recipes?.recepies = searchRecipes
+//            recipes?.recepies = searchRecipes
             recipesTableView.reloadData()
         }
     }
