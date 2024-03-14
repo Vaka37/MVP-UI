@@ -165,8 +165,8 @@ extension RecipesDetailsViewController: UITableViewDataSource {
                     for: indexPath
                 ) as? ShimerDetailInfoViewCell
             else { return UITableViewCell() }
-//            guard let recipe = recipe else { return cell }
-//            cell.configure(info: recipe)
+            //            guard let recipe = recipe else { return cell }
+            //            cell.configure(info: recipe)
             return cell
 
         case .info:
@@ -176,8 +176,8 @@ extension RecipesDetailsViewController: UITableViewDataSource {
                     for: indexPath
                 ) as? ShimerHeaderViewCell
             else { return UITableViewCell() }
-//            guard let recipe = recipe else { return cell }
-//            cell.configure(info: recipe)
+            //            guard let recipe = recipe else { return cell }
+            //            cell.configure(info: recipe)
             return cell
 
         case .description:
@@ -187,7 +187,7 @@ extension RecipesDetailsViewController: UITableViewDataSource {
                     for: indexPath
                 ) as? ShimerDiscriptionViewCell
             else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
+//            guard let recipe = recipe else { return cell }
             // cell.configure(info: recipe)
             return cell
         }
