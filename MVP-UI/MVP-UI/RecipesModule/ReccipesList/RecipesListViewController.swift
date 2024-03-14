@@ -95,7 +95,7 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-            //            title: recipes?.categoryTitle.rawValue,
+//            title: recipes?.categoryTitle.rawValue,
             title: "",
             style: .done,
             target: self,
