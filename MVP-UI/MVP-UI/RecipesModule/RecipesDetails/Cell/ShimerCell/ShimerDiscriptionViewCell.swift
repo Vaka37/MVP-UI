@@ -17,33 +17,30 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
 
     // MARK: - Visual Components
 
-    private let foodImageView: UIView = {
-        let imageView = UIView()
-        imageView.backgroundColor = .gray
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let gradientBackground = CAGradientLayer()
 
     private let bacgroundDescription: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 24
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private let gradientBackground = CAGradientLayer()
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     // MARK: - Public Properties
 
-    static let identifier = NSStringFromClass(ShimerDiscriptionViewCell.self)
+    static let identifier = NSStringFromClass(DescriptionCell.self)
 
     // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .white
-        addGradient()
         setupViews()
         setupConstraints()
     }
@@ -54,6 +51,11 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
         setupConstraints()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        makeGradient()
+    }
+
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: self.layer)
         addGradient()
@@ -62,26 +64,12 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
 
     // MARK: - Private Methods
 
-    private func setupViews() {
-        contentView.addSubview(bacgroundDescription)
-        bacgroundDescription.addSubview(foodImageView)
-        makeGradient()
-    }
-
     private func setupGradiBackground() {
-        gradientBackground.startPoint = CGPoint(x: 0.5, y: 0)
-        gradientBackground.endPoint = CGPoint(x: 0.5, y: 1)
-        gradientBackground.frame = foodImageView.bounds
+        gradientBackground.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientBackground.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientBackground.frame = descriptionLabel.bounds
         gradientBackground.cornerRadius = 12
-        foodImageView.layer.addSublayer(gradientBackground)
-    }
-
-    private func makeGradient() {
-        let gradient = CAGradientLayer()
-        gradient.frame = bacgroundDescription.bounds
-        gradient.cornerRadius = 24
-        gradient.colors = [Constants.topGradientColor.cgColor, Constants.bottomGradientColor.cgColor]
-        bacgroundDescription.layer.insertSublayer(gradient, at: 0)
+        descriptionLabel.layer.addSublayer(gradientBackground)
     }
 
     private func addGradient() {
@@ -117,16 +105,23 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
         return group
     }
 
-    private func setupConstraints() {
-        foodImageConstraints()
-        bacgroundDescriptionConstraints()
+    private func setupViews() {
+        descriptionLabel.text = "  Hello world"
+        contentView.addSubview(bacgroundDescription)
+        bacgroundDescription.addSubview(descriptionLabel)
     }
 
-    private func foodImageConstraints() {
-        foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
-        foodImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        foodImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        foodImageView.heightAnchor.constraint(equalToConstant: 15).isActive = true
+    private func makeGradient() {
+        let gradient = CAGradientLayer()
+        gradient.frame = bacgroundDescription.bounds
+        gradient.cornerRadius = 24
+        gradient.colors = [Constants.topGradientColor.cgColor, Constants.bottomGradientColor.cgColor]
+        bacgroundDescription.layer.insertSublayer(gradient, at: 0)
+    }
+
+    private func setupConstraints() {
+        bacgroundDescriptionConstraints()
+        descriptionLabelConstraints()
     }
 
     private func bacgroundDescriptionConstraints() {
@@ -134,5 +129,13 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
         bacgroundDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         bacgroundDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         bacgroundDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+
+    private func descriptionLabelConstraints() {
+        descriptionLabel.topAnchor.constraint(equalTo: bacgroundDescription.topAnchor, constant: 27).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: bacgroundDescription.leadingAnchor, constant: 27)
+            .isActive = true
+        descriptionLabel.trailingAnchor.constraint(equalTo: bacgroundDescription.trailingAnchor, constant: -27)
+            .isActive = true
     }
 }
