@@ -17,7 +17,6 @@ protocol FavoritesViewProtocol: AnyObject {
     func emptyFaforites()
     /// метод для добавления таблицы с избраннымми рецептами
     func makeTable(favorites: [RecipeCommonInfo])
-
 }
 
 /// Презентер для экрана с фаворитами
