@@ -97,6 +97,11 @@ final class RecipesCell: UITableViewCell {
         setupAnchors()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        recipeImageView.image = nil
+    }
+
     // MARK: - Public Methods
 
     func configure(with items: RecipeCommonInfo) {

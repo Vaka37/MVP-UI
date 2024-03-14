@@ -6,7 +6,7 @@ import UIKit
 /// Протокол для фаворитов
 protocol FavoritesProtocol: AnyObject {
     /// Метод для перехода
-    func pushDetailFavoritesViewController(recipe: Recipe)
+    func pushDetailFavoritesViewController(recipe: RecipeCommonInfo)
     /// Метод для проверки пустые ли фавориты
     func emptyView()
 }
@@ -16,7 +16,7 @@ protocol FavoritesViewProtocol: AnyObject {
     /// Методд для проверки пустые ли фавориты
     func emptyFaforites()
     /// метод для добавления таблицы с избраннымми рецептами
-    func makeTable(favorites: [Recipe])
+    func makeTable(favorites: [RecipeCommonInfo])
 }
 
 /// Презентер для экрана с фаворитами
@@ -33,7 +33,7 @@ final class FavoritesPresenter {
 // MARK: - extension + FavoritesProtocol
 
 extension FavoritesPresenter: FavoritesProtocol {
-    func pushDetailFavoritesViewController(recipe: Recipe) {
+    func pushDetailFavoritesViewController(recipe: RecipeCommonInfo) {
         favoritesCoordinator?.pushRecipeDetailsViewController(recipe: recipe)
     }
 

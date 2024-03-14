@@ -22,7 +22,7 @@ protocol RecipeProtocol: AnyObject {
     /// Получить рецепты
     func getRecipe()
     /// Метод для тапа по ячейке
-    func tappedOnCell(recipe: Recipe)
+    func tappedOnCell(recipe: RecipeCommonInfo)
     /// Сортировка рецептов
     func sortedRecipe(category: [Recipe])
     /// Меняем состояние шимеров
@@ -203,7 +203,7 @@ extension RecipePresenter: RecipeProtocol {
         }
     }
 
-    func tappedOnCell(recipe: Recipe) {
+    func tappedOnCell(recipe: RecipeCommonInfo) {
         detailsRecipeCoordinator?.pushRecipeDetailsViewController(recipe: recipe)
     }
 

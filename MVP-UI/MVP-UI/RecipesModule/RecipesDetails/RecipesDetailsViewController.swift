@@ -6,7 +6,7 @@ import UIKit
 /// Протокол презентера детального экрана
 protocol DetailsViewInputProtocol: AnyObject {
     /// данные экрана рецептов
-    func getDetail(recipe: Recipe)
+    func getDetail(recipe: RecipeDetail)
     /// метод приисутсвия  рецепта в  избранным
     func isFavorite()
     /// метод отсутсвия  рецепта в  избранным
@@ -41,7 +41,7 @@ final class RecipesDetailsViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var recipe: Recipe?
+    private var recipe: RecipeDetail?
     private let tableView = UITableView(frame: .zero, style: .plain)
     private var rowsType: [RowsType] = [
         .header,
@@ -53,10 +53,15 @@ final class RecipesDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        detailsPresenter?.getDetail()
+
         addSubview()
         makeTableView()
         detailsPresenter?.checkFavorite()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        detailsPresenter?.getDetail()
     }
 
     override func viewWillLayoutSubviews() {
@@ -70,6 +75,9 @@ final class RecipesDetailsViewController: UIViewController {
         tableView.register(DetailsHeaderCell.self, forCellReuseIdentifier: DetailsHeaderCell.identifier)
         tableView.register(DetailsInfoCell.self, forCellReuseIdentifier: DetailsInfoCell.identifier)
         tableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.identifier)
+        tableView.register(ShimerHeaderViewCell.self, forCellReuseIdentifier: ShimerHeaderViewCell.identifier)
+        tableView.register(ShimerDetailInfoViewCell.self, forCellReuseIdentifier: ShimerDetailInfoViewCell.identifier)
+        tableView.register(ShimerDiscriptionViewCell.self, forCellReuseIdentifier: ShimerDiscriptionViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +131,7 @@ final class RecipesDetailsViewController: UIViewController {
     }
 
     @objc private func sharedRecipe() {
-        if let recipeShare = recipe?.titleRecipies, let logURL = FileManager.default.urls(
+        if let recipeShare = recipe?.label, let logURL = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
@@ -152,26 +160,35 @@ extension RecipesDetailsViewController: UITableViewDataSource {
         switch type {
         case .header:
             guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DetailsHeaderCell.identifier, for: indexPath) as? DetailsHeaderCell
+                .dequeueReusableCell(
+                    withIdentifier: ShimerDetailInfoViewCell.identifier,
+                    for: indexPath
+                ) as? ShimerDetailInfoViewCell
             else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
+//            guard let recipe = recipe else { return cell }
+//            cell.configure(info: recipe)
             return cell
 
         case .info:
             guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DetailsInfoCell.identifier, for: indexPath) as? DetailsInfoCell
+                .dequeueReusableCell(
+                    withIdentifier: ShimerHeaderViewCell.identifier,
+                    for: indexPath
+                ) as? ShimerHeaderViewCell
             else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
+//            guard let recipe = recipe else { return cell }
+//            cell.configure(info: recipe)
             return cell
 
         case .description:
             guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DescriptionCell.identifier, for: indexPath) as? DescriptionCell
+                .dequeueReusableCell(
+                    withIdentifier: ShimerDiscriptionViewCell.identifier,
+                    for: indexPath
+                ) as? ShimerDiscriptionViewCell
             else { return UITableViewCell() }
             guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
+            // cell.configure(info: recipe)
             return cell
         }
     }
@@ -206,7 +223,8 @@ extension RecipesDetailsViewController: DetailsViewInputProtocol {
         tableView.reloadData()
     }
 
-    func getDetail(recipe: Recipe) {
+    func getDetail(recipe: RecipeDetail) {
         self.recipe = recipe
+        tableView.reloadData()
     }
 }
