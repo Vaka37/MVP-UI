@@ -13,9 +13,9 @@ protocol FavoritesProtocol: AnyObject {
 
 /// Протокол фаворитов для вью
 protocol FavoritesViewProtocol: AnyObject {
-    /// Методд для проверки пустые ли фавориты
+    /// Метод для проверки пустые ли фавориты
     func emptyFaforites()
-    /// метод для добавления таблицы с избраннымми рецептами
+    /// Метод для добавления таблицы с избраннымми рецептами
     func makeTable(favorites: [Recipe])
 }
 
@@ -30,7 +30,7 @@ final class FavoritesPresenter {
     }
 }
 
-// MARK: - extension + FavoritesProtocol
+// MARK: - Extension + FavoritesProtocol
 
 extension FavoritesPresenter: FavoritesProtocol {
     func pushDetailFavoritesViewController(recipe: Recipe) {

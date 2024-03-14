@@ -1,15 +1,16 @@
-//
-//  ViewState.swift
-//  MVP-UI
-//
-//  Created by Евгений Л on 14.03.2024.
-//
+// ViewState.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
-enum ViewState<T> {
+/// Состояния у View в зависимости от наличия данных
+enum ViewState<Model> {
+    /// Загрузка данных
     case loading
-    case data(T)
+    /// Данные получены
+    case data(_ model: Model)
+    /// Нет данных
     case noData
-    case error
+    /// Ошибка получения данных
+    case error(_ error: Error)
 }
