@@ -5,6 +5,7 @@ import Foundation
 
 /// Краткая информация о рецепте
 final class RecipeCommonInfo: Codable, Equatable {
+
     static func == (lhs: RecipeCommonInfo, rhs: RecipeCommonInfo) -> Bool {
         true
     }

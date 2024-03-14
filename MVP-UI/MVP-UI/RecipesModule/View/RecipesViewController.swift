@@ -9,8 +9,6 @@ protocol CategoryViewInputProtocol: AnyObject {
     func updateData(category: Storage)
     /// Меняем состояние шимера
     func changeShimerState()
-
-//    func
 }
 
 /// Экран с рецептами

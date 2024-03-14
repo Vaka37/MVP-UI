@@ -4,6 +4,8 @@
 import UIKit
 
 extension UIImageView {
+    /// Расширение выполнения запроса по загрузке картинки
+    /// - Parameter url: ссылка
     func downloaded(from url: URL) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard
@@ -18,6 +20,8 @@ extension UIImageView {
         }.resume()
     }
 
+    /// Расширение для проверки существования картинки
+    /// - Parameter link: тип ссылки
     func downloaded(from link: String) {
         guard let url = URL(string: link) else { return }
         var image: UIImage?
