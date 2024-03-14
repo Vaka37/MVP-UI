@@ -197,8 +197,8 @@
 		10BBAC282BA34ACD00FF93D9 /* ShimerCell */ = {
 			isa = PBXGroup;
 			children = (
-				10575E1B2BA33F8E0023F322 /* ShimerHeaderViewCell.swift */,
 				10BBAC292BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift */,
+				10575E1B2BA33F8E0023F322 /* ShimerHeaderViewCell.swift */,
 				10BBAC2B2BA36FF000FF93D9 /* ShimerDiscriptionViewCell.swift */,
 			);
 			path = ShimerCell;
