@@ -55,6 +55,12 @@ final class RecipesListViewController: UIViewController {
         return search
     }()
 
+    private lazy var refreshControll: UIRefreshControl = {
+        let refreshControll = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        return refreshControll
+    }()
+
     let caloriesButton = UIButton()
     let timeButton = UIButton()
 
@@ -65,7 +71,7 @@ final class RecipesListViewController: UIViewController {
     // MARK: - Private Properties
 
     private var recipes: [RecipeCommonInfo]?
-    private var searchRecipes: [Recipe] = []
+    private var searchRecipes: [RecipeCommonInfo] = []
 
     // MARK: - Life Cycle
 
@@ -88,14 +94,14 @@ final class RecipesListViewController: UIViewController {
     // MARK: - Private Methods
 
     private func configureUI() {
-        configureNavigation()
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(recipesTableView)
+        recipesTableView.addSubview(refreshControll)
         makeFilterButton(button: caloriesButton, title: Constants.caloriesButtonTitle)
         makeFilterButton(button: timeButton, title: Constants.timeButtonTitle)
         makeAnchor()
-//        searchRecipes = recipes?.recepies ?? []
+        searchRecipes = recipes ?? []
     }
 
     private func configureNavigation() {
@@ -107,7 +113,6 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-            //            title: recipes?.categoryTitle.rawValue,
             title: "",
             style: .done,
             target: self,
@@ -165,6 +170,10 @@ final class RecipesListViewController: UIViewController {
 
     @objc private func dissmiss() {
         navigationController?.popViewController(animated: true)
+    }
+
+    @objc private func refreshTable() {
+        recipePresenter?.getRecipe()
     }
 }
 
@@ -236,7 +245,7 @@ extension RecipesListViewController: UITableViewDelegate {
             } catch {}
         }
 
-//        recipePresenter?.tappedOnCell(recipe: recipe)
+        recipePresenter?.tappedOnCell(recipe: recipe)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -322,7 +331,10 @@ extension RecipesListViewController: RecipesViewProtocol {
 
     func getRecipes(recipes: [RecipeCommonInfo]) {
         self.recipes = recipes
+        searchRecipes = recipes
+        configureNavigation()
         recipesTableView.reloadData()
+        refreshControll.endRefreshing()
     }
 }
 
@@ -331,12 +343,12 @@ extension RecipesListViewController: RecipesViewProtocol {
 extension RecipesListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > Constants.valueSearchText {
-//            let searchFiltered = recipes?.recepies
-//                .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
-//            recipes?.recepies = searchFiltered ?? []
+            let searchFiltered = recipes?
+                .filter { $0.label.prefix(searchText.count) == searchText }
+            recipes = searchFiltered ?? []
             recipesTableView.reloadData()
         } else {
-//            recipes?.recepies = searchRecipes
+            recipes = searchRecipes
             recipesTableView.reloadData()
         }
     }

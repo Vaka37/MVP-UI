@@ -56,8 +56,8 @@ final class DescriptionCell: UITableViewCell {
 
     // MARK: - Public Methods
 
-    func configure(info: Recipe) {
-        descriptionLabel.text = info.recipeDescriptionTitle
+    func configure(info: RecipeDetail) {
+        descriptionLabel.text = info.ingridientLines.joined(separator: "\n")
     }
 
     // MARK: - Private Methods

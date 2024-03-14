@@ -60,6 +60,7 @@ final class NetworkService: NetworkServiceProtocol {
         static let scheme = "https"
         static let host = "api.edamam.com"
         static let path = "/api/recipes/v2"
+        static let detailPath = "/api/recipes/v2/by-uri"
         static let componentsTypeKey = "type"
         static let identefire = "app_id"
         static let componnentsAppKey = "app_key"
@@ -68,15 +69,13 @@ final class NetworkService: NetworkServiceProtocol {
         static let appKey = "2412c4c0d52ca924f6d6a486c1aa1ab6"
         static let appId = "a726fb9c"
         static let dishType = "dishType"
+        static let uriTitle = "uri"
     }
 
     private var component = URLComponents()
     private let scheme = Constants.scheme
     private let host = Constants.host
     private let path = Constants.path
-//    private var urlQueryItems: [URLQueryItem] {
-//        createURLQueryItems()
-//    }
 
     func createURLQueryItems(type: DishType) -> [URLQueryItem] {
         [
@@ -85,6 +84,22 @@ final class NetworkService: NetworkServiceProtocol {
             URLQueryItem(name: Constants.componnentsAppKey, value: Constants.appKey),
             URLQueryItem(name: Constants.componentsDishTypeKey, value: type.discription)
         ]
+    }
+
+    func createDetailURLQueryItems(uri: String) -> [URLQueryItem] {
+        [
+            URLQueryItem(name: Constants.componentsTypeKey, value: Constants.type),
+            URLQueryItem(name: Constants.identefire, value: Constants.appId),
+            URLQueryItem(name: Constants.componnentsAppKey, value: Constants.appKey),
+            URLQueryItem(name: Constants.uriTitle, value: uri)
+        ]
+    }
+
+    func createDetailURLComponents(uri: String) {
+        component.scheme = scheme
+        component.host = host
+        component.queryItems = createDetailURLQueryItems(uri: uri)
+        component.path = Constants.detailPath
     }
 
     func createURLComponents(type: DishType) {
@@ -96,9 +111,6 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getRecipe(type: DishType, completionHandler: @escaping (Result<[RecipeCommonInfo], Error>) -> Void) {
         createURLComponents(type: type)
-//        let urlQueryItem = URLQueryItem(name: Constants.componentsDishTypeKey, value: type.rawValue)
-//        component.queryItems?.append(urlQueryItem)
-
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -119,9 +131,7 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func getDetail(uri: String, completionHandler: @escaping (Result<RecipeDetail, Error>) -> Void) {
-        let urlQueryItemsDetail: [URLQueryItem] = [.init(name: uri, value: "")]
-        createURLComponents(type: .salad)
-        component.queryItems?.append(contentsOf: urlQueryItemsDetail)
+        createDetailURLComponents(uri: uri)
         guard let url = component.url else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in

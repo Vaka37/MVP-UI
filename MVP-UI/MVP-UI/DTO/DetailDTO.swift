@@ -16,7 +16,7 @@ struct DetailDTO: Codable {
     /// Масса рецепта
     let totalWeight: Double
     /// КБЖУ
-    let totalNutrients: [String: TotalDTO]
+    let totalNutrients: TotalNutrientsDTO
     /// Описание рецепта
     let ingredientLines: [String]
 }
