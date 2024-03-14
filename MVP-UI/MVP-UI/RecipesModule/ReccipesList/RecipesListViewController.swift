@@ -18,9 +18,23 @@ final class RecipesListViewController: UIViewController {
         static let valueToStartSearch: CGFloat = 2
         static let changeShimerState: CGFloat = 2
         static let valueSearchText = 2
+        static let emptyDataImage = UIImage.emptyViewData
+        static let errorServiceImage = UIImage.errorService
     }
 
     // MARK: - Visual Components
+
+    private let errorServiceImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.errorServiceImage
+        return imageView
+    }()
+
+    private let emptyDataImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.emptyDataImage
+        return imageView
+    }()
 
     private lazy var recipesTableView: UITableView = {
         let table = UITableView()
@@ -50,7 +64,6 @@ final class RecipesListViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var stateShimer = StateShimer.loading
     private var recipes: [RecipeCommonInfo]?
     private var searchRecipes: [Recipe] = []
 
@@ -59,7 +72,6 @@ final class RecipesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        recipePresenter?.changeShimer()
 
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
@@ -95,7 +107,7 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-//            title: recipes?.categoryTitle.rawValue,
+            //            title: recipes?.categoryTitle.rawValue,
             title: "",
             style: .done,
             target: self,
@@ -124,6 +136,18 @@ final class RecipesListViewController: UIViewController {
         view.addSubview(button)
     }
 
+    private func addEmptyView() {
+        view.addSubview(emptyDataImageView)
+        setupEmptyDataImageConstraints()
+        recipesTableView.removeFromSuperview()
+    }
+
+    private func addErrorServiceView() {
+        view.addSubview(errorServiceImageView)
+        setupErrorServiceImageConstraints()
+        recipesTableView.removeFromSuperview()
+    }
+
     private func makeAnchor() {
         makeAnchorsSearchBar()
         setupAnchorsCaloriesButton()
@@ -144,7 +168,7 @@ final class RecipesListViewController: UIViewController {
     }
 }
 
-// MARK: - Extension + Layout
+// MARK: - Extension + Constraints
 
 extension RecipesListViewController {
     private func makeAnchorsSearchBar() {
@@ -178,6 +202,22 @@ extension RecipesListViewController {
         timeButton.widthAnchor.constraint(equalToConstant: 90).isActive = true
         timeButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
+
+    private func setupEmptyDataImageConstraints() {
+        emptyDataImageView.translatesAutoresizingMaskIntoConstraints = false
+        emptyDataImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyDataImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyDataImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        emptyDataImageView.heightAnchor.constraint(equalToConstant: 85).isActive = true
+    }
+
+    private func setupErrorServiceImageConstraints() {
+        errorServiceImageView.translatesAutoresizingMaskIntoConstraints = false
+        errorServiceImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        errorServiceImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorServiceImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        errorServiceImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
 }
 
 // MARK: - Extension + UITableViewDelegate
@@ -208,15 +248,21 @@ extension RecipesListViewController: UITableViewDelegate {
 
 extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        recipes?.recepies.count ?? 1
-        recipes?.count ?? 0
+        switch recipePresenter?.state {
+        case .loading:
+            10
+        case .data:
+            recipes?.count ?? 0
+        case .noData, .error, .none:
+            0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch stateShimer {
+        switch recipePresenter?.state {
         case .loading:
             return ShimerViewCell()
-        case .done:
+        case .data:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: Constants.cellIdendefire,
                 for: indexPath
@@ -226,18 +272,33 @@ extension RecipesListViewController: UITableViewDataSource {
             cell.configure(with: recipe)
             cell.prepareForReuse()
             return cell
+        case .noData, .error, .none:
+            break
         }
+        return UITableViewCell()
     }
 }
 
 // MARK: - Extension + RecipesViewProtocol
 
 extension RecipesListViewController: RecipesViewProtocol {
-    func changeShimerState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.changeShimerState) {
-            self.stateShimer = .done
-            self.recipesTableView.reloadData()
+    func updateStateView() {
+        switch recipePresenter?.state {
+        case .loading, .data:
+            recipesTableView.reloadData()
+        case .noData:
+            print("no data")
+        case .error, .none:
+            print("error")
         }
+    }
+
+    func errorData() {
+        addErrorServiceView()
+    }
+
+    func emptyData() {
+        addEmptyView()
     }
 
     func buttonCaloriesState(color: String, image: String) {

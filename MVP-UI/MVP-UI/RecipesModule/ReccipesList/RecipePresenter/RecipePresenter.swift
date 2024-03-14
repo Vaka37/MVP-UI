@@ -13,8 +13,12 @@ protocol RecipesViewProtocol: AnyObject {
     func buttonTimeState(color: String, image: String)
     /// Изменение соятояния кнопки сортировки каллорий
     func buttonCaloriesState(color: String, image: String)
-    /// Меняем состояние шимера
-    func changeShimerState()
+    /// Меняем состояние View
+    func updateStateView()
+    /// Метод проверки получения данных в лист рецептов
+    func emptyData()
+    /// Метод проверки на ошибку при запросе к сервису
+    func errorData()
 }
 
 /// Протокол рецептов
@@ -25,9 +29,7 @@ protocol RecipeProtocol: AnyObject {
     func tappedOnCell(recipe: Recipe)
     /// Сортировка рецептов
     func sortedRecipe(category: [Recipe])
-    /// Меняем состояние шимеров
-    func changeShimer()
-    /// парсит рецепты
+    /// Парсит рецепты
     func parseRecipes()
 }
 
@@ -53,6 +55,12 @@ final class RecipePresenter {
     private var sortedTime = SortedTime.non
     private var networkService = NetworkService()
 
+    var state: ViewState<[RecipeCommonInfo]> = .loading {
+        didSet {
+            view?.updateStateView()
+        }
+    }
+
     // MARK: - Initializers
 
     init(view: RecipesViewProtocol, category: Category, detailsRecipeCoordinator: RecipesCoordinator) {
@@ -62,9 +70,9 @@ final class RecipePresenter {
         parseRecipes()
     }
 
-    // MARK: - Private Methods
+    // MARK: - Public Methods
 
-    /// Метод меняющий состояниие кнопки калориев
+    /// Метод меняющий состояниие кнопки калорий
     func buttonCaloriesChange(category: [Recipe]) {
         switch sortedCalories {
         case .non:
@@ -110,17 +118,14 @@ extension RecipePresenter: RecipeProtocol {
             DispatchQueue.main.async {
                 switch result {
                 case let .success(recipes):
+                    self.state = !recipes.isEmpty ? .data(recipes) : .noData
                     self.recipeCommonInfo = recipes
                     self.view?.getRecipes(recipes: self.recipeCommonInfo ?? [])
-                case .failure:
-                    break
+                case let .failure(error):
+                    self.state = .error(error)
                 }
             }
         }
-    }
-
-    func changeShimer() {
-        view?.changeShimerState()
     }
 
     func sortedCaloriesLow(items: [Recipe]) -> [Recipe] {
