@@ -296,18 +296,18 @@ extension RecipesListViewController: RecipesViewProtocol {
         case .loading, .data:
             recipesTableView.reloadData()
         case .noData:
-            print("no data")
+            emptyData()
         case .error, .none:
-            print("error")
+            addErrorServiceView()
         }
-    }
-
-    func errorData() {
-        addErrorServiceView()
     }
 
     func emptyData() {
         addEmptyView()
+    }
+
+    func errorData() {
+        addErrorServiceView()
     }
 
     func buttonCaloriesState(color: String, image: String) {
