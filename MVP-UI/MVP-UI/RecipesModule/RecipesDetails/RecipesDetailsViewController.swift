@@ -71,6 +71,12 @@ final class RecipesDetailsViewController: UIViewController {
         return imageView
     }()
 
+    private lazy var refreshControll: UIRefreshControl = {
+        let refreshControll = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(swipeTableView), for: .touchUpInside)
+        return refreshControll
+    }()
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -147,6 +153,7 @@ final class RecipesDetailsViewController: UIViewController {
 
     private func addSubview() {
         view.addSubview(tableView)
+        tableView.addSubview(refreshControll)
     }
 
     private func setupConstraints() {
@@ -191,6 +198,10 @@ final class RecipesDetailsViewController: UIViewController {
                 let logContent = try String(contentsOf: logURL)
             } catch {}
         } else {}
+    }
+
+    @objc private func swipeTableView() {
+        detailsPresenter?.getDetail()
     }
 }
 
@@ -298,6 +309,7 @@ extension RecipesDetailsViewController: DetailsViewInputProtocol {
     func getDetail(recipe: RecipeDetail) {
         self.recipe = recipe
         tableView.reloadData()
+        refreshControll.endRefreshing()
     }
 
     func emptyData() {

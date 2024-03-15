@@ -281,7 +281,11 @@ extension RecipesListViewController: UITableViewDataSource {
             cell.configure(with: recipe)
             cell.prepareForReuse()
             return cell
-        case .noData, .error, .none:
+        case .noData:
+            break
+        case .error:
+            break
+        case .none:
             break
         }
         return UITableViewCell()
