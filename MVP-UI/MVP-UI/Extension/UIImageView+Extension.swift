@@ -9,9 +9,9 @@ extension UIImageView {
     func downloaded(from url: URL) {
         let imageService = LoadServiceImage()
         let proxy = Proxy(service: imageService)
-        
+
         proxy.loadImage(url: url) { [weak self] data, _, error in
-            guard let self = self, let data = data,error == nil else { return }
+            guard let self = self, let data = data, error == nil else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async { [weak self] in
                 self?.image = image
