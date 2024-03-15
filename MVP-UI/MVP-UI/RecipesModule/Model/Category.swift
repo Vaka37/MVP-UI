@@ -8,7 +8,7 @@ struct Category {
     /// Аватар
     var avatarImageName: String
     /// Название
-    var categoryTitle: String
+    var categoryTitle: DishType
     /// размер ячейки
     var sizeCell: SizeCellCategory
     /// Рецепты

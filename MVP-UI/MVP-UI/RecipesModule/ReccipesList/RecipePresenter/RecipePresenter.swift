@@ -1,18 +1,24 @@
 // RecipePresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
+import Foundation
+
 /// Протокол получения категории
 protocol RecipesViewProtocol: AnyObject {
     /// Получение категории
-    func getRecipes(recipes: Category)
+    func getRecipes(recipes: [RecipeCommonInfo])
     /// Сортировка Рецептов
     func sortedRecip(recipe: [Recipe])
     /// Изменение соятояния кнопки сортировки время
     func buttonTimeState(color: String, image: String)
     /// Изменение соятояния кнопки сортировки каллорий
     func buttonCaloriesState(color: String, image: String)
-    /// Меняем состояние шимера
-    func changeShimerState()
+    /// Меняем состояние View
+    func updateStateView()
+    /// Метод проверки получения данных в лист рецептов
+    func emptyData()
+    /// Метод проверки на ошибку при запросе к сервису
+    func errorData()
 }
 
 /// Протокол рецептов
@@ -20,11 +26,11 @@ protocol RecipeProtocol: AnyObject {
     /// Получить рецепты
     func getRecipe()
     /// Метод для тапа по ячейке
-    func tappedOnCell(recipe: Recipe)
+    func tappedOnCell(recipe: RecipeCommonInfo)
     /// Сортировка рецептов
     func sortedRecipe(category: [Recipe])
-    /// Меняем состояние шимеров
-    func changeShimer()
+    /// Парсит рецепты
+    func parseRecipes()
 }
 
 /// Презентер экрана рецептов
@@ -44,8 +50,16 @@ final class RecipePresenter {
     private weak var detailsRecipeCoordinator: RecipesCoordinator?
     private weak var view: RecipesViewProtocol?
     private var category: Category
+    private var recipeCommonInfo: [RecipeCommonInfo]?
     private var sortedCalories = SortedCalories.non
     private var sortedTime = SortedTime.non
+    private var networkService = NetworkService()
+
+    var state: ViewState<[RecipeCommonInfo]> = .loading {
+        didSet {
+            view?.updateStateView()
+        }
+    }
 
     // MARK: - Initializers
 
@@ -53,11 +67,12 @@ final class RecipePresenter {
         self.view = view
         self.category = category
         self.detailsRecipeCoordinator = detailsRecipeCoordinator
+        parseRecipes()
     }
 
-    // MARK: - Private Methods
+    // MARK: - Public Methods
 
-    /// Метод меняющий состояниие кнопки калориев
+    /// Метод меняющий состояниие кнопки калорий
     func buttonCaloriesChange(category: [Recipe]) {
         switch sortedCalories {
         case .non:
@@ -97,8 +112,20 @@ final class RecipePresenter {
 // MARK: - Extension + RecipeProtocol
 
 extension RecipePresenter: RecipeProtocol {
-    func changeShimer() {
-        view?.changeShimerState()
+    func parseRecipes() {
+        networkService.getRecipe(type: category.categoryTitle) { [weak self] result in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(recipes):
+                    self.state = !recipes.isEmpty ? .data(recipes) : .noData
+                    self.recipeCommonInfo = recipes
+                    self.view?.getRecipes(recipes: self.recipeCommonInfo ?? [])
+                case let .failure(error):
+                    self.state = .error(error)
+                }
+            }
+        }
     }
 
     func sortedCaloriesLow(items: [Recipe]) -> [Recipe] {
@@ -181,11 +208,11 @@ extension RecipePresenter: RecipeProtocol {
         }
     }
 
-    func tappedOnCell(recipe: Recipe) {
+    func tappedOnCell(recipe: RecipeCommonInfo) {
         detailsRecipeCoordinator?.pushRecipeDetailsViewController(recipe: recipe)
     }
 
     func getRecipe() {
-        view?.getRecipes(recipes: category)
+        view?.getRecipes(recipes: recipeCommonInfo ?? [])
     }
 }

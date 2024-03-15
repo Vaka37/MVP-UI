@@ -22,7 +22,7 @@ final class RecipesCoordinator: BaseCoordinator {
         rootViewController?.pushViewController(recipiesViewController, animated: true)
     }
 
-    func pushRecipeDetailsViewController(recipe: Recipe) {
+    func pushRecipeDetailsViewController(recipe: RecipeCommonInfo) {
         let recipesDetailsViewController = RecipesDetailsViewController()
         let presenter = DetailsPresenter(view: recipesDetailsViewController, recipe: recipe, recipesCoordinator: self)
         recipesDetailsViewController.detailsPresenter = presenter

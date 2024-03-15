@@ -28,6 +28,9 @@ final class RecipesCell: UITableViewCell {
 
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 12
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -35,7 +38,8 @@ final class RecipesCell: UITableViewCell {
     private let titleRecipe: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         label.font = UIFont(name: Constants.fontVerdana, size: 14)
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -93,13 +97,18 @@ final class RecipesCell: UITableViewCell {
         setupAnchors()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        recipeImageView.image = nil
+    }
+
     // MARK: - Public Methods
 
-    func configure(with items: Recipe) {
-        recipeImageView.image = UIImage(named: items.avatarRecipie)
-        titleRecipe.text = items.titleRecipies
-        timeLabel.text = "\(items.cookingTimeTitle)" + Constants.timeLabelText
-        pizzaLabel.text = "\(items.caloriesTitle)" + Constants.pizzaLabelText
+    func configure(with items: RecipeCommonInfo) {
+        recipeImageView.downloaded(from: items.image)
+        titleRecipe.text = items.label
+        timeLabel.text = "\(items.totaltime)" + Constants.timeLabelText
+        pizzaLabel.text = "\(items.calories)" + Constants.pizzaLabelText
     }
 
     // MARK: - Private Methods
@@ -138,6 +147,7 @@ final class RecipesCell: UITableViewCell {
             .isActive = true
         recipeImageView.topAnchor.constraint(equalTo: uiViewBackground.topAnchor, constant: 10).isActive = true
         recipeImageView.bottomAnchor.constraint(equalTo: uiViewBackground.bottomAnchor, constant: -10).isActive = true
+        recipeImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
     }
 
     private func setupAnchorsTitleRecipe() {

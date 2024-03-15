@@ -17,7 +17,7 @@ final class FavoritesService {
 
     static let shared = FavoritesService()
 
-    var favorites: [Recipe] = []
+    var favorites: [RecipeCommonInfo] = []
 
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
@@ -36,7 +36,8 @@ final class FavoritesService {
     func loadFavorites() {
         do {
             guard let userData = UserDefaults.standard.value(forKey: Constants.favoriteKey) as? Memento,
-                  let fovorites = try? decoder.decode([Recipe].self, from: userData) else { throw Error.favoritesNo }
+                  let fovorites = try? decoder.decode([RecipeCommonInfo].self, from: userData)
+            else { throw Error.favoritesNo }
             favorites = fovorites
         } catch {}
     }

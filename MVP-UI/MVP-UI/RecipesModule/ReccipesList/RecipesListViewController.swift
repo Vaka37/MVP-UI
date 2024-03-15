@@ -18,9 +18,23 @@ final class RecipesListViewController: UIViewController {
         static let valueToStartSearch: CGFloat = 2
         static let changeShimerState: CGFloat = 2
         static let valueSearchText = 2
+        static let emptyDataImage = UIImage.emptyViewData
+        static let errorServiceImage = UIImage.errorService
     }
 
     // MARK: - Visual Components
+
+    private let errorServiceImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.errorServiceImage
+        return imageView
+    }()
+
+    private let emptyDataImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.emptyDataImage
+        return imageView
+    }()
 
     private lazy var recipesTableView: UITableView = {
         let table = UITableView()
@@ -41,6 +55,12 @@ final class RecipesListViewController: UIViewController {
         return search
     }()
 
+    private lazy var refreshControll: UIRefreshControl = {
+        let refreshControll = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        return refreshControll
+    }()
+
     let caloriesButton = UIButton()
     let timeButton = UIButton()
 
@@ -50,17 +70,14 @@ final class RecipesListViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var stateShimer = StateShimer.loading
-    private var recipes: Category?
-    private var searchRecipes: [Recipe] = []
+    private var recipes: [RecipeCommonInfo]?
+    private var searchRecipes: [RecipeCommonInfo] = []
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipePresenter?.getRecipe()
         configureUI()
-        recipePresenter?.changeShimer()
 
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
@@ -69,17 +86,22 @@ final class RecipesListViewController: UIViewController {
         } else {}
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        recipePresenter?.getRecipe()
+    }
+
     // MARK: - Private Methods
 
     private func configureUI() {
-        configureNavigation()
         view.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(recipesTableView)
+        recipesTableView.addSubview(refreshControll)
         makeFilterButton(button: caloriesButton, title: Constants.caloriesButtonTitle)
         makeFilterButton(button: timeButton, title: Constants.timeButtonTitle)
         makeAnchor()
-        searchRecipes = recipes?.recepies ?? []
+        searchRecipes = recipes ?? []
     }
 
     private func configureNavigation() {
@@ -91,7 +113,7 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-            title: recipes?.categoryTitle,
+            title: "",
             style: .done,
             target: self,
             action: #selector(dissmiss)
@@ -119,6 +141,18 @@ final class RecipesListViewController: UIViewController {
         view.addSubview(button)
     }
 
+    private func addEmptyView() {
+        view.addSubview(emptyDataImageView)
+        setupEmptyDataImageConstraints()
+        recipesTableView.removeFromSuperview()
+    }
+
+    private func addErrorServiceView() {
+        view.addSubview(errorServiceImageView)
+        setupErrorServiceImageConstraints()
+        recipesTableView.removeFromSuperview()
+    }
+
     private func makeAnchor() {
         makeAnchorsSearchBar()
         setupAnchorsCaloriesButton()
@@ -127,19 +161,23 @@ final class RecipesListViewController: UIViewController {
     }
 
     @objc private func caloriesButtonTapped() {
-        recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
+//        recipePresenter?.buttonCaloriesChange(category: recipes?.recepies ?? [])
     }
 
     @objc private func timeButtonTapped() {
-        recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
+//        recipePresenter?.buttonTimeChange(category: recipes?.recepies ?? [])
     }
 
     @objc private func dissmiss() {
         navigationController?.popViewController(animated: true)
     }
+
+    @objc private func refreshTable() {
+        recipePresenter?.getRecipe()
+    }
 }
 
-// MARK: - Extension + Layout
+// MARK: - Extension + Constraints
 
 extension RecipesListViewController {
     private func makeAnchorsSearchBar() {
@@ -173,19 +211,35 @@ extension RecipesListViewController {
         timeButton.widthAnchor.constraint(equalToConstant: 90).isActive = true
         timeButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
     }
+
+    private func setupEmptyDataImageConstraints() {
+        emptyDataImageView.translatesAutoresizingMaskIntoConstraints = false
+        emptyDataImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyDataImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyDataImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        emptyDataImageView.heightAnchor.constraint(equalToConstant: 85).isActive = true
+    }
+
+    private func setupErrorServiceImageConstraints() {
+        errorServiceImageView.translatesAutoresizingMaskIntoConstraints = false
+        errorServiceImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        errorServiceImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorServiceImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        errorServiceImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
 }
 
 // MARK: - Extension + UITableViewDelegate
 
 extension RecipesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let recipe = recipes?.recepies[indexPath.row] else { return }
+        guard let recipe = recipes?[indexPath.row] else { return }
 
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
-            LogAction.userOpenRecipe(recipe.titleRecipies).log(fileURL: logURL)
+            LogAction.userOpenRecipe(recipe.label).log(fileURL: logURL)
             do {
                 let logContent = try String(contentsOf: logURL)
             } catch {}
@@ -203,34 +257,61 @@ extension RecipesListViewController: UITableViewDelegate {
 
 extension RecipesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        recipes?.recepies.count ?? 1
+        switch recipePresenter?.state {
+        case .loading:
+            10
+        case .data:
+            recipes?.count ?? 0
+        case .noData, .error, .none:
+            0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch stateShimer {
+        switch recipePresenter?.state {
         case .loading:
             return ShimerViewCell()
-        case .done:
+        case .data:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: Constants.cellIdendefire,
                 for: indexPath
             ) as? RecipesCell
             else { return UITableViewCell() }
-            guard let recipe = recipes?.recepies[indexPath.row] else { return cell }
+            guard let recipe = recipes?[indexPath.row] else { return cell }
             cell.configure(with: recipe)
+            cell.prepareForReuse()
             return cell
+        case .noData:
+            break
+        case .error:
+            break
+        case .none:
+            break
         }
+        return UITableViewCell()
     }
 }
 
 // MARK: - Extension + RecipesViewProtocol
 
 extension RecipesListViewController: RecipesViewProtocol {
-    func changeShimerState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.changeShimerState) {
-            self.stateShimer = .done
-            self.recipesTableView.reloadData()
+    func updateStateView() {
+        switch recipePresenter?.state {
+        case .loading, .data:
+            recipesTableView.reloadData()
+        case .noData:
+            emptyData()
+        case .error, .none:
+            addErrorServiceView()
         }
+    }
+
+    func emptyData() {
+        addEmptyView()
+    }
+
+    func errorData() {
+        addErrorServiceView()
     }
 
     func buttonCaloriesState(color: String, image: String) {
@@ -248,13 +329,16 @@ extension RecipesListViewController: RecipesViewProtocol {
     }
 
     func sortedRecip(recipe: [Recipe]) {
-        recipes?.recepies = recipe
+//        recipes?.recepies = recipe
         recipesTableView.reloadData()
     }
 
-    func getRecipes(recipes: Category) {
+    func getRecipes(recipes: [RecipeCommonInfo]) {
         self.recipes = recipes
+        searchRecipes = recipes
+        configureNavigation()
         recipesTableView.reloadData()
+        refreshControll.endRefreshing()
     }
 }
 
@@ -263,12 +347,12 @@ extension RecipesListViewController: RecipesViewProtocol {
 extension RecipesListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > Constants.valueSearchText {
-            let searchFiltered = recipes?.recepies
-                .filter { $0.titleRecipies.prefix(searchText.count) == searchText }
-            recipes?.recepies = searchFiltered ?? []
+            let searchFiltered = recipes?
+                .filter { $0.label.prefix(searchText.count) == searchText }
+            recipes = searchFiltered ?? []
             recipesTableView.reloadData()
         } else {
-            recipes?.recepies = searchRecipes
+            recipes = searchRecipes
             recipesTableView.reloadData()
         }
     }

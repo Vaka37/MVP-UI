@@ -6,11 +6,17 @@ import UIKit
 /// Протокол презентера детального экрана
 protocol DetailsViewInputProtocol: AnyObject {
     /// данные экрана рецептов
-    func getDetail(recipe: Recipe)
+    func getDetail(recipe: RecipeDetail)
     /// метод приисутсвия  рецепта в  избранным
     func isFavorite()
     /// метод отсутсвия  рецепта в  избранным
     func noFavorite()
+    /// Меняем состояние View
+    func updateStateView()
+    /// Метод проверки получения данных в детальный рецепт
+    func emptyData()
+    /// Метод проверки на ошибку при запросе к сервису
+    func errorData()
 }
 
 /// Экран рецепта
@@ -27,6 +33,8 @@ final class RecipesDetailsViewController: UIViewController {
         static let titleNoFavorites = "noFavorite"
         static let titleShared = "shared"
         static let isFavorite = "isFavorite"
+        static let emptyDataImage = UIImage.emptyViewData
+        static let errorServiceImage = UIImage.errorService
     }
 
     enum RowsType {
@@ -41,7 +49,7 @@ final class RecipesDetailsViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var recipe: Recipe?
+    private var recipe: RecipeDetail?
     private let tableView = UITableView(frame: .zero, style: .plain)
     private var rowsType: [RowsType] = [
         .header,
@@ -49,14 +57,39 @@ final class RecipesDetailsViewController: UIViewController {
         .description
     ]
 
+    // MARK: - Visual Components
+
+    private let errorServiceImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.errorServiceImage
+        return imageView
+    }()
+
+    private let emptyDataImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.emptyDataImage
+        return imageView
+    }()
+
+    private lazy var refreshControll: UIRefreshControl = {
+        let refreshControll = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(swipeTableView), for: .touchUpInside)
+        return refreshControll
+    }()
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        detailsPresenter?.getDetail()
+
         addSubview()
         makeTableView()
         detailsPresenter?.checkFavorite()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        detailsPresenter?.getDetail()
     }
 
     override func viewWillLayoutSubviews() {
@@ -70,6 +103,9 @@ final class RecipesDetailsViewController: UIViewController {
         tableView.register(DetailsHeaderCell.self, forCellReuseIdentifier: DetailsHeaderCell.identifier)
         tableView.register(DetailsInfoCell.self, forCellReuseIdentifier: DetailsInfoCell.identifier)
         tableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.identifier)
+        tableView.register(ShimerHeaderViewCell.self, forCellReuseIdentifier: ShimerHeaderViewCell.identifier)
+        tableView.register(ShimerDetailInfoViewCell.self, forCellReuseIdentifier: ShimerDetailInfoViewCell.identifier)
+        tableView.register(ShimerDiscriptionViewCell.self, forCellReuseIdentifier: ShimerDiscriptionViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -103,8 +139,21 @@ final class RecipesDetailsViewController: UIViewController {
         [arrowLogo, shareLogo].forEach { $0.tintColor = .black }
     }
 
+    private func addEmptyView() {
+        view.addSubview(emptyDataImageView)
+        setupEmptyDataImageConstraints()
+        tableView.removeFromSuperview()
+    }
+
+    private func addErrorServiceView() {
+        view.addSubview(errorServiceImageView)
+        setupErrorServiceImageConstraints()
+        tableView.removeFromSuperview()
+    }
+
     private func addSubview() {
         view.addSubview(tableView)
+        tableView.addSubview(refreshControll)
     }
 
     private func setupConstraints() {
@@ -112,6 +161,22 @@ final class RecipesDetailsViewController: UIViewController {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+
+    private func setupEmptyDataImageConstraints() {
+        emptyDataImageView.translatesAutoresizingMaskIntoConstraints = false
+        emptyDataImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyDataImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyDataImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        emptyDataImageView.heightAnchor.constraint(equalToConstant: 85).isActive = true
+    }
+
+    private func setupErrorServiceImageConstraints() {
+        errorServiceImageView.translatesAutoresizingMaskIntoConstraints = false
+        errorServiceImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        errorServiceImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorServiceImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        errorServiceImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
 
     @objc private func returnsAllRecipes() {
@@ -123,7 +188,7 @@ final class RecipesDetailsViewController: UIViewController {
     }
 
     @objc private func sharedRecipe() {
-        if let recipeShare = recipe?.titleRecipies, let logURL = FileManager.default.urls(
+        if let recipeShare = recipe?.label, let logURL = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent("log.txt") {
@@ -134,13 +199,24 @@ final class RecipesDetailsViewController: UIViewController {
             } catch {}
         } else {}
     }
+
+    @objc private func swipeTableView() {
+        detailsPresenter?.getDetail()
+    }
 }
 
 // MARK: Extension + UITableViewDataSource
 
 extension RecipesDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        rowsType.count
+        switch detailsPresenter?.state {
+        case .loading:
+            3
+        case .data:
+            rowsType.count
+        case .noData, .error, .none:
+            0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,31 +225,44 @@ extension RecipesDetailsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let type = rowsType[indexPath.section]
-        switch type {
-        case .header:
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DetailsHeaderCell.identifier, for: indexPath) as? DetailsHeaderCell
-            else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
-            return cell
-
-        case .info:
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DetailsInfoCell.identifier, for: indexPath) as? DetailsInfoCell
-            else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
-            return cell
-
-        case .description:
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: DescriptionCell.identifier, for: indexPath) as? DescriptionCell
-            else { return UITableViewCell() }
-            guard let recipe = recipe else { return cell }
-            cell.configure(info: recipe)
-            return cell
+        switch detailsPresenter?.state {
+        case .loading:
+            switch type {
+            case .header:
+                return ShimerDetailInfoViewCell()
+            case .info:
+                return ShimerHeaderViewCell()
+            case .description:
+                return ShimerDiscriptionViewCell()
+            }
+        case .data:
+            switch type {
+            case .header:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DetailsHeaderCell.identifier,
+                    for: indexPath
+                ) as? DetailsHeaderCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            case .info:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DetailsInfoCell.identifier,
+                    for: indexPath
+                ) as? DetailsInfoCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            case .description:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DescriptionCell.identifier,
+                    for: indexPath
+                ) as? DescriptionCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            }
+        case .noData, .error, .none:
+            break
         }
+        return UITableViewCell()
     }
 }
 
@@ -196,6 +285,17 @@ extension RecipesDetailsViewController: UITableViewDelegate {
 // MARK: Extension + DetailsViewInputProtocol
 
 extension RecipesDetailsViewController: DetailsViewInputProtocol {
+    func updateStateView() {
+        switch detailsPresenter?.state {
+        case .loading, .data:
+            tableView.reloadData()
+        case .noData:
+            emptyData()
+        case .error, .none:
+            addErrorServiceView()
+        }
+    }
+
     func noFavorite() {
         makeBarButtonItem(image: Constants.titleNoFavorites, tintColor: .black)
         tableView.reloadData()
@@ -206,7 +306,17 @@ extension RecipesDetailsViewController: DetailsViewInputProtocol {
         tableView.reloadData()
     }
 
-    func getDetail(recipe: Recipe) {
+    func getDetail(recipe: RecipeDetail) {
         self.recipe = recipe
+        tableView.reloadData()
+        refreshControll.endRefreshing()
+    }
+
+    func emptyData() {
+        addEmptyView()
+    }
+
+    func errorData() {
+        addErrorServiceView()
     }
 }

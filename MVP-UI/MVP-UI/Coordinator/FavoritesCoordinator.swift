@@ -12,7 +12,7 @@ final class FavoritesCoordinator: BaseCoordinator {
         rootViewController = UINavigationController(rootViewController: viewController)
     }
 
-    func pushRecipeDetailsViewController(recipe: Recipe) {
+    func pushRecipeDetailsViewController(recipe: RecipeCommonInfo) {
         let recipesDetailsViewController = RecipesDetailsViewController()
         let presenter = DetailsPresenter(
             view: recipesDetailsViewController,

@@ -120,11 +120,11 @@ final class DetailsHeaderCell: UITableViewCell {
 
     // MARK: - Public Methods
 
-    func configure(info: Recipe) {
-        nameRecipeLabel.text = info.titleRecipies
-        foodImageView.image = UIImage(named: info.avatarRecipie)
-        portionWeightLabel.text = info.portionWeight
-        cookingTimeLabel.text = "\(info.cookingTimeTitle)" + Constants.indent + Constants.titleMinutesTime
+    func configure(info: RecipeDetail) {
+        nameRecipeLabel.text = info.label
+        foodImageView.downloaded(from: info.images)
+        portionWeightLabel.text = String(info.totalWeight)
+        cookingTimeLabel.text = "\(info.totalTime)" + Constants.indent + Constants.titleMinutesTime
     }
 
     // MARK: - Private Methods

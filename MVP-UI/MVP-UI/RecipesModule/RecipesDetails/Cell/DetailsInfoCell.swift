@@ -13,6 +13,7 @@ final class DetailsInfoCell: UITableViewCell {
         static let titleCarbohydrates = "Carbohydrates"
         static let titleFats = "Fats"
         static let titleProteins = "Proteins"
+        static let defualtValue = "no Title"
     }
 
     // MARK: - Visual Components
@@ -85,11 +86,11 @@ final class DetailsInfoCell: UITableViewCell {
 
     // MARK: - Public Methods
 
-    func configure(info: Recipe) {
-        let array = [enercKcalVlaueLabel, carbohydratesVlaueLabel, fatsVlaueLabel, proteinsVlaueLabel]
-        for (item, element) in info.nutrientsValue.enumerated() {
-            array[item].text = element
-        }
+    func configure(info: RecipeDetail) {
+        enercKcalVlaueLabel.text = String(Int(info.totalNutrients.calories.quantity))
+        carbohydratesVlaueLabel.text = String(Int(info.totalNutrients.chocdf.quantity))
+        fatsVlaueLabel.text = String(Int(info.totalNutrients.fat.quantity))
+        proteinsVlaueLabel.text = String(Int(info.totalNutrients.protein.quantity))
     }
 
     // MARK: - Private Methods
@@ -106,7 +107,7 @@ final class DetailsInfoCell: UITableViewCell {
 
     private func makeNutrientsLabel(title: String? = nil, color: UIColor) -> UILabel {
         let label = UILabel()
-        label.text = title ?? "no Title"
+        label.text = title ?? Constants.defualtValue
         label.font = UIFont(name: Constants.fontVerdana, size: 10)
         label.textColor = color
         label.textAlignment = .center

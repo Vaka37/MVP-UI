@@ -14,9 +14,9 @@ final class RecipeDetail {
     /// Картинка рецепта
     let images: String
     /// Масса рецепта
-    let totalWeight: Double
+    let totalWeight: Int
     /// КБЖУ
-    let totalNutrients: [String: TotalDTO]
+    let totalNutrients: TotalNutrientsDTO
     /// Описание рецепта
     let ingridientLines: [String]
 
@@ -25,7 +25,7 @@ final class RecipeDetail {
         totalTime = dto.totalTime
         calories = Int(dto.calories)
         images = dto.images.regular.url
-        totalWeight = dto.totalWeight
+        totalWeight = Int(dto.totalWeight)
         totalNutrients = dto.totalNutrients
         ingridientLines = dto.ingredientLines
     }

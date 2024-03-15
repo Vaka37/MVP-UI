@@ -16,7 +16,7 @@ final class FavoritesViewController: UIViewController {
     // MARK: - Public Properties
 
     var favoritesPresenter: FavoritesPresenter?
-    var recipe: [Recipe]?
+    var recipe: [RecipeCommonInfo]?
 
     // MARK: - Visual Components
 
@@ -134,7 +134,7 @@ extension FavoritesViewController: UITableViewDataSource {
 }
 
 extension FavoritesViewController: FavoritesViewProtocol {
-    func makeTable(favorites: [Recipe]) {
+    func makeTable(favorites: [RecipeCommonInfo]) {
         recipe = favorites
         makeTableFavorites()
     }
