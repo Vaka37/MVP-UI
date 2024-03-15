@@ -7,17 +7,16 @@ extension UIImageView {
     /// Расширение выполнения запроса по загрузке картинки
     /// - Parameter url: ссылка
     func downloaded(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-            else { return }
+        let imageService = LoadServiceImage()
+        let proxy = Proxy(service: imageService)
+        
+        proxy.loadImage(url: url) { [weak self] data, _, error in
+            guard let self = self, let data = data,error == nil else { return }
+            let image = UIImage(data: data)
             DispatchQueue.main.async { [weak self] in
                 self?.image = image
             }
-        }.resume()
+        }
     }
 
     /// Расширение для проверки существования картинки

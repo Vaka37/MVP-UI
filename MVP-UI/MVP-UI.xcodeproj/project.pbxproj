@@ -11,6 +11,9 @@
 		10A264742BA188A7009D7757 /* RecipeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A264732BA188A7009D7757 /* RecipeDetail.swift */; };
 		10BBAC2A2BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC292BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift */; };
 		10BBAC2C2BA36FF000FF93D9 /* ShimerDiscriptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC2B2BA36FF000FF93D9 /* ShimerDiscriptionViewCell.swift */; };
+		10BBAC2E2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC2D2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift */; };
+		10BBAC312BA3AB1F00FF93D9 /* LoadServiceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC302BA3AB1F00FF93D9 /* LoadServiceImage.swift */; };
+		10BBAC332BA3ABD600FF93D9 /* Proxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC322BA3ABD600FF93D9 /* Proxy.swift */; };
 		930856032B908D73009E71DE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856022B908D73009E71DE /* Category.swift */; };
 		930856052B908D8E009E71DE /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856042B908D8E009E71DE /* Recipe.swift */; };
 		930856082B908DE1009E71DE /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856072B908DE1009E71DE /* Storage.swift */; };
@@ -84,6 +87,9 @@
 		10A264732BA188A7009D7757 /* RecipeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetail.swift; sourceTree = "<group>"; };
 		10BBAC292BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimerDetailInfoViewCell.swift; sourceTree = "<group>"; };
 		10BBAC2B2BA36FF000FF93D9 /* ShimerDiscriptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimerDiscriptionViewCell.swift; sourceTree = "<group>"; };
+		10BBAC2D2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadServiceProtocol.swift; sourceTree = "<group>"; };
+		10BBAC302BA3AB1F00FF93D9 /* LoadServiceImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadServiceImage.swift; sourceTree = "<group>"; };
+		10BBAC322BA3ABD600FF93D9 /* Proxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proxy.swift; sourceTree = "<group>"; };
 		930856022B908D73009E71DE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		930856042B908D8E009E71DE /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		930856072B908DE1009E71DE /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -204,6 +210,16 @@
 			path = ShimerCell;
 			sourceTree = "<group>";
 		};
+		10BBAC2F2BA3A9B400FF93D9 /* CasheService */ = {
+			isa = PBXGroup;
+			children = (
+				10BBAC2D2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift */,
+				10BBAC302BA3AB1F00FF93D9 /* LoadServiceImage.swift */,
+				10BBAC322BA3ABD600FF93D9 /* Proxy.swift */,
+			);
+			path = CasheService;
+			sourceTree = "<group>";
+		};
 		930856012B908D57009E71DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +281,7 @@
 				D571AE8A2B9A3D3F00EC9B2E /* SettingsUserDefault */,
 				93B976582B99C42600A137DC /* ServiceLog.swift */,
 				D571AE8D2B9D041F00EC9B2E /* FavoritesServise */,
+				10BBAC2F2BA3A9B400FF93D9 /* CasheService */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -702,10 +719,12 @@
 				D571AE892B9A3D3900EC9B2E /* SettingsUser.swift in Sources */,
 				D509B2FE2B97AD4B00C094E2 /* SortedMethod.swift in Sources */,
 				937B275A2B9469E300976E4C /* DescriptionCell.swift in Sources */,
+				10BBAC312BA3AB1F00FF93D9 /* LoadServiceImage.swift in Sources */,
 				10BBAC2A2BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift in Sources */,
 				93F8D8D32B8E55DF00751ABD /* NavigationTableViewCell.swift in Sources */,
 				D5783B262B90922C00C81FAF /* RecipesCell.swift in Sources */,
 				D571D4712B8D3E3C000757E9 /* AppCoordinator.swift in Sources */,
+				10BBAC2E2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift in Sources */,
 				D5F9792B2BA11A820034AE5B /* RecipeCommonInfo.swift in Sources */,
 				936DC25A2B91F83000B0D755 /* DetailsPresenter.swift in Sources */,
 				10575E1C2BA33F8E0023F322 /* ShimerHeaderViewCell.swift in Sources */,
@@ -723,6 +742,7 @@
 				D571D4792B8D4BF6000757E9 /* RecipesCoordinator.swift in Sources */,
 				934AE16E2B9600FE0060E699 /* TermsPrivatePolicyView.swift in Sources */,
 				D5F979292BA119D30034AE5B /* RecipeDTO.swift in Sources */,
+				10BBAC332BA3ABD600FF93D9 /* Proxy.swift in Sources */,
 				10BBAC2C2BA36FF000FF93D9 /* ShimerDiscriptionViewCell.swift in Sources */,
 				D571D46F2B8D3CEF000757E9 /* BaseCoordinator.swift in Sources */,
 				930856032B908D73009E71DE /* Category.swift in Sources */,
