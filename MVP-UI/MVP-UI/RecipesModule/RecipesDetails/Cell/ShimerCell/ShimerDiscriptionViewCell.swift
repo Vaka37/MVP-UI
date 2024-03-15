@@ -34,7 +34,7 @@ final class ShimerDiscriptionViewCell: UITableViewCell {
 
     // MARK: - Public Properties
 
-    static let identifier = NSStringFromClass(DescriptionCell.self)
+    static let identifier = NSStringFromClass(ShimerDiscriptionViewCell.self)
 
     // MARK: - Initializers
 

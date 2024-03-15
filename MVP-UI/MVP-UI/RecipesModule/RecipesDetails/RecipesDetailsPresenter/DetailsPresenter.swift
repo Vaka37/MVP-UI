@@ -17,6 +17,14 @@ protocol DetailsPresenterInputProtocol {
 
 /// Презентер детального экрана рецептов
 final class DetailsPresenter {
+    // MARK: - Public Properties
+
+    var state: ViewState<RecipeDetail> = .loading {
+        didSet {
+            view?.updateStateView()
+        }
+    }
+
     // MARK: - Private Properties
 
     private weak var recipesCoordinator: BaseCoordinator?
@@ -48,8 +56,9 @@ extension DetailsPresenter: DetailsPresenterInputProtocol {
                     self.recipeDetail = recipes
                     guard let recipeDetail = self.recipeDetail else { return }
                     self.view?.getDetail(recipe: recipeDetail)
-                case .failure:
-                    break
+                    self.state = .data(recipes)
+                case let .failure(error):
+                    self.state = .error(error)
                 }
             }
         }

@@ -11,6 +11,12 @@ protocol DetailsViewInputProtocol: AnyObject {
     func isFavorite()
     /// метод отсутсвия  рецепта в  избранным
     func noFavorite()
+    /// Меняем состояние View
+    func updateStateView()
+    /// Метод проверки получения данных в детальный рецепт
+    func emptyData()
+    /// Метод проверки на ошибку при запросе к сервису
+    func errorData()
 }
 
 /// Экран рецепта
@@ -27,6 +33,8 @@ final class RecipesDetailsViewController: UIViewController {
         static let titleNoFavorites = "noFavorite"
         static let titleShared = "shared"
         static let isFavorite = "isFavorite"
+        static let emptyDataImage = UIImage.emptyViewData
+        static let errorServiceImage = UIImage.errorService
     }
 
     enum RowsType {
@@ -48,6 +56,20 @@ final class RecipesDetailsViewController: UIViewController {
         .info,
         .description
     ]
+
+    // MARK: - Visual Components
+
+    private let errorServiceImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.errorServiceImage
+        return imageView
+    }()
+
+    private let emptyDataImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.emptyDataImage
+        return imageView
+    }()
 
     // MARK: - Life Cycle
 
@@ -111,6 +133,18 @@ final class RecipesDetailsViewController: UIViewController {
         [arrowLogo, shareLogo].forEach { $0.tintColor = .black }
     }
 
+    private func addEmptyView() {
+        view.addSubview(emptyDataImageView)
+        setupEmptyDataImageConstraints()
+        tableView.removeFromSuperview()
+    }
+
+    private func addErrorServiceView() {
+        view.addSubview(errorServiceImageView)
+        setupErrorServiceImageConstraints()
+        tableView.removeFromSuperview()
+    }
+
     private func addSubview() {
         view.addSubview(tableView)
     }
@@ -120,6 +154,22 @@ final class RecipesDetailsViewController: UIViewController {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+
+    private func setupEmptyDataImageConstraints() {
+        emptyDataImageView.translatesAutoresizingMaskIntoConstraints = false
+        emptyDataImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyDataImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyDataImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        emptyDataImageView.heightAnchor.constraint(equalToConstant: 85).isActive = true
+    }
+
+    private func setupErrorServiceImageConstraints() {
+        errorServiceImageView.translatesAutoresizingMaskIntoConstraints = false
+        errorServiceImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        errorServiceImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorServiceImageView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+        errorServiceImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
 
     @objc private func returnsAllRecipes() {
@@ -148,7 +198,14 @@ final class RecipesDetailsViewController: UIViewController {
 
 extension RecipesDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        rowsType.count
+        switch detailsPresenter?.state {
+        case .loading:
+            3
+        case .data:
+            rowsType.count
+        case .noData, .error, .none:
+            0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -157,40 +214,44 @@ extension RecipesDetailsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let type = rowsType[indexPath.section]
-        switch type {
-        case .header:
-            guard let cell = tableView
-                .dequeueReusableCell(
-                    withIdentifier: ShimerDetailInfoViewCell.identifier,
+        switch detailsPresenter?.state {
+        case .loading:
+            switch type {
+            case .header:
+                return ShimerDetailInfoViewCell()
+            case .info:
+                return ShimerHeaderViewCell()
+            case .description:
+                return ShimerDiscriptionViewCell()
+            }
+        case .data:
+            switch type {
+            case .header:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DetailsHeaderCell.identifier,
                     for: indexPath
-                ) as? ShimerDetailInfoViewCell
-            else { return UITableViewCell() }
-            //            guard let recipe = recipe else { return cell }
-            //            cell.configure(info: recipe)
-            return cell
-
-        case .info:
-            guard let cell = tableView
-                .dequeueReusableCell(
-                    withIdentifier: ShimerHeaderViewCell.identifier,
+                ) as? DetailsHeaderCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            case .info:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DetailsInfoCell.identifier,
                     for: indexPath
-                ) as? ShimerHeaderViewCell
-            else { return UITableViewCell() }
-            //            guard let recipe = recipe else { return cell }
-            //            cell.configure(info: recipe)
-            return cell
-
-        case .description:
-            guard let cell = tableView
-                .dequeueReusableCell(
-                    withIdentifier: ShimerDiscriptionViewCell.identifier,
+                ) as? DetailsInfoCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            case .description:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DescriptionCell.identifier,
                     for: indexPath
-                ) as? ShimerDiscriptionViewCell
-            else { return UITableViewCell() }
-//            guard let recipe = recipe else { return cell }
-            // cell.configure(info: recipe)
-            return cell
+                ) as? DescriptionCell else { return UITableViewCell() }
+                guard let recipe = recipe else { return cell }
+                cell.configure(info: recipe)
+            }
+        case .noData, .error, .none:
+            break
         }
+        return UITableViewCell()
     }
 }
 
@@ -213,6 +274,17 @@ extension RecipesDetailsViewController: UITableViewDelegate {
 // MARK: Extension + DetailsViewInputProtocol
 
 extension RecipesDetailsViewController: DetailsViewInputProtocol {
+    func updateStateView() {
+        switch detailsPresenter?.state {
+        case .loading, .data:
+            tableView.reloadData()
+        case .noData:
+            emptyData()
+        case .error, .none:
+            addErrorServiceView()
+        }
+    }
+
     func noFavorite() {
         makeBarButtonItem(image: Constants.titleNoFavorites, tintColor: .black)
         tableView.reloadData()
@@ -226,5 +298,13 @@ extension RecipesDetailsViewController: DetailsViewInputProtocol {
     func getDetail(recipe: RecipeDetail) {
         self.recipe = recipe
         tableView.reloadData()
+    }
+
+    func emptyData() {
+        addEmptyView()
+    }
+
+    func errorData() {
+        addErrorServiceView()
     }
 }
