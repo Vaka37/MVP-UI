@@ -100,6 +100,7 @@ public final class CoreDataManager: CoreDataManagerProtocol {
         detailRecipes.totalNutrients?.carbohydrates = detailRecipesDTO.totalNutrients.chocdf.quantity
         detailRecipes.totalNutrients?.fat = detailRecipesDTO.totalNutrients.fat.quantity
         detailRecipes.totalNutrients?.protein = detailRecipesDTO.totalNutrients.protein.quantity
+        detailRecipes.ingridientLines = detailRecipesDTO.ingridientLines.joined(separator: ",")
         appDelegate.saveContext()
     }
 
@@ -122,18 +123,18 @@ public final class CoreDataManager: CoreDataManagerProtocol {
                     ),
                     fat: TotalDTO(
                         quantity: firstDetailRecipe?.totalNutrients?
-                            .calories ?? 0
+                            .fat ?? 0
                     ),
                     protein: TotalDTO(
                         quantity: firstDetailRecipe?.totalNutrients?
-                            .calories ?? 0
+                            .protein ?? 0
                     ),
                     chocdf: TotalDTO(
                         quantity: firstDetailRecipe?.totalNutrients?
-                            .calories ?? 0
+                            .carbohydrates ?? 0
                     )
                 ),
-                ingredientLines: []
+                ingredientLines: firstDetailRecipe?.ingridientLines?.components(separatedBy: ",") ?? []
             ))
 
             return detail
