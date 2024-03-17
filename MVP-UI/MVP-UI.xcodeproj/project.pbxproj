@@ -15,6 +15,7 @@
 		10BBAC2E2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC2D2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift */; };
 		10BBAC312BA3AB1F00FF93D9 /* LoadServiceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC302BA3AB1F00FF93D9 /* LoadServiceImage.swift */; };
 		10BBAC332BA3ABD600FF93D9 /* Proxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC322BA3ABD600FF93D9 /* Proxy.swift */; };
+		10BBAC632BA654D100FF93D9 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC612BA654D100FF93D9 /* CoreData.xcdatamodeld */; };
 		9301678C2BA6212500E9364E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301678B2BA6212500E9364E /* CoreDataManager.swift */; };
 		930856032B908D73009E71DE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856022B908D73009E71DE /* Category.swift */; };
 		930856052B908D8E009E71DE /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930856042B908D8E009E71DE /* Recipe.swift */; };
@@ -92,6 +93,7 @@
 		10BBAC2D2BA3A9AB00FF93D9 /* LoadServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadServiceProtocol.swift; sourceTree = "<group>"; };
 		10BBAC302BA3AB1F00FF93D9 /* LoadServiceImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadServiceImage.swift; sourceTree = "<group>"; };
 		10BBAC322BA3ABD600FF93D9 /* Proxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proxy.swift; sourceTree = "<group>"; };
+		10BBAC622BA654D100FF93D9 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		18A1F14C5AD3E1FB771B7155 /* Pods-MVP-UI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVP-UI.debug.xcconfig"; path = "Target Support Files/Pods-MVP-UI/Pods-MVP-UI.debug.xcconfig"; sourceTree = "<group>"; };
 		52DBBF95C09D832E70307A5D /* Pods-MVP-UI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVP-UI.release.xcconfig"; path = "Target Support Files/Pods-MVP-UI/Pods-MVP-UI.release.xcconfig"; sourceTree = "<group>"; };
 		9301678B2BA6212500E9364E /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 		D5EFBD582B8CA6AA005F6F9B /* MVP-UI */ = {
 			isa = PBXGroup;
 			children = (
+				10BBAC612BA654D100FF93D9 /* CoreData.xcdatamodeld */,
 				D5EFBD592B8CA6AA005F6F9B /* AppDelegate.swift */,
 				D5EFBD5B2B8CA6AA005F6F9B /* SceneDelegate.swift */,
 				D571D4822B8DC59A000757E9 /* AppBuilder */,
@@ -772,6 +775,7 @@
 				9389C0572BA2003D00A0683E /* DetailDTO.swift in Sources */,
 				D571D4752B8D49BA000757E9 /* RecipesViewController.swift in Sources */,
 				93F8D8D92B8E73AB00751ABD /* ProfileItem.swift in Sources */,
+				10BBAC632BA654D100FF93D9 /* CoreData.xcdatamodeld in Sources */,
 				9301678C2BA6212500E9364E /* CoreDataManager.swift in Sources */,
 				D571D4982B8F1B28000757E9 /* UIView+Extension.swift in Sources */,
 				D571D47D2B8D545F000757E9 /* FavoritesCoordinator.swift in Sources */,
@@ -1026,6 +1030,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		10BBAC612BA654D100FF93D9 /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				10BBAC622BA654D100FF93D9 /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 10BBAC622BA654D100FF93D9 /* CoreData.xcdatamodel */;
+			name = CoreData.xcdatamodeld;
+			path = ../CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D5EFBD4E2B8CA6AA005F6F9B /* Project object */;
 }

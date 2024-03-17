@@ -24,7 +24,7 @@ final class RecipeDetail {
         label = dto.label
         totalTime = dto.totalTime
         calories = Int(dto.calories)
-        images = dto.images.regular.url
+        images = dto.images?.regular.url ?? ""
         totalWeight = Int(dto.totalWeight)
         totalNutrients = dto.totalNutrients
         ingridientLines = dto.ingredientLines
