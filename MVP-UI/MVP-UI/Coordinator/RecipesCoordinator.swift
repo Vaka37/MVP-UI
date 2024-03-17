@@ -20,6 +20,7 @@ final class RecipesCoordinator: BaseCoordinator {
         )
         recipiesViewController.recipePresenter = presenter
         rootViewController?.pushViewController(recipiesViewController, animated: true)
+        recipiesViewController.tabBarController?.tabBar.isHidden = true
     }
 
     func pushRecipeDetailsViewController(recipe: RecipeCommonInfo) {

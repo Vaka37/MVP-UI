@@ -7,16 +7,33 @@ import UIKit
 /// Протокол для работы с кор датоой
 protocol CoreDataManagerProtocol: AnyObject {
     /// Сохранение в базу данных
-    func createRecipe(recipe: RecipeCommonInfo)
+    func createRecipe(recipe: RecipeCommonInfo, dishTitle: DishType)
     /// Запрос в базу данных  на сохранение рецептов
-    func fetchRecipe() -> [RecipeCommonInfo]
+    func fetchRecipe(dishTitle: DishType) -> [RecipeCommonInfo]
+    /// Cохранение деталей рецепта в базу данных
+    func createDetailRecipes(detailRecipesDTO: RecipeDetail)
+    /// Запрос в базу данных на детали рецепта
+    func fetchDetail(name: String) -> RecipeDetail?
 }
 
 /// Cоздание обновления удаление
 public final class CoreDataManager: CoreDataManagerProtocol {
+    // MARK: - Constants
+
+    private enum Constants {
+        static let recipeDateEntity = "RecipeData"
+        static let detailRecipeDateEntity = "DetailsRecipesData"
+    }
+
+    // MARK: - Public Properties
+
     public static let shared = CoreDataManager()
 
+    // MARK: - Init
+
     private init() {}
+
+    // MARK: - Private Properties
 
     private var appDelegate: AppDelegate {
         UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
@@ -26,10 +43,16 @@ public final class CoreDataManager: CoreDataManagerProtocol {
         appDelegate.persistentContainer.viewContext
     }
 
-    func createRecipe(recipe: RecipeCommonInfo) {
-        guard let recipeEntityDescription = NSEntityDescription.entity(forEntityName: "RecipeData", in: context)
+    // MARK: - Public Methods
+
+    func createRecipe(recipe: RecipeCommonInfo, dishTitle: DishType) {
+        guard let recipeEntityDescription = NSEntityDescription.entity(
+            forEntityName: Constants.recipeDateEntity,
+            in: context
+        )
         else { return }
         let recipeData = RecipeData(entity: recipeEntityDescription, insertInto: context)
+        recipeData.dishTitle = dishTitle.discription
         recipeData.label = recipe.label
         recipeData.calories = Int64(recipe.calories)
         recipeData.image = recipe.image
@@ -38,12 +61,12 @@ public final class CoreDataManager: CoreDataManagerProtocol {
         appDelegate.saveContext()
     }
 
-    func fetchRecipe() -> [RecipeCommonInfo] {
+    func fetchRecipe(dishTitle: DishType) -> [RecipeCommonInfo] {
         let fetchRequest: NSFetchRequest<RecipeData> = RecipeData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "dishTitle == %@", dishTitle.discription)
         var recipesDTO: [RecipeCommonInfo] = []
         do {
             let recipes = try context.fetch(fetchRequest)
-
             for item in recipes {
                 let recipe = RecipeCommonInfo(dto: RecipeDTO(
                     image: item.image ?? "",
@@ -62,7 +85,7 @@ public final class CoreDataManager: CoreDataManagerProtocol {
 
     func createDetailRecipes(detailRecipesDTO: RecipeDetail) {
         guard let detailEntityDiscriptions = NSEntityDescription.entity(
-            forEntityName: "DetailsRecipesData",
+            forEntityName: Constants.detailRecipeDateEntity,
             in: context
         )
         else { return }
