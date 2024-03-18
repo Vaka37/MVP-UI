@@ -42,6 +42,29 @@ enum DishType: String {
             "Desserts"
         }
     }
+
+    var header: String {
+        switch self {
+        case .fish:
+            "Fish"
+        case .chicken:
+            "Chiken"
+        case .sideDish:
+            "SideDish"
+        case .meat:
+            "Meat"
+        case .salad:
+            "Salad"
+        case .soup:
+            "Soup"
+        case .pancake:
+            "Pancake"
+        case .drinks:
+            "Drinks"
+        case .desserts:
+            "Desserts"
+        }
+    }
 }
 
 /// Протокол коммуникации с NetworkService

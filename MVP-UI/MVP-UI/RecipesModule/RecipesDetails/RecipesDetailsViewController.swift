@@ -140,15 +140,17 @@ final class RecipesDetailsViewController: UIViewController {
     }
 
     private func addEmptyView() {
+        tableView.translatesAutoresizingMaskIntoConstraints = true
+        tableView.removeFromSuperview()
         view.addSubview(emptyDataImageView)
         setupEmptyDataImageConstraints()
-        tableView.removeFromSuperview()
     }
 
     private func addErrorServiceView() {
+        tableView.translatesAutoresizingMaskIntoConstraints = true
+        tableView.removeFromSuperview()
         view.addSubview(errorServiceImageView)
         setupErrorServiceImageConstraints()
-        tableView.removeFromSuperview()
     }
 
     private func addSubview() {

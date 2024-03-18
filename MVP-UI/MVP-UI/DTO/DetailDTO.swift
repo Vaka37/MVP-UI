@@ -12,7 +12,7 @@ struct DetailDTO: Codable {
     /// Кол-во калорий
     let calories: Double
     /// Картинка рецепта
-    let images: ImagesDTO
+    let images: ImagesDTO?
     /// Масса рецепта
     let totalWeight: Double
     /// КБЖУ

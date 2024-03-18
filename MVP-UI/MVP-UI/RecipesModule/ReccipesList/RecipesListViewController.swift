@@ -78,7 +78,7 @@ final class RecipesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-
+        navigationController?.navigationBar.tintColor = .black
         if let logURL = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
@@ -104,7 +104,7 @@ final class RecipesListViewController: UIViewController {
         searchRecipes = recipes ?? []
     }
 
-    private func configureNavigation() {
+    private func configureNavigation(type: DishType) {
         navigationController?.navigationBar.tintColor = .black
         let back = UIBarButtonItem(
             image: Constants.backBarButtonImage,
@@ -113,7 +113,7 @@ final class RecipesListViewController: UIViewController {
             action: #selector(dissmiss)
         )
         let backTitle = UIBarButtonItem(
-            title: "",
+            title: type.header,
             style: .done,
             target: self,
             action: #selector(dissmiss)
@@ -123,7 +123,6 @@ final class RecipesListViewController: UIViewController {
         backTitle.setTitleTextAttributes(textAttributes, for: .normal)
         navigationItem.leftBarButtonItems = [back, backTitle]
         navigationController?.navigationBar.prefersLargeTitles = false
-        tabBarController?.tabBar.isHidden = true
     }
 
     private func makeFilterButton(button: UIButton, title: String) {
@@ -279,7 +278,6 @@ extension RecipesListViewController: UITableViewDataSource {
             else { return UITableViewCell() }
             guard let recipe = recipes?[indexPath.row] else { return cell }
             cell.configure(with: recipe)
-            cell.prepareForReuse()
             return cell
         case .noData:
             break
@@ -295,6 +293,10 @@ extension RecipesListViewController: UITableViewDataSource {
 // MARK: - Extension + RecipesViewProtocol
 
 extension RecipesListViewController: RecipesViewProtocol {
+    func getHeaderTitle(type: DishType) {
+        configureNavigation(type: type)
+    }
+
     func updateStateView() {
         switch recipePresenter?.state {
         case .loading, .data:
@@ -329,14 +331,12 @@ extension RecipesListViewController: RecipesViewProtocol {
     }
 
     func sortedRecip(recipe: [Recipe]) {
-//        recipes?.recepies = recipe
         recipesTableView.reloadData()
     }
 
     func getRecipes(recipes: [RecipeCommonInfo]) {
         self.recipes = recipes
         searchRecipes = recipes
-        configureNavigation()
         recipesTableView.reloadData()
         refreshControll.endRefreshing()
     }

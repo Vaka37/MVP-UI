@@ -57,8 +57,16 @@ extension DetailsPresenter: DetailsPresenterInputProtocol {
                     guard let recipeDetail = self.recipeDetail else { return }
                     self.view?.getDetail(recipe: recipeDetail)
                     self.state = .data(recipes)
+                    CoreDataManager.shared.createDetailRecipes(detailRecipesDTO: recipeDetail)
                 case let .failure(error):
                     self.state = .error(error)
+                    DispatchQueue.main.async {
+                        let data = CoreDataManager.shared.fetchDetail(name: self.recipe.label)
+                        self.recipeDetail = data
+                        guard let recipeDetail = self.recipeDetail else { return }
+                        self.view?.getDetail(recipe: recipeDetail)
+                        self.state = .data(recipeDetail)
+                    }
                 }
             }
         }

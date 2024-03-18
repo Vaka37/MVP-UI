@@ -1,6 +1,7 @@
 // AutorizationPresenter.swift
 // Copyright © RoadMap. All rights reserved.
 
+import KeychainSwift
 import UIKit
 
 /// Протокол авторизации
@@ -58,6 +59,7 @@ final class AutorizationPresenter {
     private weak var autorizationCoordinator: AutorizationCoordinator?
     private var stateUser: StateUser = .non
     private let userService = UserSevice.shared
+    private let keychain = KeychainSwift()
 
     // MARK: - Init
 
@@ -70,30 +72,23 @@ final class AutorizationPresenter {
         autorizationCoordinator?.showMainViewController()
     }
 
-    /// Сохраняем юзера в userDefault
+    /// Сохраняем юзера в Keychain
     func saveUser(email: String, password: String) {
-        let user = User(login: "Нет Имени", emailTitle: email, passwordTitle: password)
-        let caratacer = userService
-        caratacer.save(user: user)
-        caratacer.user = user
+        keychain.set(email, forKey: "email")
+        keychain.set(password, forKey: "password")
         goToMainTabBarScreen()
     }
 
-    /// проверяем есть ли наш юзер в userDefaults
+    /// Проверяем верификацию пользователя из Keychain
     func checkVerificationUser(email: String, password: String) {
-        let caratecer = userService
-        let user = try? caratecer.load()
-        if user.self == nil {
-            stateUser = .non
-        } else {
-            if user?.passwordTitle != password {
+        if let savedEmail = keychain.get("email"), let savedPassword = keychain.get("password") {
+            if savedEmail != email || savedPassword != password {
                 stateUser = .noVerification
-                if user?.emailTitle != email {
-                    stateUser = .noVerification
-                }
             } else {
                 stateUser = .verification
             }
+        } else {
+            stateUser = .non
         }
     }
 

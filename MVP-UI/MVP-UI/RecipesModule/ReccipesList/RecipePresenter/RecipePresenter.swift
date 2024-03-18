@@ -19,6 +19,8 @@ protocol RecipesViewProtocol: AnyObject {
     func emptyData()
     /// Метод проверки на ошибку при запросе к сервису
     func errorData()
+    /// Получить название типа рецепта
+    func getHeaderTitle(type: DishType)
 }
 
 /// Протокол рецептов
@@ -49,7 +51,7 @@ final class RecipePresenter {
 
     private weak var detailsRecipeCoordinator: RecipesCoordinator?
     private weak var view: RecipesViewProtocol?
-    private var category: Category
+    var category: Category
     private var recipeCommonInfo: [RecipeCommonInfo]?
     private var sortedCalories = SortedCalories.non
     private var sortedTime = SortedTime.non
@@ -113,6 +115,7 @@ final class RecipePresenter {
 
 extension RecipePresenter: RecipeProtocol {
     func parseRecipes() {
+        self.view?.getHeaderTitle(type: self.category.categoryTitle)
         networkService.getRecipe(type: category.categoryTitle) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {
@@ -121,8 +124,18 @@ extension RecipePresenter: RecipeProtocol {
                     self.state = !recipes.isEmpty ? .data(recipes) : .noData
                     self.recipeCommonInfo = recipes
                     self.view?.getRecipes(recipes: self.recipeCommonInfo ?? [])
+                    guard let recipes = self.recipeCommonInfo else { return }
+                    for item in recipes {
+                        CoreDataManager.shared.createRecipe(recipe: item, dishTitle: self.category.categoryTitle)
+                    }
                 case let .failure(error):
                     self.state = .error(error)
+                    DispatchQueue.main.async {
+                        self.recipeCommonInfo = CoreDataManager.shared.fetchRecipe(dishTitle: self.category.categoryTitle)
+                        guard let done = self.recipeCommonInfo else { return }
+                        self.state = !done.isEmpty ? .data(done) : .noData
+                        self.view?.getRecipes(recipes: done)
+                    }
                 }
             }
         }
