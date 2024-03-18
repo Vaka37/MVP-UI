@@ -48,14 +48,6 @@ final class DetailsPresenter {
 
 extension DetailsPresenter: DetailsPresenterInputProtocol {
     func parsingDetail() {
-//        DispatchQueue.main.async {
-//            let data = CoreDataManager.shared.fetchDetail(name: self.recipe.label)
-//            self.recipeDetail = data
-//            guard let recipeDetail = self.recipeDetail else { return }
-//            self.view?.getDetail(recipe: recipeDetail)
-//            self.state = .data(recipeDetail)
-//        }
-        ////
         networkService.getDetail(uri: recipe.uri) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {
@@ -68,6 +60,13 @@ extension DetailsPresenter: DetailsPresenterInputProtocol {
                     CoreDataManager.shared.createDetailRecipes(detailRecipesDTO: recipeDetail)
                 case let .failure(error):
                     self.state = .error(error)
+                    DispatchQueue.main.async {
+                        let data = CoreDataManager.shared.fetchDetail(name: self.recipe.label)
+                        self.recipeDetail = data
+                        guard let recipeDetail = self.recipeDetail else { return }
+                        self.view?.getDetail(recipe: recipeDetail)
+                        self.state = .data(recipeDetail)
+                    }
                 }
             }
         }

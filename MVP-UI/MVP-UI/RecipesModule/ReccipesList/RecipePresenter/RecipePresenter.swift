@@ -115,13 +115,7 @@ final class RecipePresenter {
 
 extension RecipePresenter: RecipeProtocol {
     func parseRecipes() {
-        view?.getHeaderTitle(type: category.categoryTitle)
-//        DispatchQueue.main.async {
-//            self.recipeCommonInfo = CoreDataManager.shared.fetchRecipe(dishTitle: self.category.categoryTitle)
-//            guard let done = self.recipeCommonInfo else { return }
-//            self.state = !done.isEmpty ? .data(done) : .noData
-//            self.view?.getRecipes(recipes: done)
-//        }
+        self.view?.getHeaderTitle(type: self.category.categoryTitle)
         networkService.getRecipe(type: category.categoryTitle) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {
@@ -136,6 +130,12 @@ extension RecipePresenter: RecipeProtocol {
                     }
                 case let .failure(error):
                     self.state = .error(error)
+                    DispatchQueue.main.async {
+                        self.recipeCommonInfo = CoreDataManager.shared.fetchRecipe(dishTitle: self.category.categoryTitle)
+                        guard let done = self.recipeCommonInfo else { return }
+                        self.state = !done.isEmpty ? .data(done) : .noData
+                        self.view?.getRecipes(recipes: done)
+                    }
                 }
             }
         }
