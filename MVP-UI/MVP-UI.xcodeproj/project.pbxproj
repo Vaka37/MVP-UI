@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		053CF43FD3E3A52CC48D33DC /* Pods_MVP_UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A6B0908E2FE4DCD39095B1 /* Pods_MVP_UI.framework */; };
+		10005E2B2BB4CBDA00E2A933 /* TextFieldItem in Frameworks */ = {isa = PBXBuildFile; productRef = 10005E2A2BB4CBDA00E2A933 /* TextFieldItem */; };
+		10005E2E2BB4DA8A00E2A933 /* TextFieldItem in Frameworks */ = {isa = PBXBuildFile; productRef = 10005E2D2BB4DA8A00E2A933 /* TextFieldItem */; };
 		10575E1C2BA33F8E0023F322 /* ShimerHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10575E1B2BA33F8E0023F322 /* ShimerHeaderViewCell.swift */; };
 		10A264742BA188A7009D7757 /* RecipeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A264732BA188A7009D7757 /* RecipeDetail.swift */; };
 		10BBAC2A2BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBAC292BA34B3F00FF93D9 /* ShimerDetailInfoViewCell.swift */; };
@@ -173,7 +175,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10005E2E2BB4DA8A00E2A933 /* TextFieldItem in Frameworks */,
 				053CF43FD3E3A52CC48D33DC /* Pods_MVP_UI.framework in Frameworks */,
+				10005E2B2BB4CBDA00E2A933 /* TextFieldItem in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +618,10 @@
 			dependencies = (
 			);
 			name = "MVP-UI";
+			packageProductDependencies = (
+				10005E2A2BB4CBDA00E2A933 /* TextFieldItem */,
+				10005E2D2BB4DA8A00E2A933 /* TextFieldItem */,
+			);
 			productName = "MVP-UI";
 			productReference = D5EFBD562B8CA6AA005F6F9B /* MVP-UI.app */;
 			productType = "com.apple.product-type.application";
@@ -642,6 +650,9 @@
 				Base,
 			);
 			mainGroup = D5EFBD4D2B8CA6AA005F6F9B;
+			packageReferences = (
+				10005E2C2BB4DA8A00E2A933 /* XCRemoteSwiftPackageReference "TextFieldItem" */,
+			);
 			productRefGroup = D5EFBD572B8CA6AA005F6F9B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1030,6 +1041,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		10005E2C2BB4DA8A00E2A933 /* XCRemoteSwiftPackageReference "TextFieldItem" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Vaka37/TextFieldItem.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		10005E2A2BB4CBDA00E2A933 /* TextFieldItem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TextFieldItem;
+		};
+		10005E2D2BB4DA8A00E2A933 /* TextFieldItem */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 10005E2C2BB4DA8A00E2A933 /* XCRemoteSwiftPackageReference "TextFieldItem" */;
+			productName = TextFieldItem;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		10BBAC612BA654D100FF93D9 /* CoreData.xcdatamodeld */ = {
