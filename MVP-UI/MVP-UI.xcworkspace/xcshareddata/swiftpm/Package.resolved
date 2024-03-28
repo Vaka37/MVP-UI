@@ -1,0 +1,15 @@
+{
+  "originHash" : "5207b2acde9b751076bd0e50762eb90a29a7f2c0c06478b6ca9b0e783d049b20",
+  "pins" : [
+    {
+      "identity" : "textfielditem",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Vaka37/TextFieldItem.git",
+      "state" : {
+        "revision" : "59f2dd8ada7e0871464b77040eb64f26353c5e5f",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

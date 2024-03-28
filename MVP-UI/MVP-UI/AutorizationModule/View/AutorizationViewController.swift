@@ -1,6 +1,7 @@
 // AutorizationViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
+import TextFieldItem
 import UIKit
 
 /// Экран с авторизацией пользователя
@@ -29,10 +30,10 @@ final class AutorizationViewController: UIViewController {
 
     private let loginTitleLabel = UILabel()
     private let passwordLabel = UILabel()
-    private let loginTextField = UITextField()
+    private let loginTextField = AutorizationTextField()
     private let errorLoginLabel = UILabel()
     private let errorPasswordLabel = UILabel()
-    private let passwordTextField = UITextField()
+    private let passwordTextField = AutorizationTextField()
     private lazy var chekButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Constants.loginButtonColor
@@ -126,10 +127,8 @@ final class AutorizationViewController: UIViewController {
     }
 
     private func makeTextFields(textField: UITextField, placeholder: String, leftIcon: UIImage) {
-        textField.placeholder = placeholder
-        textField.backgroundColor = .white
-        textField.layer.borderWidth = 1
-        textField.layer.cornerRadius = 12
+        loginTextField.models(model: .init(placeholder: Constants.loginPlaceholderTitle))
+        passwordTextField.models(model: .init(placeholder: Constants.passwordPlaceholderTitle))
         textField.delegate = self
         textField.layer.borderColor = Constants.titleColor?.withAlphaComponent(0.14).cgColor
         let leftView = UIView()
@@ -140,7 +139,6 @@ final class AutorizationViewController: UIViewController {
         imageView.center = leftView.center
         imageView.image = leftIcon
         textField.leftView = leftView
-        textField.leftViewMode = .always
         passwordTextField.isSecureTextEntry = true
         view.addSubview(textField)
     }
